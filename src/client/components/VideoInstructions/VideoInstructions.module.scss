@@ -1,0 +1,40 @@
+// @import "./../../main.module.scss";
+// @import "./../../data//themes.scss";
+
+.blockPage {
+  justify-content: center;
+  display: flex;
+  background-color: red;
+  width: 100%;
+  height: 700px;
+  align-items: center;
+
+  @include media("<tablet") {
+    height: 430px;
+  }
+}
+.blockPageSupliment {
+  justify-content: center;
+  display: flex;
+  background-color: rgb(198, 178, 0);
+  padding-top: 200px;
+  padding-bottom: 100px;
+  width: 100%;
+  height: auto;
+  align-items: center;
+}
+.videoContainer {
+  width: clamp(700px, 80vw, 900px);
+  padding: 0 2%;
+  @include media("<tablet") {
+    width: clamp(300px, 100%, 450px);
+  }
+  @include media(">tablet", "<desktop") {
+    width: clamp(450px, 100%, 700px);
+  }
+}
+.goPlay {
+  font-family: "Luckiest Guy";
+  color: white;
+  text-align: center;
+}

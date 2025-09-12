@@ -1,0 +1,50 @@
+
+.reviewContainer {
+  page-break-inside: avoid;
+  page-break-inside: avoid;
+  break-inside: avoid;
+  column-count: 2;
+  grid-column-gap: 15px;
+  column-gap: 15px;
+  width: clamp(300px, 73vw, 1056px);
+  margin: auto;
+  background-color: white;
+  padding: 1%;
+  min-height: 82px;
+
+  @include media("<tablet") {
+    column-count: 1;
+    width: 100vw;
+    row-gap: 12px;
+    display: flex;
+    flex-direction: column;
+    padding: 5% 0;
+  }
+}
+.contain {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+
+  padding: 30px 0px;
+  margin-top: 20px;
+  // background-image: url("./../media/assets/pics/blocks/background_Montan.jpg");
+//   background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.7) 30%, rgba(0, 0, 0, 0.7) 50%),
+//     url("./../media/assets/pics/blocks/background_Montan.jpg");
+// 
+}
+
+.noReviewsComponent {
+  width: clamp(300px, 100%, 800px);
+  background-color: rgb(248, 248, 248);
+  display: flex;
+  justify-content: center;
+  margin: auto;
+
+  h2 {
+    margin-bottom: 0;
+  }
+  @include media("<tablet") {
+    width: clamp(300px, 66%, 800px);
+  }
+}

@@ -1,0 +1,182 @@
+
+
+.centerTextTitle {
+  text-align: center;
+  font-family: "Roboto Medium";
+  @include media("<tablet") {
+    font-size: 14px;
+  }
+}
+.justify-content-center{
+  justify-content: center;
+}
+.d-flex{
+  display: flex;
+}
+.robotoMedium {
+  font-family: "Roboto Medium" !important;
+}
+.bebasMedium {
+  font-family: "Bebas Neue" !important;
+}
+.middleSubtext {
+  text-align: center;
+  font-size: 17px;
+  font-family: 'Roboto Medium';
+  font-weight: 500;
+}
+.robotoLight {
+  font-family: "Roboto Light";
+  font-weight: 600;
+}
+.textSpaceMargins {
+  padding-left: 20px;
+  padding-right: 20px;
+  max-width: 980px;
+  font-family: "Roboto Medium";
+  margin: auto;
+  @include media("<800px") {
+    max-width: 500px;
+  }
+
+  p {
+    line-height: 18px;
+    text-indent: 50px;
+    font-weight: 600;
+  }
+  strong,
+  b {
+    font-family: "Roboto Medium";
+  }
+  .justTextAlignCenter {
+    text-align: center;
+  }
+  a {
+    font-family: "Roboto Medium";
+  }
+}
+.centerImageMedium {
+  display: table;
+  width: 100%;
+  max-width: 400px;
+  min-width: 300px;
+  margin: auto;
+}
+.centerImageLarge {
+  @extend .centerImageMedium;
+  max-width: 576px;
+}
+.spacerPadder50 {
+  width: 100%;
+  height: 50px;
+  @include media("<tablet") {
+    height: 36px;
+  }
+}
+.spacerPadder100 {
+  width: 100%;
+  height: 100px;
+  @include media("<tablet") {
+    height: 60px;
+  }
+}
+.spacerPadder200 {
+  width: 100%;
+  height: 200px;
+  @include media("<tablet") {
+    height: 140px;
+  }
+}
+
+.spacerPadder300 {
+  width: 100%;
+  height: 300px;
+
+  @include media("<tablet") {
+    height: 190px;
+  }
+}
+.imageProductFeatured {
+  margin: 20px auto;
+}
+.termsUl {
+  li {
+    font-family: "Roboto Medium";
+  }
+}
+.lefter {
+  text-align: start;
+  font-family: "Roboto Medium";
+}
+.rightIndent {
+  margin-left: 5%;
+}
+
+//block content area
+
+.blogContent {
+  font-family: "Roboto Medium";
+  b,
+  strong,
+  p,
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: "Roboto Medium";
+  }
+
+  .imageCenterMedium {
+    width: 100px;
+  }
+}
+.randNou {
+  text-indent: 50px;
+}
+
+.recipes {
+  li {
+    font-family: "Roboto Medium";
+    font-weight: 300;
+    line-height: 1.2em;
+  }
+}
+.benefitsImage {
+  width: 25%;
+  aspect-ratio: 1/1;
+
+  @include media("<tablet") {
+    width: 38%;
+  }
+}
+.rowBenefits {
+  width: 70%;
+  margin: auto;
+  row-gap: 12px;
+  @include media("<desktop") {
+    width: 100%;
+  }
+}
+.benefitsText {
+  width: 60%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  p {
+    text-indent: 0;
+    text-align: center;
+    margin: 0;
+    font-family: 'Roboto Medium';
+    @include media("<tablet") {
+      font-size: 13px;
+    }
+  }
+}
+.benefitsImage {
+  // width: 30%;
+}
+
+.no-bullet {
+  text-decoration: none;
+  list-style: none;
+}

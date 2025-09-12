@@ -1,0 +1,60 @@
+.receiptContainer {
+  display: grid;
+  grid-template-columns: 40% 60%; /* Set left to 40% and right to 60% */
+  width: 100%;
+  height: 100vh; /* Full A4 page height in portrait */
+  padding: 20px;
+}
+
+.receiptSection {
+  border-right: 1px dashed black; /* Dashed line in the middle to indicate cutting */
+  padding: 10px;
+  position: relative;
+}
+
+.receiptSection:last-child {
+  border-right: none; /* Remove the dashed line on the last section */
+}
+
+.logo {
+  width: 50px; /* Adjust the size of the logo to fit within the smaller left side */
+  height: auto;
+  margin-right: 10px; /* Reduce margin to fit content better */
+}
+
+.header {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  margin-bottom: 10px; /* Reduce margin to fit content better */
+}
+
+.schoolInfo {
+  text-align: left;
+}
+
+.schoolInfo h2 {
+  font-size: 16px; /* Reduce font size to fit within the 40% section */
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.schoolInfo p {
+  font-size: 10px; /* Reduce font size for better fit */
+  margin: 0;
+}
+
+.body {
+  font-size: 12px; /* Slightly reduce font size */
+}
+
+.row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px; /* Reduce space between rows */
+}
+
+.row p {
+  margin: 0;
+  font-size: 12px; /* Ensure text fits within the smaller left section */
+}

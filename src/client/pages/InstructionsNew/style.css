@@ -1,0 +1,484 @@
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    overflow: hidden; 
+}
+
+body {
+    background: rgb(238, 174, 202);
+    background: radial-gradient(circle, rgba(238, 174, 202, 1) 0%, rgba(148, 187, 233, 1) 100%);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    display: flex; 
+    justify-content: center;
+    align-items: center;
+    height: 100vh; 
+}
+
+@font-face {
+    font-family: 'Gliker';
+    src: url('/assets/fonts/Gliker-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Rubik';
+    src: url('/assets/fonts/Rubik-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Rubik';
+    src: url('/assets/fonts/Rubik-Bold.woff') format('woff');
+    font-weight: bold;
+    font-style: normal;
+}
+h4 {
+	font-family: 'Gliker', sans-serif;
+	font-size: 14px;
+	font-weight: 600;
+	text-transform: uppercase;
+	letter-spacing: 9%;
+    margin: 2px 0px !important;
+}
+h3 {
+	font-family: 'Gliker', sans-serif;
+	font-size: 21px;
+	font-weight: 600;
+	line-height: 30px;
+	text-transform: uppercase;
+	letter-spacing: 3%;
+    margin: 20px 0px !important;
+}
+.red {
+    color: #9f1d21; 
+}
+
+.title-icon {
+    vertical-align: bottom;     
+}
+
+ul{
+	padding-left: 5%;
+}
+li{
+    font-family: 'Rubik', sans-serif;
+    font-weight: normal; 
+	font-size: 16px;
+	line-height: 22.4px;
+	letter-spacing: 3%;	
+}
+li span{
+     font-weight: bold; 
+}
+.phead{
+	font-family: 'Gliker', sans-serif;
+	font-size: 16px;
+	font-weight: 600;
+	text-transform: uppercase;
+	letter-spacing: 3%;
+	color: #9F1D21;
+}
+p {
+    font-family: 'Rubik', sans-serif;
+    font-weight: normal; 
+	font-size: 16px;
+	line-height: 22.4px;
+	letter-spacing: 3%;
+    margin: 14px 0px;
+}
+
+p span {
+    font-weight: bold; 
+}
+
+.instrct img{
+	width: 100%;
+	border-radius: 20px;
+}
+label {
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+input {
+    display: block;
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #ccc;
+    border-radius: 0.25rem;
+}
+
+.ml-auto {
+    margin-left: auto;
+}
+
+.form {
+    height: 95vh; 
+    min-height: 95vh; 
+    width: clamp(360px, 30%, 430px);
+    margin: 0 auto; 
+    border: 1px solid #ccc;
+    border-radius: 0.35rem;
+    padding: 1.5rem;
+    z-index: 1;
+    background: 
+        linear-gradient(rgba(248, 237, 229, 0.8), rgba(248, 237, 229, 0.2)),
+        url('/assets/images/instructions/bg.jpg'); 	
+    background-size: cover; 
+    background-position: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    box-sizing: border-box;
+}
+
+.form-content { 
+    flex: 1; 
+    overflow-y: auto;
+    min-height: 0; 
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    margin-top: 15px;
+}
+
+.form-content::-webkit-scrollbar {
+    display: none;
+}
+.input-group {
+    margin: 0.5rem 0;
+}
+
+.form-step {
+    display: none;
+}
+
+.form-step.active {
+    display: block;
+    transform-origin: top;
+    animation: animate .5s;
+}
+
+.btn-group {
+    display: flex;
+    justify-content: space-between;
+	margin-top: 15px;
+}
+
+.steps-indicator{
+	font-family: 'Gliker', sans-serif;
+	font-size: 16px;
+	font-weight: 600;
+	color: #7F746A;
+	padding-top: 3%;
+}
+
+.btn {
+    padding: 8px 20px;
+    display: block;
+    text-decoration: none;
+    width: min-content;
+    border-radius: 5px;
+    text-align: center;
+    transition: all 0.3s;
+    cursor: pointer;
+	font-size: 16px;
+	font-weight: 600;
+}
+
+.first {
+	background-color: #9F1D21 !important;
+	color: white;
+	float: right;
+	width: 100%;
+}
+
+.btn-first {
+    display: block;
+    width: 100%;
+    text-align: center;
+    padding: 10px;
+    background-color: #9F1D21;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.btn-first:hover {
+    background-color: #EA0A11;
+}
+.common-buttonsx {
+    position: sticky;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: #fff; 
+    padding: 10px 20px; 
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1); 
+    z-index: 1000; 
+    display: flex;
+    justify-content: center; 
+    gap: 10px; 
+}
+
+.common-buttons {
+    display: none;
+}
+
+.form-step.active + .common-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.btn-next {
+    background-color: #9F1D21;
+    color: white;
+    float: right;
+}
+
+.btn-prev {
+    color: #9F1D21;
+	border: 2px solid #9F1D21;
+}
+
+textarea {
+    resize: vertical;
+}
+
+.input-box {
+    display: flex;
+    align-items: center;
+    /* max-width: 300px; */
+    background: #fff;
+    border: 1px solid #a0a0a0;
+    border-radius: 4px;
+    padding-left: 0.5rem;
+    overflow: hidden;
+    font-family: sans-serif;
+}
+
+.input-box .prefix {
+    font-weight: 300;
+    font-size: 14px;
+    color: rgb(117, 114, 114);
+}
+
+.input-box input {
+    border: none;
+    outline: none;
+}
+
+.input-box:focus-within {
+    border-color: #777;
+}
+
+.progress-bar {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    counter-reset: step;
+    margin-bottom: 30px;
+}
+
+.progress-bar::before,
+.progress {
+    content: "";
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    height: 4px;
+    width: 100%;
+    background-color: #dcdcdc;
+    z-index: -1;
+}
+
+.progress {
+    background-color: red;
+    width: 0;
+    transition: .5s;
+}
+
+.progress-step {
+    width: 35px;
+    height: 35px;
+    background-color: #dcdcdc;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.progress-step::before {
+    counter-increment: step;
+    content: counter(step);
+}
+
+.progress-step::after {
+    content: attr(data-title);
+    position: absolute;
+    top: calc(100% + 0.20rem);
+    font-size: 0.85rem;
+    color: black !important;
+}
+
+.progress-step.active {
+    background-color: red;
+    color: white;
+}
+
+@keyframes animate {
+    from {
+        transform: scale(1, 0);
+        opacity: 0;
+    }
+
+    to {
+        transform: scale(1, 1);
+        opacity: 1;
+    }
+}
+
+
+.text-center{
+	text-align:center;
+}
+
+#app{
+    height: unset !important;
+}
+
+img {
+	display: inline-flex !important;
+}
+
+ul {
+    list-style-type: disc; 
+    padding-left: 20px; 
+    margin: 20px 0px;
+  }
+
+  .timer-container {
+    background-color: #fff;
+    border: 2px solid #000;
+    border-radius: 10px;
+    padding: 20px;
+    width: 100%;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .timer-display {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px 0px;
+  }
+  
+  .time-block {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0 10px; 
+  }
+  
+  .time-row {
+    display: flex;
+    gap: 5px;
+  }
+  
+  .digit {
+    font-family: 'Gliker', sans-serif;
+    width: 30px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 2px solid #000;
+    border-radius: 5px;
+    font-size: 24px;
+    font-weight: 600;
+    background-color: #F8EDE5;
+  }
+  
+  .separator {
+    font-size: 24px;
+    font-weight: bold;
+    margin: 0 5px;
+    display: flex;
+    align-items: center;
+    position: relative;
+    top: -20px; 
+  }
+  
+  .time-labels {
+    font-size: 24px;
+    font-weight: 600;
+    text-align: center;
+    margin-top: 5px;
+    font-family: 'Gliker', sans-serif;
+  }
+  
+  .start-button {
+    font-family: 'Gliker', sans-serif;
+    background-color: #000;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 13px 15px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    width: 100%;
+    letter-spacing: 3%;
+    margin: 10px 0px;
+  }
+  
+  .start-button:hover {
+    background-color: #333;
+  }
+  
+  .video-container {
+    position: relative;
+    background-color: #f8ede5; 
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    margin-bottom: 20px;
+  }
+  
+  video {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+  }
+  
+  .icon-text-container {
+    display: flex;
+    align-items: center; 
+    gap: 10px; 
+  }
+  
+  
+  .text-content {
+    display: flex;
+    flex-direction: column; 
+  }
+  
+  .text-content p {
+    margin: 0; 
+    font-size: 16px; 
+    font-family: 'Rubik', sans-serif;
+    font-weight: 700;
+    line-height:22.4px;
+    letter-spacing:3%;
+    color:#2A1709;
+  }

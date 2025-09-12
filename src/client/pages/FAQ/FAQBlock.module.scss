@@ -1,0 +1,32 @@
+
+
+.questionsBlock {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.bookTextTop {
+  color: #ea4134;
+  font-family: "Luckiest Guy";
+  font-weight: bolder;
+  font-size: calc(45px + 1.2vw) !important;
+  margin: 20px 0px;
+}
+.bookTextDown {
+  font-family: "Luckiest Guy";
+  font-size: clamp(16px, 10vw, 23px);
+  margin: -10px 0 0;
+  color: #ea4134;
+}
+.cardsWrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  row-gap: 15px;
+  margin-top: 30px;
+  margin-bottom: 82px;
+}

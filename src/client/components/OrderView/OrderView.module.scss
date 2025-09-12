@@ -1,0 +1,422 @@
+// @import "../../../../main.module.scss";
+
+// .centerPdf {
+//   display: flex;
+//   width: 100%;
+//   justify-content: center;
+//   flex-direction: column;
+//   align-items: center;
+//   margin: 5% auto;
+// }
+// .text {
+//   font-size: 18px;
+//   color: red;
+// }
+
+// .orderViewContainer {
+//   width: 100%;
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+//   padding: 30px 20px;
+//   background-color: azrgb(215, 230, 230);
+// }
+// .textContainer {
+//   display: flex;
+//   justify-content: flex-start;
+//   flex-direction: row;
+//   column-gap: 5px;
+// }
+// .boldInvoiceText {
+//   font-weight: bolder;
+// }
+// .cardBoard {
+//   width: 100%;
+//   padding: 68px 30px;
+//   min-width: 855px;
+//   min-height: 786px;
+//   border-radius: 4px;
+//   background-color: white;
+//   justify-content: center;
+//   box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+
+//   @include media("<tablet") {
+//     min-width: 340px;
+//     padding: 10px 12px;
+//   }
+// }
+// .details {
+//   margin: 10px 0;
+// }
+// .inner {
+//   width: 300px;
+//   margin: auto;
+// }
+// .invoiceTitle {
+//   text-align: center;
+//   margin: 20px 0px;
+// }
+// .logoInvoice {
+//   width: 150px;
+//   margin: auto;
+// }
+// .dateInvoice {
+//   font-weight: 300;
+//   font-size: 17px;
+// }
+// .tableInvoice {
+//   width: 100%;
+//   border: 1px solid gray;
+//   max-width: 660px;
+//   margin: 10px auto;
+// }
+// .tableInvoice > tr > th {
+//   font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+// }
+// // .tableInvoice > tr:nth-child(odd) {
+// //   background-color: hsl(0, 0%, 100%);
+// // }
+// td,
+// th {
+//   border: 1px solid #dddddd;
+//   text-align: left;
+//   padding: 8px;
+// }
+// .insideTable {
+//   background-color: #dddddd;
+// }
+// .rightSubtotal {
+//   text-align: end;
+//   padding: 10px 20px;
+//   font-size: 18px;
+//   font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+// }
+// .totalOverview {
+//   @extend .tableInvoice;
+//   border: 0;
+// }
+
+// .clientInfo {
+//   @extend .row;
+//   background-color: #dddddd;
+//   padding: 18px 6px;
+//   width: 100%;
+//   height: auto;
+//   @include media("<tablet") {
+//     min-height: 400px;
+//   }
+//   @include media("<tablet") {
+//     margin: auto;
+//   }
+// }
+// .leftClient {
+//   @extend .col-6;
+//   display: flex;
+//   flex-direction: column;
+//   justify-content: center;
+//   align-items: flex-start;
+//   p {
+//     margin: 0px 20px;
+//     font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+//     @include media("<tablet") {
+//       margin: 0;
+//     }
+//   }
+// }
+// .finalThanks {
+//   text-align: center;
+//   font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+// }
+// .teamWeb {
+//   text-align: center;
+//   font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+// }
+
+// .orderViewContainer {
+//   width: 100%;
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+//   padding: 30px 20px;
+//   background-color: azrgb(215, 230, 230);
+// }
+// .textContainer {
+//   display: flex;
+//   justify-content: flex-start;
+//   flex-direction: row;
+//   column-gap: 5px;
+// }
+// .boldInvoiceText {
+//   font-weight: bolder;
+// }
+// .cardBoard {
+//   width: 100%;
+//   padding: 68px 30px;
+//   min-width: 855px;
+//   min-height: 786px;
+//   border-radius: 4px;
+//   background-color: white;
+//   justify-content: center;
+//   box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+
+//   @include media("<tablet") {
+//     min-width: 340px;
+//     padding: 10px 12px;
+//   }
+// }
+// .inner {
+//   width: 300px;
+//   margin: auto;
+// }
+// .invoiceTitle {
+//   text-align: center;
+//   margin: 20px 0px;
+// }
+// .logoInvoice {
+//   width: 150px;
+//   margin: auto;
+// }
+// .dateInvoice {
+//   font-weight: 300;
+//   font-size: 17px;
+// }
+// .tableInvoice {
+//   width: 100%;
+//   border: 1px solid gray;
+//   max-width: 660px;
+//   margin: auto;
+// }
+// .tableInvoice > tr > th {
+//   font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+// }
+// // .tableInvoice > tr:nth-child(odd) {
+// //   background-color: hsl(0, 0%, 100%);
+// // }
+// td,
+// th {
+//   border: 1px solid #dddddd;
+//   text-align: left;
+//   padding: 8px;
+// }
+// .insideTable {
+//   background-color: #dddddd;
+// }
+// .rightSubtotal {
+//   text-align: end;
+//   padding: 10px 20px;
+//   font-size: 18px;
+//   font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+// }
+// .totalOverview {
+//   @extend .tableInvoice;
+//   border: 0;
+// }
+
+// .clientInfo {
+//   background-color: #dddddd;
+//   padding: 18px 6px;
+//   width: 100%;
+//   height: auto;
+//   @include media("<tablet") {
+//     min-height: 400px;
+//   }
+// }
+// .leftClient {
+//   display: flex;
+//   flex-direction: column;
+//   justify-content: center;
+//   align-items: flex-start;
+//   p {
+//     margin: 0px 20px;
+//     @include media("<tablet") {
+//       margin: 0;
+//     }
+//   }
+// }
+// .finalThanks {
+//   text-align: center;
+//   font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+// }
+// .teamWeb {
+//   text-align: center;
+//   font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+// }
+@import "../../../../main.module.scss";
+
+.centerPdf {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  margin: 5% auto;
+}
+.text {
+  font-size: 18px;
+  color: red;
+}
+
+.orderViewContainer {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 30px 20px;
+  background-color: azrgb(215, 230, 230);
+}
+
+.textContainer {
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: row;
+  column-gap: 5px;
+}
+
+.boldInvoiceText {
+  font-weight: bolder;
+}
+
+.cardBoard {
+  width: 100%;
+  padding: 68px 30px;
+  min-width: 855px;
+  min-height: 786px;
+  border-radius: 4px;
+  background-color: white;
+  justify-content: center;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+
+  @include media("<tablet") {
+    min-width: 340px;
+    padding: 10px 12px;
+    min-height: auto; // Allow height to adapt on mobile
+  }
+}
+
+.details {
+  margin: 10px 0;
+}
+
+.inner {
+  width: 300px;
+  margin: auto;
+}
+
+.invoiceTitle {
+  text-align: center;
+  margin: 20px 0px;
+}
+
+.logoInvoice {
+  width: 150px;
+  margin: auto;
+}
+
+.dateInvoice {
+  font-weight: 300;
+  font-size: 17px;
+}
+
+.tableInvoice {
+  width: 100%;
+  border: 1px solid gray;
+  max-width: 660px;
+  margin: 10px auto;
+
+  @include media("<tablet") {
+    width: 100%; // Ensure the table fits on mobile
+    max-width: 100%;
+  }
+}
+
+td,
+th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+.insideTable {
+  background-color: #dddddd;
+}
+
+.rightSubtotal {
+  text-align: end;
+  padding: 10px 20px;
+  font-size: 18px;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+}
+
+.totalOverview {
+  @extend .tableInvoice;
+  border: 0;
+}
+
+.clientInfo {
+  background-color: #dddddd;
+  padding: 18px 6px;
+  width: 100%;
+  height: auto;
+
+  @include media("<tablet") {
+    min-height: 400px;
+    padding: 10px; // Adjust padding for mobile
+  }
+}
+
+.leftClient {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+
+  p {
+    margin: 0px 20px;
+    
+    @include media("<tablet") {
+      margin: 0; // Remove margin for mobile to prevent overflow
+    }
+  }
+}
+
+.finalThanks {
+  text-align: center;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+}
+
+.teamWeb {
+  text-align: center;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+}
+
+@media (max-width: 768px) {
+  .orderViewContainer {
+    flex-direction: column;
+    padding: 15px; // Reduce padding for smaller screens
+  }
+
+  .cardBoard {
+    min-width: auto;
+    width: 100%; // Ensure full width on mobile
+  }
+
+  .tableInvoice {
+    font-size: 14px; // Slightly smaller text for better fitting on small screens
+  }
+
+  .rightSubtotal {
+    font-size: 16px; // Reduce font size for mobile
+  }
+
+  .leftClient p {
+    margin: 0 10px; // Further reduce margins for mobile
+  }
+
+  .logoInvoice {
+    width: 100px; // Smaller logo for mobile screens
+  }
+
+  .invoiceTitle, .finalThanks, .teamWeb {
+    font-size: 16px; // Adjust font sizes for readability on mobile
+  }
+}

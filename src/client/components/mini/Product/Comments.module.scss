@@ -1,0 +1,64 @@
+.tabs {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 10px;
+
+  @include media("<tablet") {
+    flex-direction: column; // Stack tabs vertically on smaller screens
+    align-items: center; // Center-align for better mobile layout
+  }
+}
+
+.tabButton {
+  box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
+  width: 130px;
+  border: 1.5px solid rgb(63, 63, 63);
+  text-align: center;
+  font-size: 1.3em;
+  background-color: rgb(255, 255, 255);
+  cursor: pointer;
+  margin-right: 10px; // Spacing between tabs
+
+  &:hover {
+    background-color: rgb(49, 49, 49);
+    color: white;
+  }
+  
+  &:active {
+    background-color: red;
+  }
+
+  @include media("<tablet") {
+    width: 100%; // Full width for mobile
+    margin-bottom: 10px; // Space between stacked buttons
+  }
+}
+
+.activeTab {
+  @extend .tabButton;
+  background-color: rgb(49, 49, 49);
+  color: white;
+}
+
+.descriptionContainer {
+  width: 100%;
+  height: auto;
+  min-height: 300px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding: 10px; // Padding for better spacing on all screens
+
+  @include media("<tablet") {
+    padding: 5px; // Reduced padding for smaller screens
+  }
+}
+
+.innerDescription {
+  padding: 10px;
+
+  @include media("<tablet") {
+    padding: 5px; // Reduce padding for mobile to save space
+  }
+}

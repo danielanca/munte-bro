@@ -1,0 +1,10 @@
+{
+  "paymentApi": {
+    "paymentUrlGetOrderStatusExtended": "https://ecclients.btrl.ro:5443/payment/rest/getOrderStatusExtended.do",
+    "registerPreauth": "https://ecclients-sandbox.btrl.ro/payment/rest/registerPreAuth.do"
+  },
+  "shipmentAPI": {
+    "shipmentURL": "https://api.smartship.ro/awb/new",
+    "apiKey": "d7cc7d6074ec087be903ca30d35c9696"
+  }
+}

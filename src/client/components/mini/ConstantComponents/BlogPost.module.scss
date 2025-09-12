@@ -1,0 +1,195 @@
+@import "../../../styles/main.scss";
+
+.centerFlex {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.blogPostCont {
+  @extend .centerFlex;
+  row-gap: 65px;
+}
+.centerTitle {
+  text-align: center;
+  font-size: 50px;
+
+  @include media("<tablet") {
+    font-size: clamp(39px, 8vw, 44px);
+  }
+}
+.topTitle {
+  padding-top: 30px;
+  @extend .centerFlex;
+  row-gap: 18px;
+}
+
+.fineLine {
+  width: 300px;
+  height: 1px;
+  background-color: rgba(128, 128, 128, 0.382);
+  border-radius: 20px;
+}
+.postcategory,
+.date {
+  cursor: pointer;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  opacity: 0.8;
+
+  &:hover {
+    opacity: 1;
+  }
+}
+.previewArea {
+  width: 100%;
+  max-width: 940px;
+  min-width: 280px;
+}
+.firstWords {
+  line-height: 15px;
+  font-weight: 600;
+  text-align: center;
+}
+.actualBlogContent {
+  min-height: 265px;
+
+  max-width: 966px;
+  width: 100%;
+  margin: auto;
+  padding: 10px 14px;
+
+  @include media("<tablet") {
+    min-height: 320px;
+  }
+}
+.pictureThumbnail {
+  box-shadow:
+    rgba(0, 0, 0, 0.1) 0px 10px 15px -3px,
+    rgba(0, 0, 0, 0.05) 0px 4px 6px -2px;
+  width: 100%;
+  max-width: 800px;
+  min-width: 300px;
+  margin-top: 30px;
+  @include media(">=tablet", "<desktop") {
+    width: 90%;
+  }
+  @include media("<tablet") {
+    width: 80%;
+  }
+}
+.textContainer {
+  margin-top: 40px;
+  width: 100%;
+  max-width: 740px;
+  min-width: 280px;
+  @include media("<tablet") {
+    width: 80%;
+  }
+}
+.endOfPost {
+  min-height: 90px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+.tags {
+  font-family: "Bebas Neue Regular";
+  margin-left: 3px;
+  margin-right: 3px;
+}
+.endOfLine {
+  width: 100%;
+  min-width: 300px;
+  max-width: 1020px;
+  height: 1px;
+  background-color: rgba(123, 123, 123, 0.438);
+  margin: auto;
+}
+.relatedContainer {
+  margin: auto;
+  width: 100%;
+  min-width: 300px;
+  max-width: 970px;
+  display: flex;
+  padding: 4% 0;
+  flex-direction: column;
+  flex-wrap: wrap;
+}
+.container {
+  margin: 30px auto;
+  background-color: #f1f1f1;
+}
+.relatedListing {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  min-height: 200px;
+  max-height: 405px;
+  column-gap: 25px;
+  row-gap: 10px;
+
+  @include media("<tablet") {
+    max-height: none;
+    padding: 3% 0;
+  }
+}
+.relPostItem {
+  margin: 0 4%;
+  max-width: 310px;
+  padding: 2%;
+  background-color: #e6e6e6;
+  &:hover {
+    opacity: 0.8;
+  }
+  @include media("<tablet") {
+    max-width: 174px;
+    height: 130px;
+    margin: 0;
+  }
+  @include media(">=tablet", "<desktop") {
+    max-width: 250px;
+    margin: 0;
+    height: 163px;
+  }
+}
+.pictureStyle {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.pictureWrapper {
+  height: 155px;
+  margin: auto;
+  @include media("<tablet") {
+    height: 100px;
+    width: 100%;
+  }
+  @include media(">=tablet", "<desktop") {
+    height: 100px;
+    width: 170px;
+  }
+}
+.titleWrapper {
+  outline: 1px solid gray;
+  margin: 3% 0;
+}
+.titlePost {
+  font-family: "Roboto Medium";
+  font-size: 18px;
+  margin: 0;
+  @include media("<tablet") {
+    font-size: 13px;
+  }
+  @include media(">=tablet", "<desktop") {
+    font-size: 14px;
+  }
+}
+.HashLinkStyle {
+  text-decoration: none;
+  &:hover {
+    border-bottom: 2px solid black;
+  }
+}

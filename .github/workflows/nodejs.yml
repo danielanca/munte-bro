@@ -1,0 +1,40 @@
+name: Node.js CI
+
+on:
+  push:
+    branches: [ "develop" ]  # Trigger on push to develop
+  pull_request:
+    branches: [ "develop" ]  # Trigger on PRs to develop
+
+jobs:
+  build-and-test:
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [20.x, 22.x]  # Test on multiple Node.js versions
+
+    steps:
+    - uses: actions/checkout@v4  # Checkout the code
+
+    # Setup Node.js version from matrix
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'  # Cache npm dependencies
+
+    # Install dependencies using npm
+    - name: Install dependencies
+      run: npm ci  # Clean install
+
+    # Build the project
+    - name: Build project
+      run: npm run build --if-present  # Build if there's a build script
+
+    # Run tests
+    - name: Run Tests
+      run: npm test
+      env:
+        CI: true  # Ensures tests run in CI mode

@@ -1,0 +1,28 @@
+.blogsSection {
+  width: 100%;
+}
+.blogPostsList {
+  // @extend .row;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  max-width: 1100px;
+  margin: auto;
+  grid-row-gap: 30px;
+  row-gap: 30px;
+  column-gap: 38px;
+  grid-column-gap: 38px;
+  padding: 62px 10px;
+
+  @include media(">=tablet", "<desktop") {
+    width: 88vw;
+  }
+
+  @include media("<tablet") {
+    width: 100vw;
+    row-gap: 15px;
+    grid-row-gap: 15px;
+  }
+}

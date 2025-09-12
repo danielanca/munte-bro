@@ -1,0 +1,181 @@
+
+
+.containerRadio {
+  position: relative;
+  width: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  font-size: 12px;
+  -webkit-user-select: none;
+  user-select: none;
+  @include col-size(4);
+
+  .checkmark {
+    height: 24px;
+    width: 24px;
+    background-color: white;
+    border-radius: 50%;
+    border: 2px solid #f5002d;
+    margin-right: 2px;
+  }
+  .checkmark::after {
+    content: "";
+    position: absolute;
+    display: none;
+  }
+  .checkmark:hover {
+    background-color: #f5002d;
+  }
+
+  input:checked ~ .checkmark {
+    background-color: green;
+  }
+  input:checked ~ .checkmark:after {
+    display: block;
+  }
+
+  .checkmark::after {
+    top: 9px;
+    left: 9px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: white;
+  }
+  input {
+    opacity: 0;
+  }
+}
+
+.containerCheckbox {
+  position: relative;
+  width: auto;
+  display: flex;
+  justify-content: normal;
+  align-items: center;
+  cursor: pointer;
+  font-size: 12px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  padding: 0;
+
+  @include col-size(4);
+  .checkmark {
+    height: 24px;
+    width: 24px;
+    background-color: white;
+    border-radius: 5px;
+    border: 2px solid #f5002d;
+    margin-right: 2px;
+  }
+
+  input {
+    opacity: 0;
+  }
+}
+input[type="checkbox"] {
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  height: 1px;
+  overflow: hidden;
+  position: absolute;
+  white-space: nowrap;
+  width: 1px;
+}
+input[type="radio"] {
+  clip: rect(0 0 0 0);
+  clip-path: inset(20%);
+  height: 1px;
+  overflow: hidden;
+  position: absolute;
+  white-space: nowrap;
+  width: 1px;
+  border-radius: 50%;
+}
+.checkbox {
+  display: inline-block;
+  height: 20px;
+  width: 20px;
+  background: #fff;
+  border: 2px solid #ddd;
+  margin-right: 4px;
+  min-width: 20px;
+  border-radius: 5px;
+}
+
+.checkboxRound {
+  @extend .checkbox;
+  border-radius: 10px;
+}
+
+.checkboxactive {
+  @extend .checkbox;
+  border-color: #f5002d;
+  background-color: #f5002d;
+
+  background-image: url("https://firebasestorage.googleapis.com/v0/b/brasovromanticapartment.appspot.com/o/checkedMark.svg?alt=media&token=4084d18b-5806-44be-8b00-3b77731f564c"),
+    linear-gradient(0, #f5002d 100%, #f5002d 100%);
+  border-color: #f5002d;
+
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+}
+
+.checkboxactiveRound {
+  border-color: #f5002d;
+  background-color: #ffffff;
+  border-color: #f5002d;
+
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+}
+.checkboxactiveRound::after {
+  content: "";
+  color: #f5002d;
+  background-color: #f5002d;
+  position: absolute;
+  margin: auto;
+  margin-left: 2px;
+  margin-top: 2.25px;
+  width: 12px;
+  height: 12px;
+  border-radius: 40px;
+}
+.checkboxblueActive {
+  @extend .checkboxactive;
+  background-image: url("https://firebasestorage.googleapis.com/v0/b/brasovromanticapartment.appspot.com/o/checkedMark.svg?alt=media&token=4084d18b-5806-44be-8b00-3b77731f564c"),
+    linear-gradient(0, #00739e 100%, #00739e 100%);
+  border-color: #00739e;
+  background-color: #00739e;
+}
+
+.labelRow {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  width: 38px;
+  padding: 0px;
+  font-size: 12px;
+  font-weight: 600;
+  text-align: start;
+  align-items: center;
+  cursor: pointer;
+
+  @include media(">=tablet", "<desktop") {
+    line-height: 15px;
+  }
+  @include media("<tablet") {
+    font-size: 13px;
+  }
+}
+
+.termRow {
+  @extend .labelRow;
+  width: auto;
+}

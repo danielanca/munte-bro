@@ -1,0 +1,110 @@
+
+.text {
+  font-weight: 500;
+  font-size: 33px;
+  color: green;
+  text-align: center;
+}
+
+.horizontalAlign {
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  .text{
+    font-family: 'Roboto Medium';
+    font-size: 24px;
+  }
+  a {
+    width: 224px;
+    outline: 2px solid black;
+  }
+}
+.miniText {
+  font-weight: bold;
+  text-align: center;
+  font-family: 'Roboto Medium';
+  strong{
+    font-family: 'Roboto Medium';
+  }
+}
+.buttonToHome {
+  background-color: #ff6161;
+  color: ghostwhite;
+  padding: 6% 15%;
+  white-space: nowrap;
+  border: none;
+  width: 100%;
+}
+.boldText {
+  font-weight: bolder;
+}
+.confirmContainer {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  row-gap: 20px;
+}
+
+.titleConfirm {
+  text-align: center;
+  margin-top: 70px;
+}
+.bottomConfirm {
+  text-align: center;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  font-size: 20px;
+}
+.orderDetailsBox {
+  width: 100%;
+  height: 360px;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+  margin: auto;
+  margin-bottom: 40px;
+
+  p {
+    margin: 0;
+    text-align: center;
+  }
+
+  @include media(">tablet") {
+    max-width: 830px;
+  }
+}
+.padder {
+  row-gap: 20px;
+  column-gap: 20px;
+  display: flex;
+  flex-direction: column;
+  padding: initial;
+}
+p {
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+}
+.subtableStyle {
+  width: 300px;
+  display: flex;
+  flex-direction: row;
+  column-gap: 60px;
+}
+.productList {
+  display: flex;
+  justify-content: center;
+}
+.productList > table > tr > th {
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif !important;
+}
+.bottomAdvices {
+  display: flex;
+  flex-direction: column;
+}
+.tableStyle {
+  border: 1px solid black;
+  max-width: 320px;
+  @include media("<tablet") {
+    width: 100%;
+  }
+}

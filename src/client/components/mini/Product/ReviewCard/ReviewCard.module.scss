@@ -1,0 +1,91 @@
+.commentBoard {
+  background-color: rgb(240, 240, 240);
+  margin-bottom: 15px;
+  position: relative;
+  break-inside: avoid;
+  width: 100%;
+  will-change: transform;
+
+  overflow: hidden;
+  font-family: "Montserrat";
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+
+  @include media("<tablet") {
+    margin: auto;
+    width: 90%;
+  }
+  &:hover {
+    opacity: 0.9;
+    cursor: pointer;
+  }
+}
+
+.rowInside {
+  margin: 0;
+  display: flex;
+  flex-direction: row;
+}
+.colItem {
+  padding: 3% 3%;
+  @include col-size(8);
+}
+.colItemRight {
+  @include col-size(4);
+  padding: 2% 1%;
+}
+.mediaRight {
+  width: 100%;
+}
+.authorStyle {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: flex-start;
+}
+.name {
+  font-weight: 500;
+  font-family: "Roboto Medium";
+  margin-bottom: 1%;
+  font-size: clamp(13px, 2vw, 16px);
+}
+.date {
+  font-family: "Roboto Light";
+  font-weight: 300;
+  font-size: 14px;
+  margin-bottom: 1%;
+}
+.authorLine {
+  display: flex;
+  flex-direction: row;
+  column-gap: 10px;
+}
+.verifiedIcon {
+  width: 17px;
+  height: 17px;
+}
+.comment {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+.actualComment {
+  line-height: 16px;
+  font-family: "Roboto Regular";
+  font-size: 1rem;
+  @include media("<tablet") {
+    height: auto;
+    text-align: start;
+    line-height: clamp(12px, 2vw, 16px);
+    font-size: clamp(11px, 0.9vw, 18px);
+    padding: 5% 0;
+  }
+}
+.reviewStars {
+  display: table;
+  margin: auto;
+  margin-left: 0;
+  margin-bottom: 10px;
+}
+.starIcon {
+  width: 25px;
+}

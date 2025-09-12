@@ -1,0 +1,22 @@
+
+
+.grayBanner {
+  background-color: #222222;
+  padding: 40px 13%;
+  text-align: center;
+  font-family: "Roboto Medium", sans-serif;
+  min-height: 50px;
+  max-height: 240px;
+  height: 100%;
+  color: white;
+
+  font-size: clamp(12px, 3vw, 20px);
+  * {
+    font-family: "Roboto Medium", sans-serif;
+    color: inherit;
+  }
+
+  @include media("<tablet") {
+    max-height: none;
+  }
+}

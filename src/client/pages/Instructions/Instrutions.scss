@@ -1,0 +1,163 @@
+body {
+  margin: 0;
+}
+
+:root {
+  --wizard-back-button-color: #e62212;
+  --wizard-next-button-color: green;
+}
+
+.wizard-container {
+  background-image: url("https://firebasestorage.googleapis.com/v0/b/diniubire-89ce0.appspot.com/o/ProductMedia%2Fwizard_background.jpg?alt=media&token=bdc49929-30f5-4c7d-a639-7e3bf646665b");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 100vh;
+  width: 100vw;
+  box-sizing: border-box;
+  padding: 12px;
+}
+
+.left-text {
+  margin-bottom: 15px;  
+  font-size: 1.2rem;    
+}
+
+.wizard-inner {
+  max-width: 475px;
+  margin: 0 auto;
+  position: relative;
+  height: 100%;
+
+  .logo-container {
+    width: 100%;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+
+    img {
+      position: absolute;
+    }
+  }
+
+  .step-indicator {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-right: 10px;
+    display: flex;
+    justify-content: space-between;
+
+    .boxblack {
+      background-color: black;
+      color: white;
+      padding: 5px;
+      outline: 1px solid white;
+
+      &.title {
+        width: 70%;
+        text-align: start;
+        white-space: nowrap;
+      }
+
+      &.steps {
+        width: auto;
+        white-space: nowrap;
+      }
+    }
+  }
+
+  .content {
+    height: 500px;
+    overflow-y: auto;
+    color: #fff;
+    font-size: 1.2rem;
+
+    &::-webkit-scrollbar {
+      width: 5px;
+      background-color: white;
+      border-radius: 5px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: yellowgreen;
+      border-radius: 5px;
+      border: 2px solid yellow;
+    }
+
+    .step-content {
+      width: 100%;
+    }
+    
+    .step-content img, 
+    .step-content video {
+      max-width: 100%;
+      height: 400px;  
+      object-fit: cover; 
+      padding-top: 20px;
+      padding-bottom: 20px;
+    }
+  }
+
+  .action-container {
+    background-color: #00000045;
+    bottom: 0px;
+    width: 100%;
+    height: 75px;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    position: absolute;
+
+    button {
+      border: none;
+      width: 140px;
+      height: 40px;
+      font-weight: bold;
+      text-transform: uppercase;
+      cursor: pointer;
+
+      &:active {
+        opacity: 0.9;
+      }
+
+      &.previous {
+        background-color: var(--wizard-back-button-color);
+        color: white;
+        outline: 1px solid white;
+
+        &:disabled {
+          opacity: 0;
+        }
+      }
+
+      &.next {
+        background-color: var(--wizard-next-button-color);
+        color: white;
+        outline: 1.5px solid white;
+
+        &:disabled {
+          opacity: 0.5;
+        }
+      }
+    }
+  }
+}
+
+.step-title {
+  text-align: center;
+  color: #ffffff;
+  font-weight: bolder;
+  font-size: 2rem;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.yellowhighlight {
+  background-color: yellow;
+  color: black;
+  font-weight: bold;
+  padding: 2px;
+  border-radius: 2px;
+}

@@ -1,0 +1,152 @@
+
+
+
+
+.relaxSpace {
+  width: 100%;
+  height: 460px;
+  background-color: red;
+  background-size: contain;
+  overflow: hidden;
+  // background: url("./../../../media/assets//pics/blocks/background_Montan.jpg");
+  background: hsla(4, 81%, 56%, 1);
+
+  background: linear-gradient(90deg, hsla(4, 81%, 56%, 1) 0%, hsla(0, 100%, 69%, 1) 79%);
+
+  background: -moz-linear-gradient(90deg, hsla(4, 81%, 56%, 1) 0%, hsla(0, 100%, 69%, 1) 79%);
+
+  background: -webkit-linear-gradient(90deg, hsla(4, 81%, 56%, 1) 0%, hsla(0, 100%, 69%, 1) 79%);
+
+  display: flex;
+  align-items: center;
+  @include media("<tablet") {
+    height: auto;
+  }
+}
+.cardobard {
+  width: 100%;
+  max-width: 588px;
+  background-color: whitesmoke;
+
+  box-shadow: rgba(17, 17, 26, 0.1) 0px 4px 16px, rgba(17, 17, 26, 0.1) 0px 8px 24px,
+    rgba(17, 17, 26, 0.1) 0px 16px 56px;
+  margin: auto;
+  padding: 29px;
+  border-radius: 8px;
+  @include media(">=tablet", "<desktop") {
+    padding: 4%;
+  }
+
+  @include media("<tablet") {
+    height: none;
+    padding: 2%;
+    width: 92%;
+    background-color: transparent;
+  }
+}
+.mediaSocial {
+  width: 100%;
+}
+.cardobard {
+  h3 {
+    font-family: "Roboto";
+    text-align: center;
+    font-size: clamp(15px, 3.1vw, 18px);
+  }
+}
+.picImage {
+  width: 100%;
+  mix-blend-mode: darken;
+
+  @include media("<tablet") {
+    filter: invert(1);
+    mix-blend-mode: plus-lighter;
+  }
+}
+.socialLogo {
+  width: 80%;
+  display: flex;
+  justify-content: center;
+  margin: 0 auto;
+  @include media(">=tablet", "<desktop") {
+    width: 60%;
+  }
+  @include media("<tablet") {
+    width: 35%;
+  }
+}
+.rowContainer {
+  @include row;
+  @include media("<tablet") {
+    flex-direction: column;
+    display: flex;
+    align-items: center;
+  }
+}
+.colContainer {
+  @include col-size(6);
+  @include media("<tablet") {
+    width: 90%;
+  }
+}
+.iconStyle {
+  width: 32px;
+  aspect-ratio: 1/1;
+}
+
+.rightBro,
+.leftBro {
+  display: table;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  height: 100%;
+  // outline: 2px solid black;
+  row-gap: 8%;
+  grid-row-gap: 8%;
+}
+.rightBro {
+  row-gap: 10px;
+  grid-row-gap: 10px;
+  @include media("<tablet") {
+    padding: 9% 0;
+  }
+}
+.actionWrapper {
+  display: flex;
+  justify-content: center;
+}
+.instagramButton {
+  width: 200px;
+  height: 30px;
+  background-color: rgb(0, 149, 246);
+  color: white;
+  outline: none;
+  border: none;
+  border-radius: 5%;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+}
+.socialsTop {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  max-width: 220px;
+  margin: 0 auto;
+  a > img {
+    margin: 8px;
+  }
+}
+
+.inquiries {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  flex-direction: column;
+  P {
+    text-align: center;
+    font-family: "Roboto";
+    font-weight: bold;
+    margin: 0;
+  }
+}

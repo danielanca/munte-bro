@@ -1,0 +1,179 @@
+section {
+  padding: 50px 20px ;
+  background-color: #f5f5f5;
+  border-radius: 8px;
+}
+
+.title {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.products-table {
+  padding: 3rem;
+  width: 100%;
+  border-collapse: collapse;
+  background-color: white;
+  border-radius: 8px;
+  /* overflow: hidden; */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.products-table th,
+.products-table td {
+  padding: 12px 15px;
+  text-align: left;
+}
+
+.products-table thead th {
+  background-color: #e63946;
+  color: white;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.products-table tbody tr:nth-child(even) {
+  background-color: #f8f8f8;
+}
+
+.product-name {
+  display: flex;
+  align-items: center;
+}
+
+
+  .product-image {
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+    border-radius: 0; 
+    margin-right: 10px;
+  }
+  
+
+
+.actions {
+  text-align: center;
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  /* gap: 2rem; */
+}
+.actions button {
+  margin-right: 10px; /* Adds space between the buttons */
+}
+
+.actions button:last-child {
+  margin-right: 0; /* Removes extra margin for the last button to keep it neat */
+}
+
+.actions:hover {
+  color: #e63946;
+}
+
+
+.actions {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropbtn {
+  background-color: #e63946;
+  color: white;
+  padding: 5px 10px;
+  font-size: 14px;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 100px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.dropdown-content button {
+  background-color: white;
+  color: black;
+  padding: 8px 12px;
+  text-align: left;
+  border: none;
+  width: 100%;
+  cursor: pointer;
+}
+
+.dropdown-content button:hover {
+  background-color: #f1f1f1;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+.dropdown:hover .dropbtn {
+  background-color: #d7373f;
+}
+
+.add-product-button {
+
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  margin-top: 20px;
+}
+
+.edit-button {
+  background-color: green;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+  border-radius: 8px;
+
+}
+
+.edit-button:hover {
+  background-color: rgb(5, 65, 5); 
+}
+
+.delete-button {
+  background-color: #e53935; 
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+  border-radius: 8px;
+}
+
+.delete-button:hover {
+  background-color: #d32f2f; 
+}
+
+.add-product-button {
+  margin-top: 20px;
+  background-color: #2196f3;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+}
+
+.add-product-button:hover {
+  background-color: #1976d2;
+}

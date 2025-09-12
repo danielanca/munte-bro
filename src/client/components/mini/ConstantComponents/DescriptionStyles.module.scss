@@ -1,0 +1,132 @@
+.commentsArea {
+  margin-top: 20px;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  background-color: #f7f2f2;
+}
+
+.text {
+  font-family: "Open Sans Regular", Georgia, Times, "Times New Roman", serif;
+  line-height: 21px;
+  text-align: center;
+  padding: 0 12vw;
+
+  @include media("<tablet") {
+    padding: 0 5vw; // Reduce padding on mobile for better readability
+    font-size: 0.9rem; // Reduce font size for better fit
+  }
+}
+
+.bold {
+  font-family: "Open Sans Regular", Georgia, Times, "Times New Roman", serif;
+  font-weight: bolder;
+}
+
+.imagePic {
+  width: 60%;
+  height: auto;
+  display: table;
+  margin: auto;
+
+  @include media("<tablet") {
+    width: 80%; // Increase image width to fit mobile screens better
+    height: auto; // Maintain aspect ratio
+  }
+}
+
+.padder {
+  width: 70%;
+  margin-top: 10px;
+  margin-bottom: 20px;
+  display: table;
+  margin: auto;
+
+  @include media("<tablet") {
+    width: 90%; // Reduce padding and width on mobile
+  }
+}
+
+.centerText {
+  text-align: center;
+}
+
+.innerDescription {
+  min-height: 600px;
+  width: 100%;
+
+  @include media("<tablet") {
+    min-height: 300px; // Reduce height for mobile
+  }
+}
+
+.title {
+  font-size: 2rem;
+  text-align: center;
+  text-transform: uppercase;
+
+  @include media("<tablet") {
+    font-size: 1.5rem; // Reduce title size on mobile
+  }
+}
+
+.helpContainer {
+  width: 100%;
+  height: 80px;
+  background-color: #ffdcdc;
+  outline: 1px solid black;
+  font-family: "Roboto";
+  font-weight: 400;
+  margin-top: 20px !important;
+  margin-bottom: 20px !important;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  column-gap: 10px;
+
+  @include media("<tablet") {
+    max-height: 120px; // Adjust height on mobile
+    height: auto; // Let height adjust based on content
+    line-height: 1.2em; // Adjust line-height for better readability
+    padding: 5% 0;
+  }
+
+  img {
+    width: 60px;
+    aspect-ratio: 1/1;
+
+    @include media("<tablet") {
+      width: 50px; // Scale image down for mobile
+    }
+  }
+
+  p {
+    margin: 0;
+    text-align: center;
+
+    @include media("<tablet") {
+      font-size: 0.9rem; 
+    }
+  }
+}
+.logoAboveTitle {
+  display: block;
+  margin: 0 auto 10px auto; 
+  width: 80px; 
+  height: 80px;
+
+
+  @include media(">=tablet") {
+    width: 100px; 
+    height: 80px;
+
+  }
+
+  @include media("<tablet") {
+    width: 80px; 
+    height: 80px;
+  }
+}
+

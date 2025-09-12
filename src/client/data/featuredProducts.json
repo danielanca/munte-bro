@@ -1,0 +1,33 @@
+{
+    "featuredProducts": {
+      "firstSapun": {
+        "bigAnnouncement": { "background": "MontanAir", "title": "Produs Nou" },
+        "image": "https://firebasestorage.googleapis.com/v0/b/diniubire-89ce0.appspot.com/o/ProductMedia%2FonlyHands.jpg?alt=media&token=47a874c0-c8a0-453e-9d58-5cc8cc3ced07",
+        "title": "KIT MULAJ ",
+        "subTitle": "cu instructiuni video",
+        "text": "Kit-ul contine Instructiuni Video si pe foaie. Materiale prietenoase cu pielea, gips si instrumente pentru realizarea mulajului ",
+        "featureThings": {
+          "one": {
+            "image": "https://firebasestorage.googleapis.com/v0/b/diniubire-89ce0.appspot.com/o/icons%2Ffight.png?alt=media&token=d40326e2-b010-4ada-b327-e76c8331d10d",
+            "title": "Activitate împreună",
+            "text": "Realizati mulajul, distrându-vă împreună"
+          },
+          "two": {
+            "image": "https://firebasestorage.googleapis.com/v0/b/diniubire-89ce0.appspot.com/o/icons%2Fvideo-marketing.png?alt=media&token=9ad40558-e456-4341-a718-745b76ebf67d",
+            "title": "Instrucțiuni Video",
+            "text": "Material cu procesul explicat în pași simpli"
+          },
+          "three": {
+            "image": "https://firebasestorage.googleapis.com/v0/b/diniubire-89ce0.appspot.com/o/icons%2Frefund.png?alt=media&token=76964440-7d3c-4c98-841f-5eacd725c61f",
+            "title": "Banii inapoi 100%",
+            "text": "Nu e rezultatul dorit? Primiti banii inapoi!"
+          }
+        },
+        "actionButton": {
+          "textButton": " Vezi kit-ul",
+          "link": "produs/mulaj-cuplu"
+        }
+      }
+    }
+  }
+  

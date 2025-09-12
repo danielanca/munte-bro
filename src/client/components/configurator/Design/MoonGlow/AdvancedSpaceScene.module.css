@@ -1,0 +1,88 @@
+/* AdvancedSpaceScene.module.css */
+
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    font-family: sans-serif;
+    overflow: hidden;
+    background: radial-gradient(circle at bottom, #0a1f44, #020b1e);
+    background-size: 400% 400%;
+    animation: backgroundShift 10s ease-in-out infinite;
+  }
+  
+  @keyframes backgroundShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+  
+  .starfield {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 0;
+  }
+  
+  .moon {
+    position: absolute;
+    bottom: 10%;
+    left: 10%;
+    width: 300px;
+    height: 300px;
+    background: radial-gradient(circle at 30% 30%, #ddd, #aaa);
+    border-radius: 50%;
+    box-shadow: 0 0 50px rgba(255, 255, 255, 0.5), 0 0 100px rgba(255, 255, 255, 0.2), inset 0 0 20px rgba(0, 0, 0, 0.5);
+    animation: moonGlow 8s ease-in-out infinite;
+  }
+  
+  @keyframes moonGlow {
+    0%, 100% { box-shadow: 0 0 50px rgba(255, 255, 255, 0.5), 0 0 100px rgba(255, 255, 255, 0.2); }
+    50% { box-shadow: 0 0 100px rgba(255, 255, 255, 0.6), 0 0 200px rgba(255, 255, 255, 0.3); }
+  }
+  
+  .floatingStar {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background: #fff;
+    border-radius: 50%;
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.8);
+    animation: floatStar 6s ease-in-out infinite, twinkle 2s ease-in-out infinite;
+  }
+  
+  @keyframes floatStar {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-20px); }
+  }
+  
+  @keyframes twinkle {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.6; }
+  }
+  
+  .floatingStar1 { top: 30%; left: 15%; animation-duration: 6s; }
+  .floatingStar2 { top: 45%; left: 75%; animation-duration: 8s; }
+  .floatingStar3 { top: 65%; left: 35%; animation-duration: 10s; }
+  
+  .shootingStar {
+    position: absolute;
+    width: 3px;
+    height: 3px;
+    background: linear-gradient(45deg, rgba(255, 255, 255, 0.8), transparent);
+    animation: shootStar 2.5s linear infinite;
+    border-radius: 50%;
+    box-shadow: 0 0 30px rgba(255, 255, 255, 0.8);
+  }
+  
+  @keyframes shootStar {
+    0% { transform: translate(0, 0) scale(1); opacity: 1; }
+    100% { transform: translate(-120vw, 100vh) scale(0.5); opacity: 0; }
+  }
+  
+  .shootingStar1 { top: 15%; left: 80%; animation-delay: 1s; }
+  .shootingStar2 { top: 35%; left: 50%; animation-delay: 2.5s; }
+  .shootingStar3 { top: 65%; left: 75%; animation-delay: 4s; }
+  

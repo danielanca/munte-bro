@@ -1,0 +1,25 @@
+
+.content {
+  width: 100%;
+  padding: 30px 8px;
+  margin-top: 20px;
+  margin-bottom: 40px;
+
+  @include media(">=tablet", "<desktop") {
+    padding: 30px 5%;
+  }
+}
+
+.headTitle {
+  text-align: center;
+  font-weight: bolder;
+  font-family: "Roboto";
+  text-transform: uppercase;
+}
+.plainData {
+  width: 100%;
+  height: auto;
+  word-wrap: break-word;
+  flex-wrap: wrap;
+  font-family: "Roboto";
+}

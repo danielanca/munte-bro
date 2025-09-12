@@ -1,0 +1,71 @@
+
+
+.bigBlanaBanner {
+  @include container-fluid;
+  display: flex;
+  flex-direction: row;
+  height: 45px;
+  width: 100%;
+  position: relative;
+  background-color: #ea4134;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 8px;
+  @include media("<tablet") {
+    flex-direction: column;
+    height: auto;
+    max-height: 70px;
+    padding: 10px 8px;
+  }
+  @include media(">=tablet", "<desktop") {
+    justify-content: space-between;
+  }
+}
+.iconStyle {
+  width: 26px;
+  height: 26px;
+  filter: invert(1);
+}
+.iconWrapper {
+  width: auto;
+  display: flex;
+  column-gap: 13px;
+  grid-column-gap: 13px;
+  cursor: pointer;
+  margin-right: 30px;
+}
+.headTitle {
+  color: whitesmoke;
+  text-align: center;
+  // font-size: clamp(13.4px, 2.2vw, 24px);
+  margin: 0;
+  text-transform: uppercase;
+  font-weight: 200;
+  font-family: "Luckiest Guy";
+
+  @include media("<tablet") {
+    overflow-wrap: break-word;
+  }
+}
+.emailTop {
+  @include col-size(3,"md");
+  font-family: "Roboto", sans-serif;
+  color: #eee6d3;
+  font-weight: 900;
+  font-size: 12px;
+  @include media("<tablet") {
+    display: none;
+  }
+}
+.socialsTop {
+  @include col-size(3,"md");
+  font-family: "Roboto", sans-serif;
+  color: #eee6d3;
+  display: flex;
+  font-weight: 900;
+  justify-content: flex-end;
+  align-items: center;
+  @include media("<tablet") {
+    display: none;
+  }
+}

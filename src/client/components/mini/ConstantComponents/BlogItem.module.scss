@@ -1,0 +1,146 @@
+.blogItem {
+  @include col-size(4);
+  width: 100%;
+  max-width: 371px;
+  box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 15px 0px;
+  display: table;
+  padding: 2% 3%;
+  border-radius: 2%;
+  margin-top: 45px;
+
+  @include media(">=tablet", "<desktop") {
+    width: 80%;
+    max-width: 358px;
+    margin: 10px 10px;
+  }
+  @include media("<tablet") {
+    width: clamp(234px, 30vw, 342px);
+  }
+}
+
+.HashLinkStyle {
+  // color: map-get($map: $colors, $key: mainlyBlack);
+
+  text-decoration: none;
+  // &:hover {
+  //   color: map-get($map: $colors, $key: mainlyBlack);
+  // }
+}
+.hashTransparent {
+  text-decoration: none;
+  &:hover {
+    text-decoration: none;
+  }
+}
+.thumbnailWrapper {
+  width: 286px;
+  aspect-ratio: 1/0.6;
+
+  @include media("<tablet") {
+    width: 197px;
+  }
+}
+
+.floaterThumbnail {
+  border-radius: 3%;
+  overflow: hidden;
+  position: absolute;
+  box-shadow:
+    rgba(50, 50, 93, 0.45) 0px 6px 12px -2px,
+    rgba(0, 0, 0, 0.6) 0px 3px 7px -3px;
+  margin-top: max(-4%, -60px);
+  margin-left: min(1.5%, 30px);
+  @include media("<tablet") {
+    margin-top: -8%;
+  }
+}
+.topPart {
+  width: 100%;
+  aspect-ratio: 2/1;
+  overflow: hidden;
+  height: 33%;
+}
+.thumbnailImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  -webkit-transform: scale(1);
+  transform: scale(1);
+  -webkit-transition: 0.3s ease-in-out;
+  transition: 0.3s ease-in-out;
+  cursor: pointer;
+
+  &:before {
+    content: "";
+    display: block;
+    position: absolute;
+    height: 0%;
+    width: 100%;
+    bottom: 0;
+    background: rgba(100, 100, 111, 0.5);
+    transition: height 0.5s ease-out;
+  }
+  &:hover:before {
+    height: 100%;
+  }
+}
+
+.bottomPart {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  height: 65%;
+}
+.readMore {
+  display: table;
+  font-size: clamp(13px, 1vw, 18px);
+  cursor: pointer;
+  font-family: "Roboto Medium";
+}
+.previewPost {
+  min-height: 106px;
+
+  p {
+    font-family: "Roboto", Calibri, "Trebuchet MS", sans-serif;
+    text-align: start;
+    margin-bottom: 0;
+    line-height: 17px;
+    cursor: pointer;
+    text-overflow: ellipsis;
+    // white-space: nowrap;
+    overflow: hidden;
+    opacity: 0.6;
+    font-size: clamp(14px, 3.7vw, 15px);
+  }
+  span {
+    &:hover {
+      color: rgb(82, 114, 255);
+    }
+  }
+}
+
+.highlighter {
+  // outline: 2px solid black;
+  width: 100%;
+  .labelCategory {
+    color: red;
+    font-size: 1rem;
+    text-align: start;
+  }
+}
+.titleArea {
+  box-sizing: content-box;
+  width: 100%;
+  padding: 3% 0;
+  height: 70px;
+  @include media("<tablet") {
+    height: 54px;
+  }
+}
+.titlePost {
+  display: table;
+  cursor: pointer;
+  font-family: "Roboto Medium";
+  font-size: clamp(17px, 4vw, 20px);
+  text-align: start;
+}

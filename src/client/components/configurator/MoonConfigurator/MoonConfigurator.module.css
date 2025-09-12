@@ -1,0 +1,44 @@
+/* Global reset */
+html, body {
+  margin: 0;
+  padding: 20;
+  box-sizing: border-box;
+  width: 100%;  
+  overflow-x: hidden; 
+}
+
+.configuratorContainer {
+  display: flex;
+  flex-direction: column; 
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+}
+
+.frameContainer, .panelContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%; /* Full width by default */
+}
+
+/* Media query for larger screens */
+@media (min-width: 768px) {
+  .configuratorContainer {
+    flex-direction: row; /* Switch to horizontal layout */
+    justify-content: space-between; /* Add space between Frame and Panel */
+    align-items: flex-start; /* Align items to the top */
+  }
+
+  .frameContainer {
+    width: 70%; /* Frame takes 70% of the width */
+    height: 100%; /* Full height of the container */
+  }
+
+  .panelContainer {
+    width: 30%; /* Panel takes 30% of the width */
+    height: 100%; /* Full height of the container */
+  }
+}

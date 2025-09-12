@@ -1,0 +1,21 @@
+.cityInputsText {
+  display: flex;
+  flex-direction: column;
+
+  p {
+    color: red;
+    font-weight: bold;
+  }
+
+  ul {
+    list-style: none;
+    padding-left: 4px;
+    li {
+      padding: 4px 4px;
+      background-color: #00afff;
+      color: white;
+      outline: 1px solid black;
+      cursor: pointer;
+    }
+  }
+}

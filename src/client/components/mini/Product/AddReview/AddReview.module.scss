@@ -1,0 +1,140 @@
+.addReviewButton {
+  background-color: #ffffff;
+  color: rgb(0, 0, 0);
+  min-width: 300px;
+  height: 40px;
+  border: none;
+  outline: none;
+  margin: 20px;
+  font-family: "Roboto Medium", sans-serif;
+  font-size: 20px;
+  font-weight: 400;
+  cursor: pointer;
+
+  @include media("<tablet") {
+    min-width: 100%;
+    font-size: 18px;
+  }
+}
+
+.addSection {
+  width: 100%;
+  height: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin-top: 2%;
+  background-color: rgb(240, 240, 240);
+
+  button {
+    font-family: "Roboto";
+  }
+
+  @include media("<tablet") {
+    padding: 10px;
+  }
+}
+
+.wrapper {
+  width: 100%;
+  max-width: 950px;
+  background-color: rgb(240, 240, 240);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  border-radius: 5px;
+  opacity: 1;
+  animation-name: fadeIn;
+  animation-duration: 1s;
+  display: none;
+
+  @include media("<tablet") {
+    width: 100vw;
+    min-width: 300px;
+  }
+}
+
+.activeTransition {
+  @extend .wrapper;
+  display: inherit;
+  min-height: 152px;
+}
+
+.inputContainer {
+  display: flex;
+  flex-direction: column;
+  width: 77vw;
+  max-width: 533px;
+
+  textarea,
+  span,
+  input {
+    font-family: "Roboto";
+    resize: none;
+  }
+
+  input,
+  textarea {
+    padding: 0 1%;
+  }
+
+  @include media("<tablet") {
+    width: 90vw;
+    padding: 5px;
+  }
+}
+
+.submitButton {
+  background-color: #ff5f5f !important;
+  color: white;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  outline: none;
+  border: none;
+  margin: 20px;
+  height: 50px;
+  width: 200px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #000000;
+  }
+
+  @include media("<tablet") {
+    width: 100%;
+    font-size: 18px;
+  }
+}
+
+.pendingSubmitButton {
+  @extend .submitButton;
+  background-color: #ffaaaaf5 !important;
+}
+
+textarea[type="reviewInput"] {
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande", "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+}
+
+input[type="credentialsInput"] {
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande", "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+}
+
+.textarea {
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande", "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+}
+
+.uploadButton {
+  position: relative;
+  outline: 2px solid green;
+}
+
+
+.fileUploadContainer {
+  width: auto;
+
+  @include media("<tablet") {
+    width: 100%;
+  }
+}

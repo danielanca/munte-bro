@@ -1,0 +1,87 @@
+/* Wall background */
+.wall {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/52377/brickwall.png") repeat;
+  overflow: hidden;
+}
+
+.frame {
+  height: 600px;
+  width: 450px;
+  background-image: linear-gradient(to bottom right, #333, #111);
+  position: relative;
+  box-shadow:
+    -1px 2px rgba(255, 255, 255, 0.5),
+    -11px 4px 2px rgba(14, 9, 9, 0.5),
+    3px -1px #545454;
+  z-index: 2;
+  transition: all 250ms linear;
+  display: flex; 
+  flex-direction: column; 
+  align-items: center; 
+  justify-content: space-between; 
+  overflow: hidden;
+  max-width: 100%;
+  aspect-ratio: 1/1.414;
+  width: unset;
+  height: 80%;
+  border: 20px solid #000;
+  box-sizing: border-box;
+  
+  /* Adding padding to create the 5px space around the inner edges */
+  padding: 10px;
+}
+
+
+/* Container for the MoonScene */
+.moonSceneContainer {
+  width: 100%;
+  height: 60%; /* Allocate space for the moon */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2;
+  position: relative;
+  overflow: hidden; /* Ensure no part of the moon is cut off */
+}
+
+.text {
+  padding: 10px;
+  color: white;
+  text-align: center;
+  font-size: 1rem;
+  z-index: 2;
+}
+
+
+/* Responsive for smaller screens */
+@media (max-width: 768px) {
+  .wall {
+    justify-content: center;
+    align-items: flex-start;
+  }
+
+  .frame {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    max-height: 80vh; /* Increase the height on mobile */
+    margin-top: 5%; /* Slightly reduce top margin */
+    height: 80vh; /* Take more of the viewport height for better visibility */
+    width: unset;
+    flex-direction: column;
+    padding: 10px; /* Adjust padding for better spacing */
+  }
+
+  .moonSceneContainer {
+    height: 70%; /* Allocate more space for the moon on mobile */
+  }
+
+  .text {
+    font-size: 0.9rem;
+  }
+}

@@ -1,0 +1,436 @@
+.jewel {
+  background-color: #ff5f5f;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  position: absolute;
+  margin-left: -16px;
+  margin-top: -6px;
+  text-align: center;
+  color: white;
+  box-shadow: 2px 10px 17px -3px rgba(0, 0, 0, 0.1);
+}
+.montanLogo {
+  font-weight: 500;
+  font-size: 36px;
+  cursor: pointer;
+}
+.roProduct {
+  width: 30px;
+  height: auto;
+}
+
+.backDropBackground {
+  display: none;
+  background-color: black;
+  @include media("<desktop") {
+    opacity: 0.7;
+    width: 100vw;
+    position: absolute;
+    height: 100%;
+    top: 0px;
+    z-index: 8;
+  }
+}
+.active {
+  @extend .backDropBackground;
+  display: initial;
+}
+///NEW
+.middleNoUl {
+  @include col-size(3);
+  display: flex;
+  justify-content: center;
+  height: 70px;
+  @include media("<desktop") {
+    display: table;
+    margin: 0 auto;
+    width: auto;
+    order: 2;
+  }
+}
+.wrapper {
+  background-color: rgba(233, 233, 233, 0.8);
+  width: 100%;
+  height: 108px;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+
+  @include media("<tablet") {
+    height: 70px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}
+.navbarContainer {
+  width: 100%;
+  max-width: 1808px;
+  height: auto;
+  margin: auto;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  z-index: 10;
+
+  @include media("<tablet") {
+    flex-direction: row;
+    justify-content: space-around;
+  }
+  @include media(">=tablet", "<desktop") {
+    background-color: rgba(116, 51, 51, 0);
+    flex-direction: row;
+    height: auto;
+    width: 100vw;
+    justify-content: space-around;
+    position: relative;
+    min-height: 130px;
+  }
+}
+
+.ulMenu {
+  @include col-size(4);
+  list-style: none;
+  margin-bottom: 0;
+  margin-top: 0;
+  display: flex;
+  flex-direction: row;
+  padding-left: 0 !important;
+  align-items: center;
+  @include media("<desktop") {
+    display: none !important;
+  }
+}
+
+.ulMenuStart {
+  @extend .ulMenu;
+  justify-content: flex-start;
+  width: auto;
+}
+.ulMenuEnd {
+  @extend .ulMenu;
+  width: auto;
+  justify-content: flex-end;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+.burgerMenu {
+  display: none;
+  border: 2px solid black;
+  background-color: white;
+  border-radius: 1px;
+  width: 80vw;
+  margin-top: 1.3vw;
+  font-size: 1.2em;
+  font-weight: 500;
+
+  z-index: 24;
+  left: -100vw;
+
+  transition: 0.3s ease-in;
+  animation: fadeIn 0.5s;
+  -webkit-animation: fadeIn 0.5s;
+  -moz-animation: fadeIn 0.5s;
+  -o-animation: fadeIn 0.5s;
+  -ms-animation: fadeIn 0.5s;
+
+  @include media("<desktop") {
+    width: 70vw;
+    position: absolute;
+    top: 0px;
+    display: block;
+    height: 100vh;
+  }
+}
+
+.activeBurger {
+  @extend .burgerMenu;
+  display: none;
+  @include media("<desktop") {
+    display: block;
+    left: 0px;
+    opacity: 1;
+    align-self: center;
+    border-radius: 0px 6px 0px 0px;
+  }
+}
+.ulMobile {
+  list-style: none;
+  padding: 19px;
+  text-align: center;
+}
+
+.liMobile {
+  color: black;
+  font-family: "Roboto Regular";
+  font-weight: 500;
+  margin-top: 1vw;
+  font-size: 22px;
+  text-align: left;
+  border-bottom: 2px solid #7b7b7e94;
+  @include media("<tablet") {
+    font-size: 19px;
+  }
+  @include media(">=tablet", "<=desktop") {
+    font-size: 22px;
+  }
+}
+.individualItem {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 0 14px;
+}
+.individualItem span {
+  padding-left: 6px;
+}
+.liSubItem {
+  @extend .liMobile;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: column;
+  position: relative;
+  font-size: 22px;
+}
+
+.visuallyHidden {
+  position: absolute !important;
+  left: -100vw;
+  width: 100% !important;
+  height: 100% !important;
+  position: absolute !important;
+}
+.extendSub {
+  display: flex;
+  flex: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  transition: cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+
+input[type="checkbox"]:checked ~ .subItemUL {
+  height: 0;
+  display: none;
+}
+input[type="checkbox"]:not(:checked) ~ .subItemUL {
+  height: auto;
+  display: initial;
+}
+.subItemUL {
+  width: 100%;
+  list-style: none;
+  padding-left: 14px;
+  a,
+  a > li {
+    color: black;
+    font-family: initial;
+    text-align: start;
+    text-transform: capitalize;
+  }
+}
+.subItemIcon {
+  width: 20px;
+  height: 20px;
+}
+.liItem {
+  font-weight: 100;
+  opacity: 1;
+  cursor: pointer;
+  font-size: 1.4em;
+  color: #000000;
+  margin: 0 0.8vw;
+  font-family: "SallenasGrande Regular" !important;
+  border-bottom: 5px solid transparent;
+  white-space: nowrap;
+  font-family: fantasy !important;
+  text-transform: uppercase;
+}
+.HashLinkStyle {
+  color: #ea4134;
+  font-family: inherit;
+  text-decoration: none;
+  text-transform: uppercase;
+
+  span {
+    font-family: "Roboto";
+  }
+
+  &:hover {
+    color: #e45b52;
+    border-bottom: 2px solid black;
+  }
+}
+
+.HashLinkStyleBottom {
+  @extend .HashLinkStyle;
+  display: flex;
+  flex-direction: row;
+  &:hover {
+    border-bottom: none;
+  }
+}
+
+.logoHover {
+  color: black;
+  text-decoration: none;
+
+  &:hover {
+    color: gray;
+  }
+}
+.hashTransparent {
+  text-decoration: none;
+  &:hover {
+    text-decoration: none;
+  }
+}
+.navLogo {
+  width: 25vw;
+  @include media("<desktop") {
+    width: 80vw;
+    margin-top: 0px;
+  }
+}
+.burgerElement {
+  display: initial;
+  z-index: 24;
+  height: 36px;
+  width: 31px;
+  transition: 0.25s;
+  align-self: center;
+
+  @include media("<desktop") {
+    order: 1;
+  }
+}
+
+.bar1,
+.bar2,
+.bar3 {
+  @include media("<tablet") {
+    width: 32px;
+    height: 3.5px;
+    background-color: #ff5f5f;
+    margin: 3px 0;
+    transition: 0.4s;
+  }
+
+  @include media(">=tablet", "<desktop") {
+    width: 33px;
+    height: 3.5px;
+    background-color: #ff5f5f;
+    margin: 5px 0;
+    transition: 0.4s;
+  }
+}
+.menuMobileContainer {
+  display: flex;
+  width: 80px;
+  justify-content: center;
+  align-items: center;
+  @include media(">=desktop") {
+    display: none;
+  }
+}
+.bar1End {
+  @extend .bar1;
+  -webkit-transform: rotate(-45deg) translate(-5px, 2px);
+  transform: rotate(-45deg) translate(-5px, 2px);
+  background-color: white;
+}
+.bar2End {
+  @extend .bar2;
+  display: none;
+}
+.bar3End {
+  @extend .bar3;
+  -webkit-transform: rotate(45deg) translate(-2px, 0px);
+  transform: rotate(45deg) translate(-2px, 0px);
+  background-color: white;
+}
+
+.shopIcon {
+  width: 30px;
+  cursor: pointer;
+  &:hover {
+    opacity: 0.7;
+  }
+}
+.sideLeftContainer {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  align-items: center;
+  white-space: nowrap;
+
+  @include media("<desktop") {
+    display: none;
+  }
+}
+.sideRightContainer {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  align-items: center;
+  white-space: nowrap;
+  @include media("<desktop") {
+    order: 3;
+    padding: 0 20px;
+    width: 100px;
+  }
+}
+.liSubItem > .extendSub,
+.liSubItem > .subItemUL > li {
+  font-family: "Roboto Regular" !important;
+  text-transform: uppercase;
+  font-size: 20px;
+  border-bottom: none;
+  color: #ea4134;
+}
+.liMobileItem {
+  font-family: "Roboto Regular" !important;
+  text-transform: uppercase;
+  font-size: 22px;
+  border-bottom: none;
+}
+.spanCart {
+  font-size: 1.2rem;
+  margin: 0 3%;
+  cursor: pointer;
+  color: green;
+  &:hover {
+    opacity: 0.7;
+  }
+
+  @include media("<desktop") {
+    display: none;
+  }
+}
+
+.ulOthers {
+  list-style: none;
+  padding-left: 20px;
+  background-color: #ea41344f;
+  padding: 0;
+}
+.ulOthers > li > span {
+  font-size: 24px;
+  padding-left: 14px;
+  font-family: "Roboto Regular" !important;
+  text-transform: uppercase;
+  font-size: 22px;
+}
+.icon {
+  width: 26px;
+  height: 26px;
+  margin-right: 3px;
+}

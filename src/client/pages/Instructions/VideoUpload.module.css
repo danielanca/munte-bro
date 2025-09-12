@@ -1,0 +1,68 @@
+.videoUploadContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.videoUploadContainer input[type="file"] {
+  margin-bottom: 10px;
+}
+
+.videoUploadContainer button {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.videoUploadContainer button:hover {
+  background-color: #0056b3;
+}
+
+.videoUploadContainer progress {
+  width: 100%;
+  margin-top: 10px;
+}
+
+.videoUrl {
+  margin-top: 15px;
+  font-size: 14px;
+  color: #333;
+}
+
+.videoUrl a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+.videoUrl a:hover {
+  text-decoration: underline;
+}
+
+.page-content {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.continue-button {
+  padding: 10px 20px;
+  background-color: green;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.continue-button:hover {
+  background-color: darkgreen;
+}

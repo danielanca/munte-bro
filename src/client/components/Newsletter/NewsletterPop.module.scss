@@ -1,0 +1,288 @@
+
+.newsletterContainer {
+  width: 100%;
+
+  max-width: 960px;
+  outline: 1px solid gray;
+  height: 480px;
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 300;
+  background-color: rgb(255, 255, 255);
+  display: flex;
+  flex-direction: row;
+  transition: cubic-bezier(0.075, 0.82, 0.165, 1);
+  border-radius: 8px;
+  overflow: hidden;
+  transition: all ease-in-out 1s;
+  -webkit-transition: all ease-in-out 1s;
+  -moz-transition: all ease-in-out 1s;
+  -o-transition: all ease-in-out 1s;
+  color: black;
+  @include media("<800px") {
+    height: 100vh;
+    flex-direction: column;
+  }
+}
+.imageFeatured {
+  width: 480px;
+  height: 100%;
+  background-size: cover;
+  background-image: url("https://firebasestorage.googleapis.com/v0/b/sapunmontan.appspot.com/o/montanAir%2Fil_fullxfull.1473301982_4w0b.webp?alt=media&token=f9516e2f-9b1a-4887-a4ae-2f3d82ee77e0");
+  object-fit: cover;
+  background-position: center;
+  transition: width ease-in-out 1;
+  -webkit-transition: width ease-in-out 1s;
+  -moz-transition: width ease-in-out 1s;
+  -o-transition: width ease-in-out 1s;
+
+  @include media("<800px") {
+    position: absolute;
+    width: 100vw;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    // display: none;
+  }
+}
+.imageFeaturedTransition {
+  @extend .imageFeatured;
+  width: 960px;
+  z-index: 900;
+
+  @include media("<800px") {
+    width: 100%;
+    min-width: 312px;
+  }
+}
+.containerWrap {
+  max-width: 400px;
+  transform: translate(0%, 17%);
+  position: absolute;
+
+  @include media("<800px") {
+    transform: translate(0%, 40%);
+    background-color: white;
+    padding: 36px 24px;
+    width: 92%;
+  }
+}
+.rightPanel {
+  min-width: 480px;
+  justify-content: center;
+  display: flex;
+  color: black;
+  @include media("<800px") {
+    min-width: 280px;
+    justify-content: center;
+    display: flex;
+
+    position: absolute;
+    width: 100%;
+    left: 0px;
+    top: 2px;
+    z-index: 900;
+  }
+}
+.imageSubscribed {
+  @extend .rightPanel;
+  position: absolute;
+  right: 0px;
+
+  @include media(">=600px", "<800px") {
+    width: 90%;
+    max-width: 350px;
+    min-width: 392px;
+  }
+}
+.title {
+  font-weight: bolder;
+  color: #ff5f5f;
+  font-size: 45px;
+  font-family: "Roboto Regular", sans-serif;
+  margin: 0;
+  font-size: 48px;
+  margin-top: 24px;
+  text-align: center;
+}
+.titleSubscribed {
+  @extend .title;
+  font-size: 64px;
+  text-align: center;
+  @include media("<tablet") {
+    font-size: 40px;
+  }
+}
+.description {
+  color: white;
+  text-shadow: 2px 2px #b3b3b3;
+  font-size: 44px;
+  font-family: "Roboto Regular", sans-serif;
+  font-weight: bold;
+  text-align: center;
+}
+.descriptionSubscription {
+  color: white;
+  text-shadow: 2px 2px #b3b3b3;
+
+  font-family: "Roboto Regular";
+  font-weight: bold;
+  text-align: center;
+  font-size: 28px;
+}
+.textArea {
+  margin: 50px auto 0;
+}
+.termsWarning {
+  text-align: center;
+  font-family: "Roboto Regular", sans-serif;
+  color: red;
+  margin: 2px;
+}
+.termsWarningContainer {
+  width: 100%;
+  height: 40px;
+}
+.roundInformation {
+  border-radius: 50%;
+  background-color: #ff5f5f;
+  color: white;
+  width: 30px;
+  height: 30px;
+}
+.textContain {
+  width: 100%;
+  margin: auto;
+  margin-bottom: 1rem;
+}
+input[type="inputNewsletter"] {
+  border-radius: 5px;
+  border: 1.5px solid #ff5f5f;
+  height: 48px !important;
+  font-family: "Roboto Regular";
+  width: 100%;
+  text-indent: 10px;
+
+  &:focus {
+    outline: 1.8px solid #ff5f5f;
+    border: 2.5px solid #ff5f5f;
+  }
+
+  &::placeholder {
+    background-color: white;
+  }
+}
+.inputArea {
+  display: flex;
+  flex-direction: column;
+  column-gap: 20px;
+  row-gap: 10px;
+  @include media("<800px") {
+    width: 100%;
+    margin: auto;
+  }
+}
+input[type="checkboxTerm"] {
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  height: 1px;
+  overflow: hidden;
+  position: absolute;
+  white-space: nowrap;
+  width: 1px;
+}
+.termsText {
+  margin-bottom: 0;
+  line-height: 12px;
+  font-size: 10px;
+  font-weight: bold;
+  text-align: start;
+  font-family: "Roboto Regular";
+  color: black;
+}
+.termArea {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 100%;
+  max-width: 500px;
+  margin: 15px 0;
+}
+
+.newsletterText {
+  line-height: 17px;
+  font-family: "Roboto Regular";
+  font-weight: 300;
+  font-weight: bolder;
+  font-size: 15px;
+  text-align: center;
+}
+.iconInfo {
+  margin-bottom: 20px;
+}
+.newsSubscribeButton {
+  width: 100%;
+  height: 56px;
+  background-color: #ff5f5f;
+  border-radius: 2px;
+  color: white;
+  font-weight: 500;
+  border: none;
+  margin-top: 20px;
+  font-family: "Roboto Regular";
+
+  @include media("<800px") {
+    color: white;
+    border: #ff5f5f 2px solid;
+    font-weight: bold;
+    margin: 20px auto !important;
+  }
+}
+.invalidEmail {
+  border: 3px solid red !important;
+}
+.invalidEmail:focus {
+  border: 2px solid red !important;
+  outline: 2px solid red !important;
+}
+
+@keyframes slowlyFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+.backDrops {
+  width: 100%;
+  height: 100vh;
+  position: fixed;
+  z-index: 300;
+  background-color: rgba(0, 0, 0, 0.527);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  top: 0px;
+  left: 0px;
+}
+.closePop {
+  @include media("<800px") {
+    right: 10vw;
+    height: 30px;
+    width: 30px;
+    background-color: #ff5f5f;
+    border-radius: 50%;
+    position: absolute;
+    top: 20px;
+    z-index: 1000;
+    color: white;
+    font-weight: bolder;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+  }
+}

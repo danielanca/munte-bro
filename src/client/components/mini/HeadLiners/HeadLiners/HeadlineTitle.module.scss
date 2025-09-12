@@ -1,0 +1,17 @@
+.banner {
+  width: 100%;
+  height: 100px;
+  background-color: black;
+  display: flex;
+  align-items: center;
+  @include media('<tablet') {
+    height: 54px;
+  }
+}
+.titleBanner {
+  color: white;
+  font-size: clamp(31px, 10vw, 40px);
+  font-size: 1.4rem;
+  margin-bottom: 0;
+  text-transform: uppercase;
+}

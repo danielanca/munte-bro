@@ -1,0 +1,112 @@
+
+
+.questionCard {
+  width: 960px;
+  height: 72px;
+  max-height: 200px;
+  border-radius: 0px 4px 15px 16px;
+  box-shadow: 0px 4px 50px rgb(255 0 0 / 7%);
+  border: 3px solid #ea4134;
+  display: block;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 0px 20px;
+
+  overflow: hidden;
+  height: auto;
+
+  transition: all ease-in-out 0.2s;
+  -webkit-transition: all ease-in-out 0.2s;
+  -moz-transition: all ease-in-out 0.2s;
+  -o-transition: all ease-in-out 0.2s;
+
+  @include media("<tablet") {
+    width: 93vw;
+  }
+  @include media(">=tablet", "<desktop") {
+    width: 86vw;
+  }
+}
+.collapsed {
+  @extend .questionCard;
+  max-height: 70px;
+}
+.maximizeWindow {
+  height: 150px;
+}
+.pinkArrowDown {
+  width: 17.5px;
+}
+.answerArea {
+  margin-bottom: 20px;
+  margin-top: 8px;
+
+  p {
+    font-family: "Roboto Medium";
+    color: #ea4134;
+    font-weight: bolder;
+  }
+}
+.questionText {
+  font-family: "Roboto Medium";
+  margin: 0;
+  text-align: start;
+  margin-right: 45px;
+}
+.primaryLine {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+  height: 64px;
+  margin-top: 2px;
+  p {
+    font-weight: 500;
+  }
+  // @include media("<tablet") {
+  //   p {
+  //     font-size: 14px;
+  //     line-height: 13px;
+  //   }
+  // }
+}
+@keyframes slowlyFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes slowlyFadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+.extendedLine {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  opacity: 0;
+  text-align: start;
+  // @include media("<tablet") {
+  //   margin-top: 10px;
+  // }
+}
+.activePop {
+  @extend .extendedLine;
+  animation: slowlyFadeIn;
+  animation-duration: 1s;
+  opacity: 1;
+}
+.inactivePop {
+  @extend .extendedLine;
+  animation: slowlyFadeOut;
+  animation-duration: 0.3s;
+}
+.detailsPadder {
+  width: 30px;
+}

@@ -1,0 +1,275 @@
+{
+  "websiteTitle": "DinIubire.Ro",
+  "loadingData": "Loading data...",
+  "DiscoverOurProducts": {
+    "title": "DinIubire.Ro",
+    "textSmall": "amintire pentru totdeauna"
+  },
+
+  "GrayPromotion": {
+    "text": "Un moment durează <strong> câteva secunde</strong>, dar amintirile rămân pentru totdeauna. - Lori Robinson"
+  },
+  "ProduseleNoastre": {
+    "title": "Produse",
+    "metaDescription": "Lista produse DinIubire.Ro"
+  },
+  "socialsInfo": {
+    "socialLinks": {
+      "instagram": { "link": "https://instagram.com/DinIubire.Ro", "image": "instagram" },
+      "facebook": { "link": "https://facebook.com/DinIubire.Ro", "image": "facebook" },
+      "whatsapp": { "link": "https://whatsapp.com/DinIubire.Ro", "image": "whatsapp" }
+    }
+  },
+  "navMenu": {
+    "ourProducts": { "name": "Produse", "link": "/produsele-noastre" },
+    "aboutUs": { "name": "Despre noi", "link": "/produsele-noastre" },
+    "blog": { "name": "Blog", "link": "/blogs" },
+    "middleNOUI": { "name": "middle" },
+    "intrebariFrecvente": { "name": "Intrebari frecvente", "link": "/intrebari" },
+    "testimonials": { "name": "Testimoniale", "link": "/testimonials", "hide": "true" },
+    "contactUs": { "name": "Contact", "link": "/contact" }
+  },
+  "navMenuMobile": {
+    "ourProducts": {
+      "title": "PRODUSE",
+
+      "ulItems": {
+        "one": {
+          "title": "Kituri mulaj",
+          "link": "/produsele-noastre"
+        }
+      }
+    },
+
+    "blog": {
+      "title": "Blog",
+      "link": "/blogs"
+    },
+    "intrebari-frecvente": {
+      "title": "Intrebari",
+      "link": "/intrebari"
+    }
+  },
+  "cart": {
+    "title": "Cosul meu",
+    "link": "/cosulmeu",
+    "congratsMessage": "A fost adaugat cu succes in cosul tau de cumparaturi!"
+  },
+
+  "legal": {
+    "termsConditions": {
+      "title": "Termeni si Conditii",
+      "jsonContent": " <h3 class=\"middleText\"> Condiții generale: </h3> \n"
+    }
+  },
+  "rawCSS": {
+    "plainCSS": " <style> </style>"
+  },
+
+  "productDescription": {
+    "vitaminC": {
+      "text": "<b>VITAMINA C</b><br> luminează petele post-acneice sau hiperpigmentare",
+      "image": "vitaminaC"
+    },
+    "argila": { "text": "<b>ARGILA</b><br> desfundă și micșorează porii, oferind pielii matifiere", "image": "argila" },
+    "carbon": { "text": " <b>Carbunele activ</b><br> asigură o exfoliere blândă", "image": "carbon" }
+  },
+
+  "companyData": {
+    "name": "ANCA DANIEL-EMANUEL PERSOANA FIZICA AUTORIZATA",
+    "number": "45044473",
+    "fiscal": "F12/2218/12.10.2021",
+    "address": "str. Plopilor nr.3 loc. Turda, Cluj",
+    "phoneNumber": "0745 469 907"
+  },
+
+  "footerText": {
+    "headLines": {
+      "links": "Link-uri utile",
+      "commercialData": "Date comerciale",
+      "ourShop": "Magazinul nostru",
+      "bottomMadeBy": "Făcut cu ❤️ in Romania"
+    }
+  },
+
+  "orderFinishPage": {
+    "finishGuide": "Finalizeaza comanda",
+    "deliveringInfor": "Pregatim comanda de indata, ne mai lipsesc datele de livrare",
+    "invoiceDetails": "Detalii livrare",
+    "inputsLabels": {
+      "lastName": "Nume",
+      "firstName": "Prenume",
+      "deliveryAddress": "Strada",
+      "city": "Oras",
+      "phoneNo": "Telefon",
+      "emailAddress": "Email [pentru Easybox este necesar sa primiti informatii]",
+      "orderMentions": "Note comandă [opțional]",
+      "lockerDelivery": "Scrie numele easybox-ului și orasul"
+    },
+
+    "totals": {
+      "product": "Produs",
+      "total": "Total",
+      "subTotal": "Subtotal",
+      "currency": "RON",
+      "TVAincluded": "",
+      "transport": "Transport"
+    },
+    "shipping": {
+      "estimation": "Livrarea produselor se va face in 24-48 ore",
+      "paymentMethod": "Metoda de plata",
+      "paymentMethodOptions": {
+        "cash": "Numerar",
+        "card": "Card",
+        "transfer": "Transfer bancar"
+      },
+      "deliveryMethods": {
+        "courierDelivery": "Livrare_CURIER",
+        "easyboxDelivery": "Easybox"
+      },
+      "paymentMethodError": "Nu ati selectat metoda de plata!",
+      "inputError": "Verificati datele introduse. Completarea spatilor cu * bulina sunt obligatorii"
+    },
+    "policyAgreementOrder": "Datele dumneavoastre personale vor fi folosite pentru a vă procesa comanda, pentru a vă susține experiența pe tot acest site web și pentru alte scopuri descrise în ",
+    "policyAgremenet": {
+      "name": "politica de confidentialitate",
+      "link": "/politica-confidentialitate",
+      "constent": {
+        "confirm": "Am citit și sunt de acord cu termenii și condiții site-ului web ",
+        "error": "Trebuie sa fiti de-acord cu termenii si conditiile pentru a plasa comanda!"
+      }
+    },
+    "orderItself": {
+      "sendFinishOrder": {
+        "nameButton": "Trimite comanda",
+        "pendingMessage": "Se trimite comanda..."
+      }
+    },
+    "infomessage": "Daca comanda nu s-a plasat, sunati-ne la 0745469907 sau trimiteti-ne mesaj SMS/whatsapp"
+  },
+
+  "blogsArea": {
+    "blogTitle": "Blog",
+    "blogSubtitle": "Afla informatii noi!",
+    "blogLink": "/blogs",
+    "blogURLSuffix": "blogid",
+    "blogsInner": {
+      "similarPosts": "Postari similare",
+      "readArticle": "Citeste mai mult..."
+    }
+  },
+
+  "testimonialsArea": {
+    "title": "Testimoniale",
+    "descriptionIntroduction": "Afla parerea clientilor despre produsele DinIubire.Ro!"
+  },
+
+  "orderView": {
+    "product": "Produs",
+    "unit": "buc",
+    "pricePerUnit": "Pret bucata",
+    "currency": "RON",
+    "subtotal": "Subtotal",
+    "shippingTax": "Taxa transport",
+    "total": "Total",
+
+    "clientSide": {
+      "title": "Client",
+      "name": "Nume",
+      "order": "Comanda",
+      "phone": "Telefon",
+      "date": "Data",
+      "paymentMethod": "Metoda de plata"
+    },
+    "ownerSide": {
+      "title": "Magazin",
+      "companyName": "ANCA DANIEL EMANUEL PFA",
+      "fiscal": "F12/2218/12.10.2021",
+      "number": "45044473",
+      "address": "str. Plopilor nr.3 loc. Turda, Cluj "
+    },
+
+    "thankYouMessage": {
+      "title": "Multumim pentru incredere!",
+      "author": "Echipa DinIubire.Ro "
+    }
+  },
+
+  "ProductPreview": {
+    "callActionForReview": "Scrie un review",
+
+    "addToCartText": "Adauga in cos",
+    "uploadminialbum": "Incarca pozele",
+    "miniuploaded": "Poze incarcate"    
+  },
+  "NotExistingProduct": {
+    "warningHeadline": "PRODUS INEXISTENT !",
+    "productNotFound": "Din pacate nu am gasit produsul."
+  },
+  "ProductItem": {
+    "SeeProduct": "Vezi produs",
+    "Currency": "RON"
+  },
+  "MyCart": {
+    "quantity": "Cantitate",
+    "product": "Produse",
+    "finishOrder": { "text": "Finalizeaza comanda", "link": "/finalizare-comanda" },
+    "cartShopping": "Cos de cumparaturi",
+    "emptyCart": "Cosul de cumparaturi este gol",
+    "totalCart": "Total Cos",
+    "subTotal": "Subtotal",
+    "shippingTax": "Taxa transport",
+    "total": "Total",
+    "sendingInfo": "Livrare standard prin SameDay",
+    "VATincluded": "LEI (Taxe incluse)",
+    "currency": "RON"
+  },
+
+  "OrderDone": {
+    "title": "Comanda a fost inregistrată!😃",
+    "subtitle": "Pregatim coletul! <strong> Va multumim! </strong>",
+    "goHome": "Spre pagina principala"
+  },
+
+  "NewsletterTermsAccept": {
+    "subscribeConsent": "Sunt de acord cu preluarea datelor cu caracter personal pentru a primi oferte personalizate",
+    "SubscribeMe": "Ma abonez",
+    "warningConsent": "Trebuie sa fiti de acord cu prelucrarea datelor dvs.",
+    "detailsWarning": "Datele pentru abonare trebuie sa fie valide!"
+  },
+
+  "NewsletterSection": {
+    "title": "Newsletter",
+    "subscribeCall": "Aboneaza-te la Newsletter-ul nostru si fii la curent cu noile promotii!",
+    "subscribeMe": "MĂ ABONEZ"
+  },
+
+  "BrandDetailsStr": {
+    "title": "DinIubire.Ro - cream amintiri impreuna",
+    "description": "Psihologul William James spunea, <br> <i>'Mergi in viata cu un zambet pe fata si cu un scop maret in inima'.</i><br> Noi avem deja unul, <br>sa va ajutam sa creati momente cu cei dragi,<br> pentru totdeauna."
+  },
+
+  "FAQ": {
+    "topText": "FAQ",
+    "bottomText": "Intrebari frecvente",
+    "questionList": {
+      "questionOne": {
+        "question": "In cat timp soseste kit-ul?",
+        "answer": "Coletul ajunge de obicei la client in 1-2 zile din momentul plasarii comenzii."
+      },
+      "questionTwo": {
+        "question": "Este complicat realizarea unui mulaj ?",
+        "answer": "In kit-ul de mulaj sunt incluse atat insutrctiuni pe foaie, dar si VIDEO. Veti primi pe hartie un link pe care trebuie sa-l accesati ca sa vizionati instructiunile video. Instructiunile sunt realizate pas cu pas, in asa fel incat sa puteti parcurge toti pasii fara nici o problema, bucurandu-va in final de mulajul mainilor voastre."
+      },
+      "questionThree": {
+        "question": "Ce inseamna Garantie 100 % Retur la produse?",
+        "answer": " Oferim clientilor nostri dreptul de a returna kit-ul, chiar daca l-ati deschis, si ati realizat mulajul. Returnati tot kit-ul folosit, iar noi va vom returna suma de bani pentru produs, prin metoda de plata selectat initial la comanda."
+      }
+    }
+  },
+  "invoiceTemplate": {
+    "headerTextInvoice": "DinIubire.Ro ",
+    "thankYouMessage": "Va multumim de comanda!",
+    "authorSignature": "DinIubire.Ro"
+  }
+}
