@@ -1,3 +1,5 @@
+import strings from "./strings.json";
+
 export const componentStrings = {
   FinishOrder: {
     countyList: {
@@ -42,15 +44,15 @@ export const componentStrings = {
       39: "Tulcea",
       40: "Valcea",
       41: "Vaslui",
-      42: "Vrancea"
+      42: "Vrancee"
     }
   },
 
   companyData: {
-    name: "RUS L. EMIL CRISTIAN INTREPRINDERE INDIVIDUALA",
-    number: "41030416",
-    fiscal: "F12/696/23.04.2019",
-    address: "str. LIVIU REBREANU loc. Turda, Cluj"
+    name: strings.companyData.name,
+    number: strings.companyData.number,
+    fiscal: strings.companyData.fiscal,
+    address: strings.companyData.address
   }
 };
 
@@ -72,26 +74,26 @@ export const footerData = {
   },
 
   companyData: {
-    name: "ANCA DANIEL-EMANUEL P.F.A.",
-    number: "45044473",
-    fiscal: "F12/2218/12.10.2021",
-    address: "str. Plopilor loc. Turda, Cluj"
+    name: strings.companyData.name,
+    number: strings.companyData.number,
+    fiscal: strings.companyData.fiscal,
+    address: strings.companyData.address
   },
 
   ourShop: {
     affiliate: {
-      name: "Politica Confidentialitate",
-      link: "/politica-confidentialitate"
+      name: "Program Afiliere",
+      link: "/afiliere"
     },
     paymentMethods: {
-      name: "Politica de livrare & retur",
+      name: "Politica de retur",
       link: "/politica-retur"
     },
     onlineDispute: {
       name: "Politica de Cookies",
       link: "/politica-de-cookies"
     },
-    anpc: { name: "Contact", link: "/contact" }
+    anpc: { name: "Scrie-ne !", link: "/contact" }
   }
 };
 
@@ -104,20 +106,20 @@ export const cookieConsent = {
 };
 
 export const productConstants = {
-  shippingFee: 12
+  shippingFee: 9
 };
 
 export const websiteContact = {
-  email: "diniubire.ro@gmail.com",
+  email: "montanair.ro@gmail.com",
   socials: {
-    instagram: "https://www.instagram.com/diniubire.ro/",
-
+    instagram: "https://www.instagram.com/montanair.ro/",
+    facebook: "https://www.facebook.com/montanair.ro/",
     whatsapp: "https://wa.me/40745469907"
   }
 };
 
 export const TopBannerPromotional = {
-  text: `Transport ${productConstants.shippingFee} lei  `
+  text: "Transport Gratuit la comenzi <wbr> peste 130 LEI "
 };
 
 export const newsletter = {
