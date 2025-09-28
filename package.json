@@ -12,8 +12,11 @@
   "scripts": {
     "clean-modules": "rimraf node_modules",
     "reinstall": "npm run clean-modules && npm install",
-    "killport": "fuser -k 7466/tcp",
-    "restart": "npm run killport && npm run start",
+    "kill:port:app": "bash -lc 'lsof -ti :7466 | xargs -r kill -9' || true",
+    "kill:port:hmr": "bash -lc 'lsof -ti :24678 | xargs -r kill -9' || true",
+
+    "restart:server": "npm run kill:port:hmr && npm run kill:port:app && npm run dev:server",
+
     "build-and-restart": "npm run build && npm run killport && npm run start",
     "dev:server": "tsx server.ts",
     "dev:client": "npm run build:client && vite --config vite.config.ts dev",
