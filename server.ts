@@ -144,7 +144,7 @@ async function createServer(isProd = process.env.NODE_ENV === "production") {
     }
   });
 
-  const port = process.env.PORT || 7456;
+  const port = process.env.PORT || 7466;
   if (process.env.USE_HTTPS === "true") {
     const options = {
       key: fs.readFileSync(resolve("certs/diniubire.ro.key")),
