@@ -1,7 +1,16 @@
-@import "../../../node_modules/include-media/dist/include-media";
+// src/client/styles/_mixins.scss
 
-@import './grid-mixins';
-$breakpoints: (
-  tablet: 576px,
-  desktop: 992px
+// Configure include-media with your custom breakpoints:
+@use "include-media" as im with (
+  $breakpoints: (
+    tablet: 576px,
+    desktop: 992px
+  )
 );
+
+// your own mixins (same folder)
+@use "./grid-mixins";
+
+// EXAMPLE usage:
+// @include im.media(">=tablet") { /* styles */ }
+// @include im.media("<desktop") { /* styles */ }
