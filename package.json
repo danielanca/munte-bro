@@ -12,7 +12,7 @@
   "scripts": {
     "clean-modules": "rimraf node_modules",
     "reinstall": "npm run clean-modules && npm install",
-    "killport": "fuser -k 7456/tcp",
+    "killport": "fuser -k 7466/tcp",
     "restart": "npm run killport && npm run start",
     "build-and-restart": "npm run build && npm run killport && npm run start",
     "dev:server": "tsx server.ts",
