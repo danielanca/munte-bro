@@ -1,11 +1,15 @@
+@import "../../../../main.module.scss";
+
+@import "../../data/themes.scss";
 
 
 .blockContainer {
-  @include row;
+  @extend .row;
   width: 100%;
   height: auto;
-  background-color: white;
+  background-color: map-get($map: $colors, $key: whitePure);
   display: flex;
+  justify-content: center;
   @include media("<tablet") {
     margin: 0;
   }

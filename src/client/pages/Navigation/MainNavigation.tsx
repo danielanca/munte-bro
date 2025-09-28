@@ -1,26 +1,38 @@
-import React from "react";
-import HelloAll from '../../components/HelloAll/HelloAll';
-import ProductsGallery from '../../components/SuggestedProducts/ProductsGallery';
-import FeaturedProduct from "../../components/FeaturedProduct/FeaturedProduct";
-import BrandDetails from "../../components/Products/BrandDetails";
+import React, { useEffect, useState } from "react";
 
-import { useProducts } from "../../components/hooks/hooks/useProducts";
-import FeaturedText from '../../components/Products/FeaturedText';
-import GrayBanner from '../../components/mini/HeadLiners/HeadLiners/GrayBanner';
-import strings from './../../data/strings.json';
-import featuredProducts from '../../data/featuredProducts.json';
+import strings from "./../../data/strings.json";
+import FeaturedProductNew from "../../components/FeaturedProduct/FeaturedProductNew";
+import { ProductListType } from "../../utils/OrderInterfaces";
+import { ProductsFromSessionStorage } from "../../data/constants";
+import { getData } from "../../data/productList";
+import ProductsGallery from "../../components/SuggestedProducts/ProductsGallery";
+import FeaturedTextNew from "../../components/Products/FeaturedTextNew";
+import GrayBanner from "../../components/mini/HeadLiners/HeadLiners/GrayBanner";
+import HelloAllNew from "../../components/HelloAll/HelloAllNew";
 
 const MainNavigation = () => {
-  let { DiscoverOurProducts, GrayPromotion } = strings;
-  const products = useProducts();
+  let {  GrayPromotion } = strings;
+
+  const [products, setProducts] = useState<ProductListType[] | null>(null);
+  let productsFromSession = sessionStorage.getItem(ProductsFromSessionStorage);
+
+  useEffect(() => {
+    if (productsFromSession != null) {
+      setProducts(JSON.parse(productsFromSession));
+    } else {
+      getData().then(finalData => {
+        setProducts(JSON.parse(JSON.stringify(finalData)));
+      });
+    }
+  }, [productsFromSession]);
 
   return (
     <>
-      <HelloAll />
-      <FeaturedProduct content={featuredProducts.featuredProducts.firstSapun} />
-      <BrandDetails />
-      <FeaturedText text={DiscoverOurProducts} />
+      <HelloAllNew />
+      <FeaturedProductNew />
       <ProductsGallery productsToShow={products} />
+
+      <FeaturedTextNew />
       <GrayBanner text={GrayPromotion.text} />
     </>
   );

@@ -1,0 +1,81 @@
+@import "../../../../node_modules/include-media/dist/include-media";
+@import "../../../../node_modules//bootstrap/scss//bootstrap.scss";
+
+@import "./../../../main.module.scss";
+
+.ingredientsContainer {
+  width: 100%;
+  height: 258px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  column-gap: 43px;
+  padding: 12px;
+  margin: 2% 0;
+  @include media("<tablet") {
+    column-gap: 0px;
+    grid-column-gap: 0px;
+  }
+}
+.iconImage {
+  width: 80px;
+  height: 80px;
+}
+
+.textWrap {
+  height: 90px;
+
+  @include media("<tablet") {
+    height: 54px;
+    padding: 5%;
+  }
+  p {
+    line-height: 17px;
+  }
+}
+.productList {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  max-width: 110px;
+}
+.titleText {
+  font-weight: bolder;
+  margin: 0;
+}
+.titleWrap {
+  height: 50px;
+  @include media("<tablet") {
+    height: 33px;
+  }
+}
+.textArea {
+  max-width: 200px;
+  font-family: "Roboto Medium";
+  margin: 0;
+  line-height: 18px;
+  p {
+    text-align: center;
+    line-height: 21px;
+    font-family: "Roboto Medium";
+    margin: 0;
+    @include media("<tablet") {
+      margin: 0;
+      line-height: 14px;
+    }
+
+    b {
+      font-family: "Roboto Medium";
+    }
+  }
+
+  @include media("<tablet") {
+    text-align: center;
+
+    font-family: "Roboto Medium";
+    font-size: 11px;
+    margin: 0;
+  }
+}

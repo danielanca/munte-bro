@@ -1,0 +1,234 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap");
+
+.parentContainer {
+  margin: auto;
+  width: 80%;
+  max-width: 1920px;
+  min-height: 800px;
+}
+
+.container {
+  border-radius: 0.625rem;
+  padding-top: 2%;
+  padding-bottom: 2%;
+  background: #fff;
+  box-shadow: 0px 0px 60px 30px rgba(0, 0, 0, 0.03);
+  margin-top: 100px;
+  margin-bottom: 100px;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.leftContainer {
+  width: 45%;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  // width: 100%;
+  height: 55rem;
+  color: white;
+  padding-left: 3%;
+  padding-right: 10%;
+  display: flex;
+  flex-direction: column;
+  // align-items: center;
+  justify-content: space-around;
+  // justify-content: center;
+  font-size: 23px;
+}
+
+.rightContainer {
+  width: 55%;
+}
+
+.mainHeading {
+  color: #fff;
+  font-family: "Poppins", sans-serif;
+  font-size: 1.75rem;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+}
+
+.sloganText {
+  color: #c9c9c9;
+  font-family: "Poppins", sans-serif;
+  font-size: 1.125rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+
+.callNumber {
+  color: #fff;
+  font-family: "Poppins", sans-serif;
+  font-size: 1rem;
+  font-style: normal;
+  font-weight: 400;
+  margin: 0;
+}
+
+.numberContainer {
+  margin-bottom: 20px;
+  display: flex;
+  // align-items: center;
+}
+
+.icons {
+  margin-right: 10px;
+  font-size: 30px;
+}
+
+.iconsEmail {
+  margin-right: 20px;
+  font-size: 20px;
+}
+
+.bottomIcon {
+  width: 50px;
+  height: 50px;
+  border-radius: 100%;
+  margin-right: 20px;
+  background-color: #264065;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.leftSubLast {
+  display: flex;
+}
+
+.bottomIconSelf {
+  color: #fff;
+}
+
+.prenume {
+  width: 70%;
+}
+
+.nume {
+  width: 48%;
+  outline: none;
+}
+
+.nume:focus {
+  outline: none;
+}
+
+input {
+  border: none;
+  border-bottom: 1px solid black;
+  height: 50px;
+  outline: none;
+  font-size: 35px;
+}
+
+.nameInputContainer {
+  margin-top: 50px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+.inputParent {
+  width: 40%;
+  display: flex;
+  flex-direction: column;
+}
+
+.nameInput {
+  margin-right: 50px;
+}
+
+.mesajInputParent {
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+}
+
+.trimiteMesajButtonParent {
+  width: 90%;
+  margin: auto;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.trimiteMesajButton {
+  margin-top: 5%;
+  border-radius: 0.3125rem;
+  background: #588157;
+  box-shadow: 0px 0px 14px 0px rgba(0, 0, 0, 0.12);
+  border: none;
+  height: 60px;
+  width: 150px;
+
+  color: #fff;
+  text-align: center;
+  font-family: "Poppins", sans-serif;
+  font-size: 1rem;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+}
+
+// .mesaj{
+//     width: 40%;
+// }
+
+@media screen and (max-width: 1400px) {
+  .parentContainer {
+    width: 90%;
+  }
+}
+
+@media screen and (max-width: 1050px) {
+  .parentContainer {
+    width: 95%;
+  }
+}
+
+@media screen and (max-width: 992px) {
+  .leftContainer {
+    width: 80%;
+    margin: auto;
+  }
+  .rightContainer {
+    width: 80%;
+    margin: auto;
+  }
+}
+
+@media screen and (max-width: 576px) {
+  .leftContainer {
+    width: 97%;
+    margin: auto;
+  }
+  .rightContainer {
+    width: 97%;
+    margin: auto;
+  }
+
+  .inputParent {
+    width: 90%;
+    margin-bottom: 20px;
+  }
+
+  .nameInputContainer {
+    margin-top: 0;
+  }
+
+  .rightContainer {
+    margin-top: 10%;
+  }
+
+  .mainHeading {
+    font-size: 1.45rem;
+    // font-weight: 500;
+  }
+
+  .container {
+    padding-bottom: 15%;
+  }
+}

@@ -1,0 +1,34 @@
+@import "./../main.module.scss";
+@import "./../data//themes.scss";
+
+.helloAll {
+  width: 100%;
+  min-height: 505px;
+  background: url("./../media/assets/pics/blocks/background_Montan.jpg");
+  max-height: 1000px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  @include media("<tablet") {
+    max-height: unset;
+    padding: 8% 0;
+  }
+}
+.helloDarker {
+  @extend .helloAll;
+
+  background: url("./../media/assets/pics/blocks/background_Montan.jpg");
+  background-color: rgba(0, 0, 0, 0.525);
+  background-blend-mode: multiply;
+}
+.featuredMessage {
+  margin: auto;
+  h3 {
+    color: black;
+    text-align: center;
+    -webkit-text-stroke: 1px black;
+    font-size: clamp(50px, 17vw, 96px);
+  }
+}

@@ -1,0 +1,40 @@
+.tabs {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 10px;
+}
+.tabButton {
+  box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
+  width: 130px;
+  border: 1.5px solid rgb(63, 63, 63);
+  text-align: center;
+  font-size: 1.3em;
+  background-color: rgb(255, 255, 255);
+  cursor: pointer;
+
+  &:hover {
+    background-color: rgb(49, 49, 49);
+    color: white;
+  }
+  &:active {
+    background-color: red;
+  }
+}
+.activeTab {
+  @extend .tabButton;
+  background-color: rgb(49, 49, 49);
+  color: white;
+}
+.descriptionContainer {
+  width: 100%;
+  height: auto;
+  min-height: 300px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  flex-direction: column;
+}
+.innerDescription {
+  padding: 10px;
+}

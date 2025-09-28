@@ -1,6 +1,7 @@
 import loadable from "@loadable/component";
 const SimpleContent = loadable(() => import("../../components/SimpleContent/SimpleContent"), { ssr: true });
 const PublicLayout = loadable(() => import("../../layouts/public/PublicLayout"), { ssr: true });
+const Contact = loadable(() => import("../../pages/Contact/Contact"), { ssr: true });
 
 import { RouteType } from "../types";
 
@@ -44,7 +45,6 @@ export const TextContentRoutes: RouteType[] = [
   {
     path: "contact",
     layout: PublicLayout,
-    component: SimpleContent,
-    props: { type: "ContactSimple" },
+    component:Contact,
   },
 ];

@@ -1,71 +1,117 @@
+@import "../../main.module.scss";
+@import "../../data/themes.scss";
 
-
-.bigBlanaBanner {
-  @include container-fluid;
-  display: flex;
-  flex-direction: row;
-  height: 45px;
-  width: 100%;
+/* Parent bar */
+.bigBlanaBannerParentContainer {
   position: relative;
-  background-color: #ea4134;
+  z-index: 10;
+  background-color: #000;
+}
+
+/* Grid makes the center truly centered: 1fr auto 1fr */
+.bigBlanaBannerContainer {
+  @extend .container-fluid;
+
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
   align-items: center;
-  justify-content: center;
-  padding: 10px 8px;
-  @include media("<tablet") {
-    flex-direction: column;
-    height: auto;
-    max-height: 70px;
-    padding: 10px 8px;
-  }
-  @include media(">=tablet", "<desktop") {
-    justify-content: space-between;
-  }
-}
-.iconStyle {
-  width: 26px;
-  height: 26px;
-  filter: invert(1);
-}
-.iconWrapper {
-  width: auto;
-  display: flex;
-  column-gap: 13px;
-  grid-column-gap: 13px;
-  cursor: pointer;
-  margin-right: 30px;
-}
-.headTitle {
-  color: whitesmoke;
-  text-align: center;
-  // font-size: clamp(13.4px, 2.2vw, 24px);
-  margin: 0;
-  text-transform: uppercase;
-  font-weight: 200;
-  font-family: "Luckiest Guy";
+  gap: 12px;
+
+  height: 45px;
+  max-width: 1400px;     /* responsive cap */
+  width: 100%;           /* remove fixed 1920px */
+  margin: 0 auto;
+  padding: 0 4%;
+
+  overflow: hidden;      /* keep text inside the bar */
+  line-height: 45px;     /* vertical align */
 
   @include media("<tablet") {
-    overflow-wrap: break-word;
+    grid-template-columns: 1fr;
+    gap: 6px;
+    height: auto;
+    line-height: 1.2;
+    padding: 8px 12px;
   }
 }
+
+/* Left: email */
 .emailTop {
-  @include col-size(3,"md");
-  font-family: "Roboto", sans-serif;
+  @extend .col-md-3;
+  font-family: "Roboto", system-ui, sans-serif;
   color: #eee6d3;
   font-weight: 900;
   font-size: 12px;
+  white-space: nowrap;
+  justify-self: start;
+
   @include media("<tablet") {
     display: none;
   }
 }
-.socialsTop {
-  @include col-size(3,"md");
-  font-family: "Roboto", sans-serif;
-  color: #eee6d3;
+
+/* Center: container ensures perfect centering and ellipsis */
+.topBannerText {
   display: flex;
-  font-weight: 900;
-  justify-content: flex-end;
+  justify-content: center;
   align-items: center;
+  min-width: 0; /* allow ellipsis */
+}
+
+/* The message: uppercase, crisp, centered */
+.headTitle {
+  color: #f5f5f5;
+  text-transform: uppercase;
+  font-family: "Roboto", system-ui, sans-serif;
+  font-weight: 600;
+  font-size: 14px;       /* will be overridden by inline style when width known */
+  letter-spacing: 0.06em;
+  margin: 0;
+  line-height: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  @include media("<tablet") {
+    font-size: 12px;
+    text-align: center;
+    white-space: normal;
+    word-break: keep-all;
+  }
+}
+
+/* Right: socials */
+.socialsTop {
+  @extend .col-md-3;
+  display: flex;
+  justify-self: end;
+  align-items: center;
+  gap: 13px;
+  color: #eee6d3;
+  font-weight: 900;
+
   @include media("<tablet") {
     display: none;
+  }
+}
+
+.iconWrapper {
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.iconStyle {
+  width: 22px;
+  height: 22px;
+  filter: invert(1);
+}
+
+/* Small screens: center content, hide email/socials (already hidden above) */
+@media screen and (max-width: 768px) {
+  .topBannerText {
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 }

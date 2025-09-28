@@ -1,48 +1,44 @@
+// ProduseleNoastre.tsx
 import React, { useEffect, useState } from "react";
-import uniqueId from "lodash/uniqueId";
-import HelmetHead from '../mini/HelmetHead/HelmetHead';
-import HeadlineTitle from "../mini/HeadLiners/HeadLiners/HeadlineTitle";
-import ProductItem from "../Products/ProductItem";
+import HelmetHead from "../MiniComponents/HelmetHead/HelmetHead";
+import ProductItemDetailsNew from "./ProductItemDetailsNew";
+import strings from "../../data/strings.json";
+import { getData } from "../../data/productList";
+import { ProductsFromSessionStorage } from "../../data/constants";
+import styles from "./ProduseleNoastre.module.scss";
 
-import { ProductsFromSessionStorage } from '../../data/constants';
-import {ProductListType} from "../../utils/OrderInterfaces";
-import styles from "../../components/OurProducts/ProduseleNoastre.module.scss";
-import strings from '../../data/strings.json';
+// import your types
+import type { ProductListType, ProductListArray } from "../../utils/OrderInterfaces";
 
 const ProduseleNoastre = () => {
-  let { ProduseleNoastre } = strings;
-  const [products, setProducts] = useState<ProductListType[] | null>(null);
-  let productsFromSession = sessionStorage.getItem(ProductsFromSessionStorage);
+  const { ProduseleNoastre } = strings;
+
+  // Allow both shapes: array or map
+  const [products, setProducts] = useState<ProductListType | ProductListArray | null>(null);
 
   useEffect(() => {
-    if (productsFromSession != null) {
-      setProducts(JSON.parse(productsFromSession));
+    const fromSession = sessionStorage.getItem(ProductsFromSessionStorage);
+    if (fromSession) {
+      setProducts(JSON.parse(fromSession)); // could be array or map
     } else {
-      const getTheInfo = async () =>{
-          const {getData} = await import('../../data/productList');
-          getData().then((finalData:any) => {
-            setProducts(JSON.parse(JSON.stringify(finalData)));
-          });
-      }
-      getTheInfo();
+      getData().then((finalData) => {
+        // getData() often returns a map; keep as-is
+        setProducts(finalData as ProductListType);
+      });
     }
-  }, [productsFromSession]);
+    // NOTE: don’t put fromSession in deps; you only want to run this on mount
+  }, []);
 
   return (
     <>
       <HelmetHead title={ProduseleNoastre.title} description={ProduseleNoastre.metaDescription} />
-
-      <HeadlineTitle title={ProduseleNoastre.title} />
       <div className={styles.blockContainer}>
-        <div className={styles.productList}>
-          {products != null
-            ? Object.values(products).map((item: ProductListType) => (
-                <ProductItem key={uniqueId()} productObject={item} />
-              ))
-            : strings.loadingData}
+        <div>
+          <ProductItemDetailsNew productData={products} />
         </div>
       </div>
     </>
   );
 };
+
 export default ProduseleNoastre;

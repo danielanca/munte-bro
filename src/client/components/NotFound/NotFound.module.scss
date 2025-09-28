@@ -1,0 +1,63 @@
+@import "../../main.module.scss";
+@import "../../data//themes.scss";
+
+.NotFoundContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.titleNoFound {
+  font-size: 30px;
+}
+.coalCartoon {
+  width: auto;
+  height: 200px;
+}
+
+.carbunelWrap {
+  margin-top: 30px;
+  margin-bottom: 40px;
+  padding: 20px 5%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+
+  .messageWrap {
+    max-width: 500px;
+    @include media("<tablet") {
+      max-width: 300px;
+    }
+    .title {
+      text-align: center;
+      margin-top: 10px;
+      font-size: 24px;
+      @include media("<tablet") {
+        font-size: 16px;
+      }
+    }
+    h2 {
+      font-family: "Roboto";
+      text-align: center;
+      font-size: 24px;
+      @include media("<tablet") {
+        font-size: 16px;
+      }
+    }
+  }
+
+  button {
+    outline: none;
+    border: none;
+    background-color: #00ac10;
+    width: 200px;
+    color: white;
+    border-radius: 2px;
+    height: 45px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
+    font-size: 13px;
+    font-weight: bolder;
+  }
+}

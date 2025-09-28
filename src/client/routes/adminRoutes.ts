@@ -18,7 +18,7 @@ const Analytics = loadable(() => import("../AdminDashboard/pages/Analytics"), { 
 const BlankPage = loadable(() => import("../AdminDashboard/pages/BlankPage"), { ssr: true });
 const Login = loadable(() => import("../AdminDashboard/components/login/Login"), { ssr: true });
 const AdminSignup = loadable(() => import("../AdminDashboard/components/auth/signup/Signup"), { ssr: true });
-const NotFound = loadable(() => import("../AdminDashboard/pages/NotFound"), { ssr: true });
+const NotFound = loadable(() => import("../components/NotFound/NotFound"), { ssr: true });
 const VideoUpload = loadable(() => import("../pages/Instructions/VideoUpload"), { ssr: true });
 
 

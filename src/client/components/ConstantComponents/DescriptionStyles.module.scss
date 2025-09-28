@@ -1,0 +1,92 @@
+@import "./../../main.module.scss";
+@import "./../../data//themes.scss";
+
+@import url('https://fonts.googleapis.com/css2?family=Red+Rose:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
+
+.commentsArea {
+  margin-top: 20px;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  // background-color: #f7f2f2;
+}
+.text {
+  font-family: "Open Sans Regular", Georgia, Times, "Times New Roman", serif;
+  line-height: 21px;
+  text-align: center;
+  padding: 0 12vw;
+}
+.bold {
+  font-family: "Open Sans Regular", Georgia, Times, "Times New Roman", serif;
+  font-weight: bolder;
+}
+.imagePic {
+  @include media("<tablet") {
+    width: 300px;
+  }
+  width: 60%;
+  height: auto;
+  display: table;
+  margin: auto;
+}
+.padder {
+  width: 70%;
+  margin-top: 10px;
+  margin-bottom: 20px;
+  display: table;
+  margin: auto;
+}
+.centerText {
+  text-align: center;
+}
+.innerDescription {
+  // min-height: 600px;
+  width: 100%;
+  color: #3A5A40;
+  font-family: "Montserrat", sans-serif;
+  font-size: 1rem;
+  font-style: normal;
+  font-weight: 300;
+  line-height: 21px;
+  white-space: pre-line;
+}
+
+.title {  
+  color: #3A5A40;
+  font-family: "Red Rose", sans-serif;
+  font-size: 2.25rem;
+  font-style: normal;
+  font-weight: 300;
+  line-height: normal;
+  cursor: default;
+}
+
+.parentContainer{
+  width: 60%;
+  margin: auto !important;
+  margin-top: 8% !important;
+}
+
+
+@media screen and (max-width: 992px) {
+  .parentContainer{
+    width: 75%;
+    margin: auto !important;
+  }
+}
+
+@media screen and (max-width: 576px) {
+  .parentContainer{
+    width: 80%;
+    margin: auto !important;
+  }
+
+  .title{
+    font-size: 1.5rem;
+    font-weight: 400;
+  }
+}

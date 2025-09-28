@@ -1,0 +1,9 @@
+@import "../../node_modules/include-media/dist/include-media";
+@import "../../node_modules/bootstrap/scss/bootstrap.scss";
+
+@import "./data//themes.scss";
+/* responsive declarations*/
+$breakpoints: (
+  tablet: 576px,
+  desktop: 992px
+);

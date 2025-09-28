@@ -1,20 +1,30 @@
-import React from "react";
+import React, { useState } from "react";
 import styles from "./ProductsGallery.module.scss";
-import ProductItem from "../Products/ProductItem";
-import uniqueId from "lodash/uniqueId";
+import ProductItemNew from "./ProductItemNew";
 
-interface ProductsGalleryProps {
-  productsToShow: {};
+interface ProductsDict {
+  [key: string]: any; // you can replace `any` with your ProductListItem later
 }
 
-const ProductsGallery = ({ productsToShow }: ProductsGalleryProps) => {
+interface ProductsGalleryProps {
+  productsToShow: ProductsDict | null;
+}
+
+const ProductsGallery: React.FC<ProductsGalleryProps> = ({ productsToShow }) => {
+  const [rating, setRating] = useState<number>(0);
+
+  const handleRatingChange = (newRating: number) => {
+    setRating(newRating);
+    console.log("New rating:", newRating);
+  };
+
   return (
     <div className={styles.blockContainer}>
-      <div className={styles.productList}>
-        {productsToShow != null
-          ? Object.values(productsToShow).map((item) => <ProductItem key={uniqueId()} productObject={item} />)
-          : "loading data..."}
-      </div>
+      <ProductItemNew
+        realProductsToShow={productsToShow}
+        rating={rating}
+        changeRating={handleRatingChange}
+      />
     </div>
   );
 };

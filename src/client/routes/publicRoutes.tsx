@@ -5,7 +5,7 @@ const FAQBlock = loadable(() => import("../pages/FAQ/FAQBlock"), { ssr: true });
 const PublicLayout = loadable(() => import("../layouts/public/PublicLayout"), { ssr: true });
 
 const ProduseleNoastre = loadable(() => import("../components/OurProducts/ProduseleNoastre"), { ssr: true });
-const ProductView = loadable(() => import("../components/mini/Product/ProductView"), { ssr: true });
+const ProductView = loadable(() => import("../components/Product/ProductView"), { ssr: true });
 const FinishOrder = loadable(() => import("../components/CartPage/FinishOrder"), { ssr: true });
 const Thankyou = loadable(() => import("../components/CartPage/OrderDone"), { ssr: true });
 const Blogs = loadable(() => import("../components/mini/ConstantComponents/Blogs"), { ssr: true });
@@ -17,18 +17,13 @@ const VideoInstructionsSupliment = loadable(
   () => import("../components/VideoInstructions/VideoInstructionsSupliment"),
   { ssr: true }
 );
-const Instructions = loadable(() => import("../pages/Instructions/Instructions"), { ssr: true });
-const Instructionsnew = loadable(() => import("../pages/InstructionsNew/Instructions"), { ssr: true });
-const MoonConfigurator = loadable(() => import("../components/configurator/MoonConfigurator/MoonConfigurator"), {
-  ssr: true,
-});
+const Desprenoi = loadable(() => import("../blocks/Desprenoi"), { ssr: true });
+
 
 import { TextContentRoutes } from "./contentRoutes/contentRoutes";
 import { RouteType } from "./types";
-import { CartInfoItemCookie } from "../data/constants";
 
 
-import ThreeJSBackground from "../components/configurator/Design/DefaultBackground/DefaultBackground";
 
 const clearNotification = () => {
   console.log("Notifications cleared!");
@@ -100,18 +95,12 @@ const publicRoutes: RouteType[] = [
     component: VideoInstructionsSupliment,
   },
   {
-    path: "/instructiuni",
-    component: Instructionsnew,
-  },
-  {
-    path: "configurator/moon",
-    component: MoonConfigurator,
-  },
-  {
-    path: "/frame",
-    component: ThreeJSBackground,
-  },
+    path: "//desprenoi",
+        layout: PublicLayout,
 
+    component: Desprenoi,
+  },
+ 
   ...TextContentRoutes,
 ];
 

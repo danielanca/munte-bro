@@ -1,0 +1,589 @@
+@import "./../../main.module.scss";
+@import "./../../data/themes.scss";
+
+.CartSection {
+  // width: 65%;
+  width: 100%;
+  height: auto;
+  min-height: 300px;
+  // background-color: #f8f8f8;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.cartLine {
+  height: 4px;
+  background-color: rgba(0, 0, 0, 0.4);
+  margin: 10px;
+  width: clamp(30px, 17vw, 65px);
+}
+
+.topTitle {
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+  color: rgba(0, 0, 0, 0.4);
+  width: 100%;
+  font-family: "Roboto Medium";
+  align-items: center;
+}
+.finishOrder {
+  font-family: "Roboto Medium";
+  background-color: rgb(0, 170, 0);
+  width: 204px;
+  height: 40px;
+  color: white;
+  outline: none;
+  border: none;
+  display: table;
+  margin: auto;
+  &:hover {
+    opacity: 0.8;
+  }
+}
+.actualCartBox {
+  width: 80%;
+  max-width: 1242px;
+  height: auto;
+  // border: 1px solid gray;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  margin-top: 27px;
+  margin-bottom: 27px;
+  padding: 3% 4%;
+
+  @include media("<tablet") {
+    width: 100%;
+  }
+}
+
+.topline {
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: row;
+  margin-top: 20px;
+}
+.cartProductTitle {
+  display: table;
+  margin: auto;
+  font-size: 1.2em;
+  text-align: center;
+}
+.actualCheckout {
+  @extend .row;
+  width: 100%;
+  height: auto;
+  border: 1px solid gray;
+
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+  margin-top: 20px;
+  margin-bottom: 20px;
+
+  @include media("<tablet") {
+    padding: 0 3%;
+  }
+}
+.checkoutTotal {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  font-family: "Roboto Medium";
+}
+
+.subtotalContainer {
+  border: 1px solid gray;
+  border-radius: 3px;
+  min-width: 257px;
+  max-width: 459px;
+  height: 350px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+
+  @include media("<tablet") {
+    width: 100%;
+    height: 400px;
+  }
+}
+.subtotalLine {
+  background-color: rgb(223, 222, 222);
+  width: 100%;
+  height: 20%;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+}
+.deliveryLine {
+  width: 100%;
+  height: 30%;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+}
+.totalLine {
+  background-color: rgb(223, 222, 222);
+  width: 100%;
+  height: 20%;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+}
+
+.finishTheOrderBox {
+  width: 100%;
+  height: auto;
+  display: table;
+  margin: auto;
+}
+
+.toRight {
+  text-align: end;
+  align-items: center;
+  font-family: "Roboto";
+  margin-bottom: 0;
+}
+.subtotalStyle {
+  font-family: "Roboto";
+  margin-bottom: 0;
+  font-weight: bolder;
+}
+.colCenter {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.deleteProductCart {
+  outline: none;
+  border: none;
+}
+.hashTransparent {
+  text-decoration: none;
+  &:hover {
+    text-decoration: none;
+  }
+}
+.middleCosText {
+  text-align: center;
+  white-space: nowrap;
+  margin: 0;
+}
+
+.emptyCart {
+  text-align: center;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  font-size: 1.5rem;
+  color: red;
+  font-family: "Roboto Medium";
+}
+.bottomLeft {
+  @extend .col-sm-6;
+}
+.bottomRight {
+  @extend .col-sm-6;
+  padding: 20px;
+}
+
+.innerAlign {
+  display: flex;
+  @extend .col-sm-4;
+  align-items: center;
+  justify-content: flex-end;
+  @include media("<tablet") {
+    justify-content: flex-start;
+  }
+}
+.innerPrice {
+  display: flex;
+  @extend .col-sm-8;
+  justify-content: flex-start;
+  align-items: center;
+  @include media("<tablet") {
+    justify-content: flex-end;
+  }
+}
+
+.parentContainer {
+  max-width: 1920px;
+  width: 90%;
+  margin: auto;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin-top: 5%;
+  margin-bottom: 5%;
+}
+
+// .rightSection{
+//   width: 35%;
+// }
+
+.mainParentContainer {
+  width: 90%;
+  margin: auto;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.rightPricingContainer {
+  width: 35%;
+}
+
+.leftContainer {
+  width: 65%;
+  //   max-width: 1242px;
+  height: auto;
+  //   // border: 1px solid gray;
+  // display: flex;
+  // flex-direction: column;
+  //   justify-content: start !important;
+  //   align-items: start !important;
+  // margin-top: 27px;
+  // margin-bottom: 27px;
+  // padding: 3% 4%;
+
+  //   @include media("<tablet") {
+  //     width: 100%;
+  //   }
+}
+
+.discountContainer {
+  width: 80%;
+  border-radius: 4px;
+  border: 1px solid #3aa39f;
+  background: rgba(58, 163, 159, 0.1);
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 50px;
+}
+
+.discountText {
+  color: #17183b;
+  font-family: "Open Sans";
+  font-size: 1.2rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 24px;
+  margin: 0;
+  text-align: center;
+}
+
+.percentIconContainer {
+  margin-right: 5px;
+}
+
+.percentIcon {
+  color: #3aa39f;
+  font-size: 23px;
+}
+
+// Right Container
+
+.rightContainer {
+  // @extend .col-sm-12;
+  // @extend .col-xl-6;
+  width: 35%;
+  padding: 2%;
+  height: auto;
+  max-height: 1000px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  // align-items: center;
+  box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
+  @include media("<tablet") {
+    width: 100%;
+    padding: 5%;
+  }
+  @include media(">=tablet", "<desktop") {
+    // width: 80%;
+    // max-width: 559px;
+    padding: 5%;
+  }
+}
+
+.rightChild {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  padding: 5%;
+}
+
+.comandaTitle {
+  color: var(--space-cadet, #17183b);
+  font-size: 2rem;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 32px;
+  margin-bottom: 50px;
+}
+
+.subTotalContainer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  font-weight: 200;
+  font-size: 0.9em;
+  margin-bottom: 20px;
+  text-align: end;
+  font-family: "Roboto Regular";
+  @include media("<tablet") {
+    text-align: center;
+    font-size: calc(16px + 2vw);
+  }
+}
+
+.subTotal {
+  display: flex;
+  justify-content: space-between;
+  font-weight: 200;
+  font-size: 1.2em;
+  text-align: end;
+  font-family: "Roboto Regular";
+  @include media("<tablet") {
+    text-align: center;
+    font-size: calc(16px + 2vw);
+  }
+}
+
+.totalPriceTopBorderContainer {
+  margin-bottom: 30px;
+}
+
+.totalPriceTopBorder {
+  border-top: 2px solid;
+}
+
+.subTotalTotal {
+  text-transform: uppercase;
+  display: flex;
+  justify-content: space-between;
+  font-weight: 200;
+  font-size: 1.2em;
+  text-align: end;
+  font-family: "Roboto Regular";
+  @include media("<tablet") {
+    text-align: center;
+    font-size: calc(16px + 2vw);
+  }
+}
+
+.subTotalTotalPrice {
+  display: flex;
+  justify-content: space-between;
+  font-weight: 600;
+  font-size: 1.2em;
+  text-align: end;
+  font-family: "Roboto Regular";
+  @include media("<tablet") {
+    text-align: center;
+    font-size: calc(16px + 2vw);
+  }
+}
+
+.cuponTime {
+  font-weight: 600;
+  font-size: 1.2em;
+  text-align: end;
+  font-family: "Roboto Regular";
+  @include media("<tablet") {
+    text-align: center;
+    font-size: calc(16px + 2vw);
+  }
+}
+
+.cuponInputForm {
+  width: 100% !important;
+  height: 60px;
+  padding: 16px;
+  border-radius: 2px;
+  border: 1px solid var(--french-grey, #d1d1d8);
+  box-shadow: 0px 0px 1px 0px rgba(0, 0, 0, 0.25);
+  font-family: "Open Sans";
+  position: relative;
+  font-size: 1.2rem;
+}
+
+.cuponIconForInput {
+  min-width: 60px;
+  position: absolute;
+  right: 20px;
+  display: flex;
+  // justify-self: end;
+}
+
+.finishOrder {
+  // background-color: rgb(0, 153, 25);
+  border-radius: 4px;
+  background: var(--verdigris, #3aa39f);
+  color: white;
+  outline: none;
+  border-style: none;
+  font-size: 1.6em;
+  // width: 250px;
+  width: 100%;
+  height: 50px;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+  display: table;
+  margin: 3% auto 1.5%;
+  &:hover {
+    background-color: rgb(73, 73, 73);
+  }
+}
+
+.cuponInputFormContainer {
+  margin-bottom: 12px;
+  position: relative;
+  min-width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.paymentMethodContainer {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+input[type="radio"] {
+  // clip: rect(0 0 0 0);
+  clip-path: inset(0%);
+  width: 20px;
+  height: 20px;
+}
+
+.paymentMethodRadioButton {
+  margin-right: 30px;
+}
+
+.creditCardIcon {
+  color: rgb(96, 93, 93);
+}
+
+.plataRambursIcon {
+  color: rgb(96, 93, 93);
+}
+
+.plataRambursContainer {
+  display: flex;
+  align-items: center;
+}
+
+.creditCardText {
+  font-size: 1.2rem !important;
+}
+
+.creditCardContainer {
+  display: flex;
+  align-items: center;
+}
+
+.plataRambursText {
+  font-size: 1.2rem !important;
+}
+
+.iconTextContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@media screen and (max-width: 1500px) {
+  .mainParentContainer {
+    margin-top: 5%;
+    width: 100%;
+  }
+}
+
+@media (max-width: 1250px) {
+  .parentContainer {
+    width: 95%;
+  }
+  .leftContainer {
+    width: 60%;
+  }
+  .rightContainer {
+    width: 40%;
+  }
+}
+
+@media (max-width: 992px) {
+  .finishOrderContainer {
+    width: 100%;
+  }
+  .inputBox {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+  }
+  .leftContainer {
+    width: 90%;
+    margin: auto;
+    margin-bottom: 100px;
+  }
+
+  .rightContainer {
+    width: 85%;
+    margin: 0 !important;
+    margin: auto !important;
+    margin-bottom: 5% !important;
+  }
+
+  .discountContainer {
+    width: 80%;
+    margin: auto;
+    margin-top: 50px;
+  }
+}
+
+@media (max-width: 576px) {
+  .finishOrderContainer {
+    min-width: 100%;
+    margin: 0;
+    padding: 0;
+  }
+  .inputBox {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+  }
+  .inputForm {
+    padding: 7px;
+    height: 40px;
+  }
+  .leftContainer {
+    width: 100%;
+    margin-bottom: 100px;
+    padding: 1% 1%;
+  }
+  .rightContainer {
+    width: 100%;
+    padding: 10px;
+  }
+  input[type="large"] {
+    width: 60%;
+    font-family: "Open Sans Regular";
+  }
+  .EstimareExpediereText {
+    font-size: 1.1rem;
+  }
+  .cuponTime {
+    font-size: 1.1rem;
+  }
+  .discountContainer {
+    width: 95%;
+    margin: auto;
+    margin-top: 50px;
+  }
+  .discountText {
+    font-size: 0.9rem;
+  }
+}

@@ -1,0 +1,76 @@
+@import "../../node_modules/include-media//dist/include-media";
+@import "../../node_modules//bootstrap/scss//bootstrap.scss";
+
+@import "./../main.module.scss";
+
+.featuredContainer {
+  height: auto;
+  min-height: 700px;
+  width: 100%;
+  background-color: rgb(245, 245, 245);
+}
+
+.bigPicture {
+  width: 100%;
+  height: auto;
+  display: flex;
+  min-height: 600px;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding: 1% 0px;
+}
+.roundCircle {
+  border: 10px solid rgb(255, 255, 255);
+  width: 450px;
+  height: 450px;
+  border-radius: 50%;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+  overflow: hidden;
+  margin-top: 30px;
+  @include media("<tablet") {
+    width: 100%;
+    height: auto;
+    max-width: 320px;
+  }
+}
+.featuredStyle {
+  width: 100%;
+  height: 100%;
+}
+.topTextFeatured {
+  margin-top: 20px;
+  color: black;
+  font-size: 65px;
+  margin-bottom: 0px;
+  text-align: center;
+  font-family: "Bebas Neue Regular", cursive;
+  @include media("<tablet") {
+    font-size: 46px;
+  }
+}
+
+.bottomTextFeatured {
+  text-align: center;
+  font-size: 48px;
+  font-weight: bolder;
+  color: black;
+  margin-top: 0px;
+  font-family: "Roboto Medium";
+
+  @include media("<tablet") {
+    font-size: 34px;
+  }
+}
+.textDescription {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  max-width: 300px;
+
+  p {
+    font-family: "Roboto Medium", sans-serif;
+    text-align: center;
+    line-height: 16px;
+  }
+}

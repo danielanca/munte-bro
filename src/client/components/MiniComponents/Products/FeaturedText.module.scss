@@ -1,0 +1,48 @@
+@import "../../../../node_modules/include-media//dist/include-media";
+@import "../../../../node_modules//bootstrap/scss//bootstrap.scss";
+
+@import "./../../../main.module.scss";
+
+.backText {
+  text-align: center;
+  opacity: 0.13;
+  font-size: clamp(50px, 21vw, 423px);
+  font-family: "Bebas Neue Regular", cursive;
+  @include media("<tablet") {
+    font-size: 68vw;
+    margin-left: -280px;
+  }
+}
+.newProductTitle {
+  font-size: clamp(18px, 9vw, 33px);
+  text-align: center;
+  font-family: "Bebas Neue Regular", cursive;
+  @include media(">=desktop") {
+    white-space: nowrap;
+    font-size: clamp(30px, 6vw, 78px);
+  }
+}
+.textContainer {
+  position: absolute;
+  transform: translate(-50%, 0%);
+  left: 50%;
+  top: clamp(20px, 11vw, 181px);
+  padding: 0 5%;
+  font-family: "Bebas Neue Regular", cursive;
+  @include media("<tablet") {
+    top: clamp(24px, 30vw, 186px);
+    width: 100%;
+    text-align: center;
+    padding: 0 5%;
+    width: 100%;
+  }
+  @include media(">=tablet", "<desktop") {
+    width: 90%;
+  }
+}
+.newProductText {
+  width: 100%;
+  height: auto;
+  position: relative;
+  overflow: hidden;
+}

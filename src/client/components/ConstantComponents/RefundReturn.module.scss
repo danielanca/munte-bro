@@ -1,0 +1,35 @@
+@import "./../../main.module.scss";
+@import "./../../data//themes.scss";
+
+.refundContainer {
+  width: 100%;
+  padding: 3% 0;
+
+  @include media("<tablet") {
+    padding: 5% 0 0 0;
+  }
+}
+.imageContainer {
+  margin: auto;
+  display: table;
+  width: clamp(100px, 27vw, 136px);
+  img {
+    width: 100%;
+  }
+}
+.textArea {
+  margin: auto;
+  display: table;
+  h2,
+  h3,
+  h4 {
+    text-align: center;
+  }
+  h3 {
+    font-size: 1.5em;
+  }
+  h4 {
+    font-size: 1em;
+    font-family: "Roboto Medium";
+  }
+}

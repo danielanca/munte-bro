@@ -1,0 +1,74 @@
+@import "./../../main.module.scss";
+@import "./../../data/themes.scss";
+
+.productPanel {
+  width: 100%;
+  border: 2px solid black;
+  min-height: 500px;
+  padding: 24px;
+
+  h3 {
+    text-align: start;
+    font-size: 40px;
+    padding: 0 20px;
+  }
+}
+.tableStyle {
+  max-width: 800px;
+  border: 2px solid black;
+  @include media("<tablet") {
+    width: 100%;
+  }
+}
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+td,
+th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+tr:nth-child(even) {
+  background-color: #dddddd;
+}
+.actionButton {
+  width: 130px;
+  height: 50px;
+  background-color: #00ac10;
+  color: white;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.actionButton:hover {
+  background-color: #39c948;
+  color: black;
+}
+
+.textInside {
+  font-family: "Bebas Neue Regular", cursive;
+  font-size: 20px;
+  white-space: nowrap;
+}
+
+.textInside:hover {
+  color: white;
+}
+.controlArea {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 765px;
+  width: 100%;
+}
+.otherActions {
+  a {
+    text-decoration: none !important;
+  }
+}

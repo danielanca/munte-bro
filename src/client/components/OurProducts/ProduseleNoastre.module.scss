@@ -1,50 +1,34 @@
+@import "../../../../main.module.scss";
+@import "../../data/themes.scss";
+
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap");
+
 .blockContainer {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  @extend .row;
   width: 100%;
-  flex-wrap: wrap; // Ensure wrapping of items for mobile
+  height: auto;
+  background-color: map-get($map: $colors, $key: whitePure);
+  display: flex;
+  margin: 0;
+  padding: 0;
+  @include media("<tablet") {
+    margin: 0;
+  }
 }
 
 .productList {
+  padding: 35px 0px;
   display: flex;
-  flex-wrap: wrap; // Ensure items wrap to the next row when there’s not enough space
-  justify-content: space-around; // Distribute items evenly
-  align-items: flex-start;
-  padding: 0;
-}
-
-.productItem {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
+  justify-content: center;
   align-items: center;
-  border: 1px solid gray;
-  width: 201px;
-  height: 340px;
-  margin: 10px 15px;
-  
-  @include media(">=tablet", "<desktop") {
-    max-width: 250px;
-    width: clamp(90px, 32vw, 175px);
-  }
+  flex-direction: row;
+  flex-wrap: wrap;
 
-  // Two items per row for mobile
+  max-width: 1000px;
+  margin: auto;
   @include media("<tablet") {
-    width: calc(50% - 20px); // Ensure two products per row on mobile
-    margin: 10px 5px; // Add margin to fit properly
-    height: auto;
+    flex-direction: column;
   }
 }
 
-.productItemSmall {
-  @extend .productItem;
-  width: 210px;
-  height: 335px;
-
-  @include media("<tablet") {
-    width: calc(50% - 20px); // Ensure two small items per row on mobile
-    height: 265px;
-    margin: 10px 5px;
-  }
-}
+// Product Banner

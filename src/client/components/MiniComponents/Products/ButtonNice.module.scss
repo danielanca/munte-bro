@@ -1,0 +1,35 @@
+@import "../../../../node_modules/include-media/dist/include-media";
+@import "../../../../node_modules//bootstrap/scss//bootstrap.scss";
+
+@import "./../../../main.module.scss";
+
+.buttonStyle {
+  button {
+    -webkit-appearance: button;
+    -moz-appearance: button;
+    appearance: button;
+
+    text-decoration: none;
+    color: initial;
+    font-weight: bold;
+    letter-spacing: 2px;
+    font-size: 20px;
+    background-color: #00ac10;
+    width: 500px;
+    height: 50px;
+    color: white;
+    outline: none;
+    border: none;
+    font-family: "Roboto Medium";
+    text-transform: uppercase;
+    box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
+    margin: 10px 0;
+
+    @include media("<tablet") {
+      max-width: 244px;
+    }
+  }
+  button:hover {
+    background-color: rgb(206, 35, 35);
+  }
+}

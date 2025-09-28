@@ -1,0 +1,37 @@
+
+
+
+.cardTest{
+    margin: 10px;
+    width: 100%;
+    height: 200px;
+    background: #d8d8d8;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+}
+.cardSkeletonLine{
+  @extend .cardTest;
+  height: 40px;
+}
+@keyframes shine {
+    to {
+      background-position-x: -200%;
+    }
+  }
+.isloading {
+        background: #eee;
+        background: linear-gradient(110deg, #dadada 8%, #f6f6f6 18%, #dadada 33%, #f6f6f6 45%,#dadada 60% );
+        border-radius: 5px;
+        background-size: 200% 100%;
+       
+        animation-name: shine;
+        animation-duration: 0.7s;
+        animation-timing-function: linear;
+        animation-iteration-count: infinite;
+        height: 100%;
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+  }
+  
+
+  

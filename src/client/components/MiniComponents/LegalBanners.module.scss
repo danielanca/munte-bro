@@ -1,0 +1,45 @@
+.mainParentContainer {
+  background-color: #588157;
+}
+
+.imagesContainer {
+  padding-bottom: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.SOLUTIONAREAContainer {
+  margin-right: 5px;
+}
+
+.ANPCContainer {
+  margin: 0;
+}
+
+.SOLUTIONAREAImg {
+  max-width: 100%;
+  height: 100%;
+}
+
+.ANPCImg {
+  max-width: 100%;
+  height: 100%;
+}
+
+@media screen and (max-width: 768px) {
+  .imagesContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  .SOLUTIONAREAContainer {
+    margin-right: 0px;
+    margin-top: 10px;
+  }
+
+  .ANPCContainer {
+    margin-top: 10px;
+  }
+}

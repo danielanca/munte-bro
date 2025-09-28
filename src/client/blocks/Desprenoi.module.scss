@@ -1,0 +1,85 @@
+:root {
+  --bg: #f7f8f8;
+  --card-bg: #ffffff;
+  --text: #1f2a2e;
+  --muted: #5b6b73;
+  --brand: #3a5a40; // matches your palette
+  --ring: rgba(58, 90, 64, 0.25);
+  --shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0f1416;
+    --card-bg: #131a1d;
+    --text: #e6ecef;
+    --muted: #a3b0b7;
+    --ring: rgba(96, 179, 128, 0.25);
+    --shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
+  }
+}
+
+.page {
+  min-height: 60vh;
+  display: grid;
+  place-items: center;
+  padding: clamp(1rem, 2vw, 2rem);
+  background:
+    radial-gradient(1200px 600px at 10% -10%, rgba(58, 90, 64, 0.06), transparent 60%),
+    radial-gradient(900px 500px at 110% 10%, rgba(58, 90, 64, 0.05), transparent 60%),
+    var(--bg);
+}
+
+.card {
+  width: min(920px, 100%);
+  background: var(--card-bg);
+  border-radius: 20px;
+  box-shadow: var(--shadow);
+  padding: clamp(1.25rem, 3vw, 2.5rem);
+  border: 1px solid rgba(0, 0, 0, 0.04);
+  outline: 1px solid transparent;
+  transition: box-shadow 180ms ease, transform 180ms ease;
+
+  &:hover {
+    box-shadow: 0 16px 44px rgba(0, 0, 0, 0.08);
+    transform: translateY(-1px);
+  }
+}
+
+.title {
+  margin: 0 0 0.75rem;
+  font-size: clamp(1.4rem, 3.2vw, 2rem);
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  color: var(--text);
+}
+
+.text {
+  color: var(--muted);
+  font-size: clamp(0.975rem, 1.2vw, 1.05rem);
+  line-height: 1.75;
+
+  p {
+    margin: 0 0 0.9rem;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+}
+
+/* subtle accent bar under title (optional) */
+.title::after {
+  content: "";
+  display: block;
+  width: 56px;
+  height: 3px;
+  margin-top: 10px;
+  background: linear-gradient(90deg, var(--brand), color-mix(in srgb, var(--brand), transparent 45%));
+  border-radius: 999px;
+}
+
+/* accessibility focus styles if this card becomes focusable later */
+.card:focus-within {
+  box-shadow: var(--shadow), 0 0 0 3px var(--ring);
+}

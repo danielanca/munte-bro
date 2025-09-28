@@ -1,0 +1,90 @@
+@import "./../main.module.scss";
+
+.cards {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+  margin: 0;
+  list-style: none;
+  max-width: 1300px;
+  padding: 5%;
+  column-gap: 0.7%;
+  row-gap: 0.4vw;
+  max-width: 1200px;
+  width: 100vw;
+
+  @include media("<tablet") {
+    row-gap: 5px;
+  }
+}
+.hashTransparentRelated {
+  width: inherit;
+  height: inherit;
+}
+.cardItem {
+  width: 31.3%;
+  line-height: 150px;
+  color: white;
+  font-weight: bold;
+  font-size: 3em;
+  text-align: center;
+  border-radius: 5px;
+  aspect-ratio: 1.5/1;
+  overflow: hidden;
+  position: relative;
+  background-size: cover;
+  background-position: center;
+  text-decoration: none;
+
+  &:hover {
+    color: white;
+  }
+
+  &:nth-child(-n + 2) {
+    width: 47%;
+  }
+  @include media("<tablet") {
+    &:nth-child(n) {
+      width: 100%;
+      aspect-ratio: 1.6/1;
+    }
+  }
+}
+
+.inheritAll {
+  outline: 2px solid green;
+  width: 100%;
+  display: block;
+  height: 100%;
+}
+.headline {
+  position: absolute;
+  width: 100% !important;
+  bottom: 1px;
+  z-index: 100;
+  text-transform: uppercase;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  aspect-ratio: unset !important; // nthcild will also come here
+  font-size: 2rem;
+  @include media("<desktop") {
+    font-size: 1.1rem;
+  }
+  @include media("<tablet") {
+    font-size: 8vw;
+  }
+  // @include media("<tablet") {
+  //   font-size: 30px;
+  // }
+}
+.imageContainer {
+  object-fit: cover;
+  height: 107%;
+  width: 100% !important;
+  outline: 2px solid white;
+  filter: brightness(0.94);
+  &:hover {
+    cursor: pointer;
+    filter: brightness(1);
+    filter: saturate(1.1);
+  }
+}

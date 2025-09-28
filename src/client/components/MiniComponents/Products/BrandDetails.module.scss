@@ -1,0 +1,79 @@
+@import "../../../../node_modules/include-media/dist/include-media";
+@import "../../../../node_modules//bootstrap/scss//bootstrap.scss";
+
+@import "./../../../main.module.scss";
+
+.brandContainer {
+  width: 100%;
+  background-color: #222222;
+  padding: 4%;
+  h3 {
+    text-transform: uppercase;
+    text-align: center;
+    font-size: 65px;
+    font-family: "Bebas Neue Regular", cursive;
+    @include media("<=desktop") {
+      font-size: 50px;
+    }
+    @include media("<tablet") {
+      font-size: 40px;
+    }
+    color: white;
+    b {
+      font-family: "Roboto";
+    }
+  }
+  h4 {
+    font-family: "Roboto";
+    color: white;
+    b {
+      font-family: "Roboto";
+    }
+  }
+
+  @include media("<tablet") {
+    padding: 80px 3vw;
+  }
+}
+.details {
+  padding: 0 30px;
+  margin-top: 40px;
+  margin-bottom: 30px;
+
+  h4 {
+    text-align: center;
+    font-size: clamp(13px, 4vw, 17px);
+  }
+
+  @include media("<tablet") {
+    padding: 0 7%;
+  }
+}
+
+.statsThree {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  max-width: 800px;
+  width: 100%;
+  justify-content: space-around;
+  margin: 40px auto;
+  flex-wrap: wrap;
+}
+.item {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  min-width: 310px;
+  h2 {
+    color: rgb(167, 167, 167);
+    text-align: center;
+    font-size: 4.5em;
+  }
+  h4 {
+    color: white;
+    text-align: center;
+    white-space: nowrap;
+  }
+}

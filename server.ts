@@ -111,7 +111,6 @@ async function createServer(isProd = process.env.NODE_ENV === "production") {
 
   app.use("*", async (req: Request, res: Response, next: NextFunction) => {
     const url = req.originalUrl;
-    console.log("We have app.use(*) on", req);
     try {
       // 2. Apply Vite HTML transforms. This injects the Vite HMR client, and
       //    also applies HTML transforms from Vite plugins, e.g. global preambles
@@ -135,7 +134,6 @@ async function createServer(isProd = process.env.NODE_ENV === "production") {
     } catch (e) {
       if (e instanceof Error) {
         !isProd && vite.ssrFixStacktrace(e);
-        console.log(e.stack);
         // If an error is caught, let Vite fix the stack trace so it maps back to
         // your actual source code.
         vite.ssrFixStacktrace(e);

@@ -1,0 +1,55 @@
+@import "./../../main.module.scss";
+@import "./../../data//themes.scss";
+
+.addAreaContainer {
+  min-height: 800px;
+  width: 100%;
+  padding: 30px 20px;
+  border: 2px solid green;
+  h2 {
+    text-align: center;
+    color: green;
+    font-size: 40px;
+  }
+  div > input,
+  textarea {
+    font-family: "Roboto";
+    margin: auto;
+  }
+  div > label {
+    font-weight: 700;
+    color: chocolate;
+    max-width: 300px;
+    margin: auto;
+  }
+  textarea {
+    min-width: 700px;
+    height: 400px;
+    width: 75%;
+    margin: 30px auto;
+  }
+}
+.inputContainer {
+  max-width: 1250px;
+  border: 2px solid black;
+  margin: auto;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+.actionControl {
+  margin: auto;
+
+  button {
+    outline: none;
+    border: none;
+    width: 220px;
+    height: 45px;
+    background-color: rgb(10, 175, 10);
+    color: white;
+    margin: 10px 20px;
+  }
+  .cancelButton {
+    background-color: rgb(204, 7, 7);
+  }
+}

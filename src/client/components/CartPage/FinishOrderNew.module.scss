@@ -1,0 +1,624 @@
+@import "./../../main.module.scss";
+@import "./../../data/themes.scss";
+
+.FinishSection {
+  width: 100%;
+  max-width: 1920px;
+  margin: auto;
+  height: auto;
+  min-height: 300px;
+  // background-color: #f8f8f8;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 58px;
+}
+.cartLine {
+  width: clamp(30px, 17vw, 65px);
+  height: 4px;
+  background-color: rgba(0, 0, 0, 0.4);
+  margin: 10px;
+}
+.methodPaymentCheck {
+  margin: 0;
+}
+.textareaparticular {
+  resize: none;
+}
+.infoBoxing {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin: 50px 0px;
+  padding: 2% 4%;
+  max-width: 560px;
+  width: 80%;
+  font-family: "Roboto Medium";
+  img {
+    width: 70px;
+    height: 70px;
+    @include media("<tablet") {
+      width: 60px;
+      height: 60px;
+    }
+  }
+  h3 {
+    margin-top: 20px;
+
+    font-family: 20px;
+    text-align: center;
+  }
+}
+.topTitle {
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+  color: rgba(0, 0, 0, 0.4);
+  align-items: center;
+  @include media("<tablet") {
+    padding: 20px 0;
+  }
+}
+.hashTransparent {
+  text-decoration: none;
+  &:hover {
+    text-decoration: none;
+  }
+}
+.finishOrderContainer {
+  margin-top: 3%;
+  margin-bottom: 4%;
+  @extend .row;
+  display: flex;
+  justify-content: space-between;
+  width: 90%;
+  padding: 0 35px;
+}
+.leftContainer {
+  // @extend .col-xl-6;
+  // @extend .col-xl-12;
+  padding: 27px 10px;
+  // box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
+  //   max-width: 559px;
+  width: 65%;
+  // @include media(">=tablet", "<desktop") {
+  //   width: 80%;
+  //   margin: auto;
+  // }
+  // @include media("<tablet") {
+  //   width: 90%;
+  // }
+}
+
+// .emptyContainer{
+//   // width: 10%;
+// }
+
+.inputForm {
+  height: 50px;
+  width: 300px;
+  padding: 13px;
+  border-radius: 5px;
+  border: 1px solid #b5b5b5;
+  box-shadow: 0px 0px 1px 0px rgba(0, 0, 0, 0.25);
+}
+
+.cuponInputForm {
+  width: 100% !important;
+  height: 60px;
+  padding: 16px;
+  border-radius: 2px;
+  border: 1px solid var(--french-grey, #d1d1d8);
+  box-shadow: 0px 0px 1px 0px rgba(0, 0, 0, 0.25);
+  font-family: "Open Sans";
+  position: relative;
+  font-size: 1.2rem;
+}
+
+.cuponInputFormContainer {
+  margin-bottom: 12px;
+  position: relative;
+  min-width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.cuponIconForInput {
+  min-width: 60px;
+  position: absolute;
+  right: 20px;
+  display: flex;
+  // justify-self: end;
+}
+
+.topBillText {
+  @include media("<tablet") {
+    text-align: center;
+  }
+}
+
+.rightContainer {
+  // @extend .col-sm-12;
+  // @extend .col-xl-6;
+  width: 35%;
+  padding: 2%;
+  height: auto;
+  max-height: 700px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  // align-items: center;
+  box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
+  // @include media("<tablet") {
+  //   width: 100%;
+  //   padding: 5%;
+  // }
+  // @include media(">=tablet", "<desktop") {
+  //   margin: auto;
+  //   width: 80%;
+  //   max-width: 559px;
+  //   padding: 5%;
+  // }
+}
+
+.optionalNote {
+  margin-right: 200px;
+}
+
+.inputLabel {
+  width: 20%;
+  font-family: "Open Sans", "Helvetica Neue", sans-serif;
+  color: #000;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: 0.8px;
+}
+
+.inputBox {
+  display: flex;
+  align-items: center;
+  // justify-content: center;
+  //   flex-direction: column;
+  // height: 50px;
+  margin: 20px;
+  height: 40px;
+  width: 100%;
+  font-family: "Open Sans Regular";
+
+  @include media("<tablet") {
+    margin: 0px;
+  }
+}
+
+.comandaTitle {
+  color: var(--space-cadet, #17183b);
+  font-size: 2rem;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 32px;
+  margin-bottom: 50px;
+}
+
+.groupInput {
+  display: flex;
+  flex-direction: row;
+
+  @include media("<tablet") {
+    flex-direction: column;
+    width: 87vw;
+    display: table;
+    margin: auto;
+  }
+}
+input {
+  font-family: "Open Sans Regular";
+}
+input[type="large"] {
+  width: 70%;
+  font-family: "Open Sans Regular";
+}
+label {
+  font-family: "Open Sans Regular";
+}
+.alertAsterisk {
+  font-weight: bolder;
+  color: red;
+}
+.checkBoxStyle {
+  display: flex;
+  flex-direction: row;
+  row-gap: 10px;
+  margin-top: 10px;
+}
+.deliverOption {
+  font-weight: bolder;
+}
+
+.checkboxTerms {
+  width: 20px;
+  height: 20px;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.optionalFormStyle {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+.productIconFinish {
+  width: 50px;
+  height: auto;
+}
+.itemLi {
+  display: flex;
+  flex-direction: row;
+  row-gap: 10px;
+  justify-content: space-between;
+  font-family: "Roboto Regular";
+}
+.itemUl {
+  margin: 10px 0;
+  padding: 0;
+
+  width: 100%;
+  // border-top: 1px solid gray;
+  // border-right: 1px solid gray;
+  // border-bottom: 2px dashed black;
+}
+.count {
+  width: 20px;
+}
+.price {
+  width: 20px;
+  text-align: flex-end;
+}
+.productSummarizeTitle {
+  width: 268px;
+  border-right: 1px solid gray;
+}
+.finishOrderTitle {
+  text-align: center;
+  white-space: nowrap;
+  margin: 0;
+}
+.rightChild {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  padding: 5%;
+}
+.subTotal {
+  display: flex;
+  justify-content: space-between;
+  font-weight: 200;
+  font-size: 1.2em;
+  text-align: end;
+  font-family: "Roboto Regular";
+  @include media("<tablet") {
+    text-align: center;
+    font-size: calc(16px + 2vw);
+  }
+}
+
+.subTotalTotal {
+  text-transform: uppercase;
+  display: flex;
+  justify-content: space-between;
+  font-weight: 200;
+  font-size: 1.2em;
+  text-align: end;
+  font-family: "Roboto Regular";
+  @include media("<tablet") {
+    text-align: center;
+    font-size: calc(16px + 2vw);
+  }
+}
+
+.totalPriceTopBorderContainer {
+  margin-bottom: 30px;
+}
+
+.totalPriceTopBorder {
+  border-top: 2px solid;
+}
+
+.EstimareExpediereText {
+  display: flex;
+  justify-content: space-between;
+  font-weight: 400;
+  font-size: 1.2em;
+  text-align: end;
+  font-family: "Roboto Regular";
+  @include media("<tablet") {
+    text-align: center;
+    font-size: calc(16px + 2vw);
+  }
+}
+
+.subTotalTotalPrice {
+  display: flex;
+  justify-content: space-between;
+  font-weight: 600;
+  font-size: 1.2em;
+  text-align: end;
+  font-family: "Roboto Regular";
+  @include media("<tablet") {
+    text-align: center;
+    font-size: calc(16px + 2vw);
+  }
+}
+
+.cuponTime {
+  font-weight: 600;
+  font-size: 1.2em;
+  text-align: end;
+  font-family: "Roboto Regular";
+  @include media("<tablet") {
+    text-align: center;
+    font-size: calc(16px + 2vw);
+  }
+}
+
+.cuponInput {
+  display: flex;
+  justify-content: end;
+  font-weight: 600;
+  font-size: 1em;
+  font-family: "Roboto Regular";
+  @include media("<tablet") {
+    text-align: center;
+    font-size: calc(16px + 2vw);
+  }
+}
+
+.subTotalContainer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  font-weight: 200;
+  font-size: 0.9em;
+  margin-bottom: 20px;
+  text-align: end;
+  font-family: "Roboto Regular";
+  @include media("<tablet") {
+    text-align: center;
+    font-size: calc(16px + 2vw);
+  }
+}
+
+.deliveryInfo {
+  font-family: "Open Sans Regular";
+  display: table;
+  margin: auto;
+}
+
+.paymentContainer {
+  width: 500px;
+  height: 300px;
+  padding: 20px;
+}
+.paymentShipContainer {
+  @extend .col-12;
+  display: flex;
+  justify-content: center;
+  border: 1px gray solid;
+}
+.deliveryCheckbox {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-top: 20px;
+}
+.legendsTable {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 5%;
+  font-size: 1.8rem;
+}
+.carShip {
+  width: 50px;
+  height: auto;
+  display: table;
+  margin: auto;
+}
+.VATincluded {
+  font-family: "Open Sans Regular";
+  color: green;
+  text-align: end;
+  font-weight: bolder;
+}
+.checkboxer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.paymentDetails {
+  display: flex;
+  justify-content: center;
+  font-size: 1.4em;
+  flex-direction: row;
+}
+.GDPRNotify {
+  font-family: "Open Sans Regular";
+  color: black;
+  font-size: 10px;
+  font-weight: bolder;
+
+  @include media("<tablet") {
+    font-size: calc(9px + 0.5vw);
+  }
+}
+.extensiveGdpr {
+  @extend .GDPRNotify;
+  color: red;
+  cursor: pointer;
+  text-decoration: none;
+  &:hover {
+    opacity: 0.7;
+  }
+}
+.acceptTerms {
+  font-size: 15px;
+  font-weight: bolder;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.groupInputTerms {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+.finishOrder {
+  // background-color: rgb(0, 153, 25);
+  border-radius: 4px;
+  background: var(--verdigris, #3aa39f);
+  color: white;
+  outline: none;
+  border-style: none;
+  font-size: 1.6em;
+  // width: 250px;
+  width: 100%;
+  height: 50px;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+  display: table;
+  margin: 3% auto 1.5%;
+  &:hover {
+    background-color: rgb(73, 73, 73);
+  }
+}
+.warningOrderWrapper {
+  @extend .col-12;
+
+  @include media(">=tablet", "<desktop") {
+    width: 60%;
+    margin: 3% auto;
+  }
+}
+.warningOrder {
+  font-family: "Open Sans Regular";
+  font-size: clamp(10px, 4.3vw, 20px);
+}
+.filledSpaceTCAlert {
+  height: 50px;
+}
+.filledSpacePaymentMtd {
+  height: 50px;
+}
+.termConditionAlert {
+  color: red;
+  font-size: 17px;
+  margin: auto;
+  text-align: center;
+}
+
+.emailSendStyle {
+  font-weight: bolder;
+  color: green;
+  text-align: center;
+}
+
+input[type="checkbox"].orderFinishInput {
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  height: 1px;
+  overflow: hidden;
+  position: absolute;
+  white-space: nowrap;
+  width: 1px;
+}
+.radioButton {
+  clip: rect(0 0 0 0);
+  clip-path: inset(20%);
+  height: 10px;
+  overflow: hidden;
+  position: absolute;
+  white-space: nowrap;
+  width: 10px;
+  border-radius: 50%;
+}
+input[type="radio"] {
+  // clip: rect(0 0 0 0);
+  clip-path: inset(0%);
+  height: 10px;
+  overflow: hidden;
+  position: absolute;
+  white-space: nowrap;
+  width: 10px;
+  border-radius: 50%;
+}
+
+@media (max-width: 1250px) {
+  .finishOrderContainer {
+    width: 100%;
+  }
+  .leftContainer {
+    width: 50%;
+  }
+  .rightContainer {
+    width: 50%;
+  }
+}
+
+@media (max-width: 992px) {
+  .finishOrderContainer {
+    width: 100%;
+  }
+  .inputBox {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+  }
+  .leftContainer {
+    width: 90%;
+    margin-bottom: 100px;
+  }
+  .rightContainer {
+    width: 90%;
+  }
+}
+
+@media (max-width: 576px) {
+  .finishOrderContainer {
+    min-width: 100%;
+    margin: 0;
+    padding: 0;
+  }
+  .inputBox {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+  }
+  .inputForm {
+    padding: 7px;
+    height: 40px;
+  }
+  .leftContainer {
+    width: 100%;
+    margin-bottom: 100px;
+  }
+  .rightContainer {
+    width: 100%;
+    padding: 10px;
+  }
+  input[type="large"] {
+    width: 60%;
+    font-family: "Open Sans Regular";
+  }
+  .EstimareExpediereText {
+    font-size: 1.1rem;
+  }
+  .cuponTime {
+    font-size: 1.1rem;
+  }
+}

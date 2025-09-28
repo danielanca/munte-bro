@@ -1,8 +1,8 @@
 /* eslint-disable react/react-in-jsx-scope */
 import loadable from "@loadable/component";
 
-const Footer = loadable(() => import("../../components/Footer/Footer"), { ssr: true });
-const Navbar = loadable(() => import("../../components/Navbar/Navbar"), { ssr: true });
+const Footer = loadable(() => import("../../components/Footer/FooterMontanNew"), { ssr: true });
+const Navbar = loadable(() => import("../../components/Navbar/NavbarNew"), { ssr: true });
 
 interface Lay {
   children: any | null;

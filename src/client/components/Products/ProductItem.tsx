@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from "react";
 import { HashLink } from "react-router-hash-link";
 import { ProdItemProps } from "../../utils/OrderInterfaces";

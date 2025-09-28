@@ -1,0 +1,376 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Mont&display=swap");
+
+.FeaturedNewParentContainer {
+  max-width: 1920px;
+  margin: auto;
+  font-family: "Poppins", sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.FeaturedNewContainer {
+  width: 90%;
+  margin-top: 60px;
+  margin-bottom: 60px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.productsContainer {
+  width: 55%;
+  height: 300px;
+  border-radius: 40px;
+  box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
+  background-color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-left: 3%;
+  padding-right: 3%;
+}
+
+.product1Container {
+  width: 45%;
+  height: 240px;
+  border: 1px solid #6c7340;
+  border-radius: 22px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.product1TextContainer {
+  width: 60%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  padding-top: 30px;
+  padding-bottom: 30px;
+  // border: 1px solid red;
+}
+
+.product1MidBorder {
+  width: 127px;
+  height: 1px;
+  background: rgba(76, 81, 46, 0.75);
+}
+
+.product1PriceContainer {
+  // padding-top: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.product1ImageContainer {
+  margin-right: -40px;
+  margin-top: -100px;
+  width: 40%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.product1Image {
+  width: 300px;
+}
+
+.product2Image {
+  width: 300px;
+}
+
+.productTitle {
+  font-size: 26px;
+  font-weight: 700;
+  // line-height: 40px;
+  letter-spacing: -0.26px;
+}
+
+.productSubTitle {
+  color: #31493c;
+  font-size: 17px;
+  font-family: Poppins;
+  // line-height: 40px;
+  letter-spacing: -0.17px;
+}
+
+.productMaterial {
+  color: #31493c;
+  font-size: 9px;
+  font-family: "Poppins", sans-serif;
+  font-weight: 300;
+  // line-height: 40px;
+  letter-spacing: -0.09px;
+}
+
+.productPrice {
+  color: #31493c;
+  font-size: 19px;
+  font-family: Poppins;
+  font-weight: 600;
+  // line-height: 40px;
+  letter-spacing: -0.19px;
+  padding-right: 4px;
+}
+
+.productSubmaterial {
+  color: #000;
+  text-align: center;
+  font-size: 8px;
+  font-family: Poppins;
+  // line-height: 18.5px;
+  letter-spacing: -0.4px;
+}
+
+.featuredProductCeleMaiPopulareContainer {
+  // width: 35%;
+  height: 300px;
+  padding-left: 2%;
+  // border: 1px solid red;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.featuredProductCeleMaiPopulare {
+  width: 40%;
+  height: 240px;
+  display: flex;
+  flex-direction: row;
+}
+
+.CeleMaiPopulareHeadingContainer {
+  // padding-left: 15%;
+  padding-bottom: 15px;
+  display: flex;
+  align-items: flex-end;
+  // justify-content: end;
+}
+
+.CeleMaiPopulareHeading {
+  color: #31493c;
+  font-size: 40px;
+  font-family: "Mont", sans-serif;
+  font-weight: 900;
+  line-height: 132.8%;
+}
+
+.featuredProductCeleMaiPopulareImageContainer {
+  // width: 60%;
+  // width: 40px;
+  margin-top: -10%;
+  display: flex;
+  align-items: flex-start;
+}
+
+.featuredProductCeleMaiPopulareImage {
+  width: 250px;
+}
+
+.celeMaiPopulareDesc {
+  color: #7a9e7e;
+  // padding-left: 10%;
+  font-size: 26px;
+  font-family: "Poppins", sans-serif;
+  line-height: 40px;
+  letter-spacing: -0.26px;
+}
+
+.scrollDownContainer {
+  width: 10%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.scrollDownText {
+  color: #7a9e7e;
+  font-size: 20px;
+  font-family: "Poppins", sans-serif;
+  line-height: 40px;
+  letter-spacing: 1.6px;
+  // transform: rotate(90deg);
+  writing-mode: vertical-lr;
+  transform: scale(-1, -1);
+  padding-top: 20px;
+}
+
+.featuredProductLeftSideEffect {
+  width: 5%;
+  height: 185px;
+  flex-shrink: 0;
+  padding-right: 20px;
+}
+
+.featuredProductRightSideEffect {
+  width: 5%;
+  height: 185px;
+  flex-shrink: 0;
+  padding-left: 20px;
+  padding-right: 30px;
+}
+
+@media screen and (max-width: 1550px) {
+  .featuredProductLeftSideEffect {
+    display: none;
+  }
+
+  .featuredProductRightSideEffect {
+    display: none;
+  }
+
+  .productsContainer {
+    width: 60%;
+  }
+
+  .featuredProductCeleMaiPopulareImage {
+    width: 200px;
+  }
+
+  .CeleMaiPopulareHeading {
+    font-size: 32px;
+  }
+
+  .celeMaiPopulareDesc {
+    font-size: 22px;
+  }
+
+  .product1Image {
+    width: 250px;
+  }
+
+  .product2Image {
+    width: 250px;
+  }
+
+  // .featuredProductCeleMaiPopulareContainer{
+  //     display: none;
+  // }
+
+  // .scrollDownContainer{
+  //     display: none;
+  // }
+}
+
+@media screen and (max-width: 1200px) {
+  // .productsContainer{
+  //     width: 65%;
+  // }
+
+  .product1Container {
+    width: 45%;
+    height: 220px;
+    border: 1px solid #6c7340;
+    border-radius: 22px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  .product1TextContainer {
+    width: 60%;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 10px;
+  }
+
+  .productsContainer {
+    width: 55%;
+    height: 250px;
+    border-radius: 40px;
+    box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
+    background-color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-left: 3%;
+    padding-right: 3%;
+  }
+  .featuredProductCeleMaiPopulareContainer {
+    height: 240px;
+  }
+
+  .product1Image {
+    width: 200px;
+  }
+
+  .product2Image {
+    width: 200px;
+  }
+
+  // .featuredProductCeleMaiPopulareImage{
+  //     width: 200px;
+  // }
+
+  // .CeleMaiPopulareHeading{
+  //     font-size: 32px;
+  // }
+
+  // .celeMaiPopulareDesc{
+  //     font-size: 22px;
+  // }
+
+  // .product1Image{
+  //     width: 250px;
+  // }
+
+  // .product2Image{
+  //     width: 250px;
+  // }
+}
+
+@media screen and (max-width: 992px) {
+  .productsContainer {
+    margin: auto;
+    width: 90%;
+  }
+
+  .featuredProductLeftSideEffect {
+    display: none;
+  }
+
+  .featuredProductRightSideEffect {
+    display: none;
+  }
+
+  .featuredProductCeleMaiPopulareContainer {
+    display: none;
+  }
+
+  .scrollDownContainer {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 776px) {
+  .productsContainer {
+    padding-top: 10%;
+    padding-bottom: 10%;
+    display: flex;
+    flex-direction: column;
+    // margin: auto;
+    width: 90%;
+    height: 600px;
+  }
+  .product1Container {
+    margin-bottom: 5%;
+    width: 80%;
+  }
+  .product1TextContainer {
+    padding-left: 5%;
+  }
+  .product1Image {
+    width: 200px;
+  }
+  .product2Image {
+    width: 200px;
+  }
+  .productPrice {
+    font-size: 11px;
+  }
+}

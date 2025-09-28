@@ -1,6 +1,40 @@
 {
   "websiteTitle": "DinIubire.Ro",
   "loadingData": "Loading data...",
+
+  "elasticGallery": {
+    "sapunCosmetic": {
+      "name": "Sapun Cosmetic",
+      "link": "sapun-carbune",
+      "image": "https://firebasestorage.googleapis.com/v0/b/sapunmontan.appspot.com/o/montanAir%2FcategoriiPoze%2Fcleansing-scrub-presenting-female-cosmetic-product-woman-use-face-cream_545934-26939.webp?alt=media&token=9eb71783-90bb-44e1-b403-b353be7bd0fb",
+      "text": " "
+    },
+    "scrubNatural": {
+      "name": "Scrub Natural",
+      "link": "sapun-carbune",
+      "image": "https://firebasestorage.googleapis.com/v0/b/sapunmontan.appspot.com/o/montanAir%2FcategoriiPoze%2Ffacial-care-female-applying-cream-smiling-portrait-young-woman-cosmetic-skin-closeup-beautiful-girl-wi-beauty-170374576.jpg?alt=media&token=af845bf4-ad6a-45b0-af55-ad61304fc296",
+      "text": " "
+    },
+    "pastaDinti": {
+      "name": "Sapun Cosmetic",
+      "link": "sapun-carbune",
+      "image": "https://firebasestorage.googleapis.com/v0/b/sapunmontan.appspot.com/o/montanAir%2FcategoriiPoze%2Fistockphoto-1208515511-612x612.jpg?alt=media&token=bd02902c-31b1-4474-bc9e-a3de116589c7",
+      "text": " "
+    },
+    "cremaNoapte": {
+      "name": "Scrub Natural",
+      "link": "sapun-carbune",
+      "image": "https://firebasestorage.googleapis.com/v0/b/sapunmontan.appspot.com/o/montanAir%2FcategoriiPoze%2Fistockphoto-1290579053-612x612.jpg?alt=media&token=d6077525-5df0-4ab2-91bb-e7cc95a93f3f",
+      "text": " "
+    },
+    "cremaZi": {
+      "name": "Scrub Zi",
+      "link": "sapun-carbune",
+      "image": "https://firebasestorage.googleapis.com/v0/b/sapunmontan.appspot.com/o/montanAir%2FcategoriiPoze%2Fistockphoto-1290579053-612x612.jpg?alt=media&token=d6077525-5df0-4ab2-91bb-e7cc95a93f3f",
+      "text": " "
+    }
+  },
+
   "DiscoverOurProducts": {
     "title": "DinIubire.Ro",
     "textSmall": "amintire pentru totdeauna"
@@ -32,7 +66,6 @@
   "navMenuMobile": {
     "ourProducts": {
       "title": "PRODUSE",
-
       "ulItems": {
         "one": {
           "title": "Kituri mulaj",
@@ -40,7 +73,6 @@
         }
       }
     },
-
     "blog": {
       "title": "Blog",
       "link": "/blogs"
@@ -104,9 +136,9 @@
       "phoneNo": "Telefon",
       "emailAddress": "Email [pentru Easybox este necesar sa primiti informatii]",
       "orderMentions": "Note comandă [opțional]",
-      "lockerDelivery": "Scrie numele easybox-ului și orasul"
+      "lockerDelivery": "Scrie numele easybox-ului și orasul",
+      "county": "Judet"
     },
-
     "totals": {
       "product": "Produs",
       "total": "Total",
@@ -172,7 +204,6 @@
     "subtotal": "Subtotal",
     "shippingTax": "Taxa transport",
     "total": "Total",
-
     "clientSide": {
       "title": "Client",
       "name": "Nume",
@@ -188,7 +219,6 @@
       "number": "45044473",
       "address": "str. Plopilor nr.3 loc. Turda, Cluj "
     },
-
     "thankYouMessage": {
       "title": "Multumim pentru incredere!",
       "author": "Echipa DinIubire.Ro "
@@ -197,23 +227,26 @@
 
   "ProductPreview": {
     "callActionForReview": "Scrie un review",
-
     "addToCartText": "Adauga in cos",
     "uploadminialbum": "Incarca pozele",
-    "miniuploaded": "Poze incarcate"    
+    "miniuploaded": "Poze incarcate"
   },
+
   "NotExistingProduct": {
     "warningHeadline": "PRODUS INEXISTENT !",
     "productNotFound": "Din pacate nu am gasit produsul."
   },
+
   "ProductItem": {
     "SeeProduct": "Vezi produs",
     "Currency": "RON"
   },
+
   "MyCart": {
     "quantity": "Cantitate",
     "product": "Produse",
     "finishOrder": { "text": "Finalizeaza comanda", "link": "/finalizare-comanda" },
+    "finishOrderCosulmeu": { "text": "Pasul Urmator", "link": "/finalizare-comanda" },
     "cartShopping": "Cos de cumparaturi",
     "emptyCart": "Cosul de cumparaturi este gol",
     "totalCart": "Total Cos",
@@ -228,7 +261,9 @@
   "OrderDone": {
     "title": "Comanda a fost inregistrată!😃",
     "subtitle": "Pregatim coletul! <strong> Va multumim! </strong>",
-    "goHome": "Spre pagina principala"
+    "goHome": "Spre pagina principala",
+    "verificati_title": "Verifica-ti email-ul",
+    "verificati_subtitle": "Dacă nu ați primit niciun e-mail, contactați info@dinmunte.ro"
   },
 
   "NewsletterTermsAccept": {
@@ -267,6 +302,7 @@
       }
     }
   },
+
   "invoiceTemplate": {
     "headerTextInvoice": "DinIubire.Ro ",
     "thankYouMessage": "Va multumim de comanda!",

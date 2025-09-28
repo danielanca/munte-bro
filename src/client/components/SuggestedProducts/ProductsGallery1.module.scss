@@ -1,0 +1,27 @@
+
+
+.blockContainer {
+  @include row;
+  width: 100%;
+  height: auto;
+  background-color: white;
+  display: flex;
+  @include media("<tablet") {
+    margin: 0;
+  }
+}
+
+.productList {
+  padding: 35px 0px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  flex-wrap: wrap;
+
+  max-width: 1000px;
+  margin: auto;
+  @include media("<tablet") {
+    flex-direction: column;
+  }
+}

@@ -1,0 +1,50 @@
+.blockContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  flex-wrap: wrap; // Ensure wrapping of items for mobile
+}
+
+.productList {
+  display: flex;
+  flex-wrap: wrap; // Ensure items wrap to the next row when there’s not enough space
+  justify-content: space-around; // Distribute items evenly
+  align-items: flex-start;
+  padding: 0;
+}
+
+.productItem {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  border: 1px solid gray;
+  width: 201px;
+  height: 340px;
+  margin: 10px 15px;
+  
+  @include media(">=tablet", "<desktop") {
+    max-width: 250px;
+    width: clamp(90px, 32vw, 175px);
+  }
+
+  // Two items per row for mobile
+  @include media("<tablet") {
+    width: calc(50% - 20px); // Ensure two products per row on mobile
+    margin: 10px 5px; // Add margin to fit properly
+    height: auto;
+  }
+}
+
+.productItemSmall {
+  @extend .productItem;
+  width: 210px;
+  height: 335px;
+
+  @include media("<tablet") {
+    width: calc(50% - 20px); // Ensure two small items per row on mobile
+    height: 265px;
+    margin: 10px 5px;
+  }
+}

@@ -1,0 +1,78 @@
+// @import "./../../main.module.scss";
+// @import "./../../data/themes.scss";
+
+// :root {
+//   --size: 75px;
+//   --clr-bg: #272324;
+//   --clr1: #000000af;
+//   --clr2: #a10000b4;
+//   --clr3: #a10000b2;
+//   --clr4: #0000009c;
+//   --clr5: #00000054;
+//   --animation-duration: 1s;
+// }
+// *,
+// *::before,
+// *::after {
+//   box-sizing: border-box;
+// }
+// .wrapperLoader {
+//   margin: auto;
+//   width: 100%;
+//   height: 400px;
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+// }
+// @media (min-width: 600px) {
+//   .container {
+//     grid-template-rows: repeat(2, auto);
+//     grid-template-columns: repeat(3, auto);
+//   }
+// }
+// @keyframes spinner1 {
+//   50% {
+//     transform: scaleY(0.25);
+//   }
+// }
+
+// .spinner:nth-child(1) {
+//   margin: auto;
+//   width: 85px;
+//   height: 140px;
+//   display: flex;
+//   align-items: center;
+//   justify-content: space-evenly;
+
+//   .spinnerItem {
+//     width: calc(var(--size) / 12);
+//     height: 80%;
+//     background: var(--clr-spinner);
+//     animation: spinner1 var(--animation-duration) ease-in-out infinite;
+//   }
+
+//   .spinnerItem:nth-child(1) {
+//     --clr-spinner: var(--clr1);
+//     animation-delay: calc(var(--animation-duration) / 10 * (-3));
+//   }
+
+//   .spinnerItem:nth-child(2) {
+//     --clr-spinner: var(--clr5);
+//     animation-delay: calc(var(--animation-duration) / 10 * (-1));
+//   }
+
+//   .spinnerItem:nth-child(3) {
+//     --clr-spinner: var(--clr3);
+//     animation-delay: calc(var(--animation-duration) / 10 * (-2));
+//   }
+
+//   .spinnerItem:nth-child(4) {
+//     --clr-spinner: var(--clr4);
+//     animation-delay: calc(var(--animation-duration) / 10 * (-1));
+//   }
+
+//   .spinnerItem:nth-child(5) {
+//     --clr-spinner: var(--clr2);
+//     animation-delay: calc(var(--animation-duration) / 10 * (-3));
+//   }
+// }
