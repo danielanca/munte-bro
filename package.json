@@ -14,9 +14,9 @@
     "reinstall": "npm run clean-modules && npm install",
     "kill:port:app": "bash -lc 'lsof -ti :7466 | xargs -r kill -9' || true",
     "kill:port:hmr": "bash -lc 'lsof -ti :24678 | xargs -r kill -9' || true",
-
+    "build:plesk": "rimraf dist && npm run build:client && npm run build:server && npm run copy-files && node fix-extensions.js",
+    "build:plesk:softcheck": "rimraf dist && (tsc -p tsconfig.json --pretty false || true) && npm run build:client && npm run build:server && npm run copy-files && node fix-extensions.js",
     "restart:server": "npm run kill:port:hmr && npm run kill:port:app && npm run dev:server",
-
     "build-and-restart": "npm run build && npm run killport && npm run start",
     "dev:server": "tsx server.ts",
     "dev:client": "npm run build:client && vite --config vite.config.ts dev",
