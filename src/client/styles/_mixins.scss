@@ -1,16 +1,12 @@
-// src/client/styles/_mixins.scss
-
-// Configure include-media with your custom breakpoints:
-@use "include-media" as im with (
+/* src/client/styles/_media.scss */
+@use "include-media" as * with (
   $breakpoints: (
     tablet: 576px,
     desktop: 992px
   )
 );
 
-// your own mixins (same folder)
-@use "./grid-mixins";
-
-// EXAMPLE usage:
-// @include im.media(">=tablet") { /* styles */ }
-// @include im.media("<desktop") { /* styles */ }
+/* If you prefer namespacing (im.media), delete the 'as *' above and use:
+@use "include-media" as im with (...);
+@forward "include-media" as media-*; // optional, if you want to control what you expose
+*/

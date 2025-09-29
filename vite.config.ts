@@ -1,3 +1,4 @@
+// vite.config.ts
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import type { UserConfig } from "vitest/config";
@@ -26,10 +27,11 @@ export default defineConfig({
   css: {
     preprocessorOptions: {
       scss: {
-        // 👇 let Sass resolve packages + your src without ugly ../../../ hops
         includePaths: ["node_modules", "src", "src/client/styles"],
-        // If you want global mixins/vars injected:
-        additionalData: `@import "./src/client/styles/_mixins.scss";\n`,
+        // Inject ONCE into every file, without recursion:
+        additionalData: `@use "src/client/styles/_globals.scss" as *;`
+        // If you didn't make _globals.scss, you can do:
+        // additionalData: `@use "src/client/styles/_media.scss" as *;`
       },
     },
   },

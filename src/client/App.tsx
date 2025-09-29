@@ -42,7 +42,7 @@ const App: React.FC = () => {
   if (isBrowser()) {
     // harmless guard; your hook likely guards internally too
     useScrollHandler();
-  }
+  } 
 
   // Keep this aligned with the actual imported name/file
   useAuthTokenExpiratio(auth);
