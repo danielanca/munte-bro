@@ -29,7 +29,7 @@ const InputComponent = ({ enabled, onSwitchEnabled, typeOfInput, title, theme }:
 
   return (
     <label className={theme === "blue" ? styles.termRow : styles.labelRow}>
-      <input type={typeOfInput} onChange={onChangeState}></input>
+      <input className={styles.inputCustom} type={typeOfInput} onChange={onChangeState}></input>
 
       <path className={themeLayout()} aria-hidden="true" viewBox="0 0 15 11" fill="none" />
       <path d="M1 4.5L5 9L14 1" strokeWidth="2" stroke={isChecked ? "#fff" : "none"} />

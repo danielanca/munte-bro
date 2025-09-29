@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from "react";
-import OrderDone from "./OrderDone";
+import OrderDone from "./OrderDone1";
 import { sendOrderConfirmation } from "./../../services/emails";
-import Checkboxer from "./../MiniComponents/Checkboxer";
 import { MdOutlineLocalOffer } from "react-icons/md";
 
-import { NavHashLink } from "react-router-hash-link";
 import { makeCheck } from "./../../functions/utilsFunc";
 import { ErrorProps, OrderProps, ExplicitProdListProps, PropertyInput, InputProps } from "./typeProps";
 
@@ -12,7 +10,6 @@ import { productConstants } from "../../data/componentStrings";
 import strings from "../../data/strings.json";
 import { ProductsFromSessionStorage, CartInfoItemCookie } from "../../data/constants";
 import styles from "./../CartPage/FinishOrderNew.module.scss";
-import images from "./../../data/images";
 import { useOrderObject } from "./useOrderData";
 import { getInputFields } from "./inputFields";
 import { areInputsValid } from "./funcs";

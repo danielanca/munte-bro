@@ -12,7 +12,7 @@ import { sendTriggerEmail } from "../../../services/triggers";
 import styles from "./ProductView.module.scss";
 import { ProductsContext } from "./../../../Context";
 import { useAppContext } from "./../../../AppContext";
-import { getCartItems } from "../../CartPage/CartPage";
+import { getCartItems } from "../../CartPage/CartPage1";
 
 const ProductView = () => {
   let params = useParams();

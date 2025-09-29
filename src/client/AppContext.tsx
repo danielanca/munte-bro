@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, ReactNode, useEffect } from "react";
-import { getCartItems } from "./components/CartPage/CartPage";
+import { getCartItems } from "./components/CartPage/CartPage1";
 
 // Define the shape of your context state
 interface AppContextType {

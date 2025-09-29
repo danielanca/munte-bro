@@ -1,13 +1,17 @@
-@import "../main.module.scss";
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap');
+@import "./main.module.scss";
+
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@100..900&display=swap");
+
 
 .centerTextTitle {
   text-align: center;
-  font-family: "Roboto Medium";
+  font-family: "Montserrat", sans-serif;
+
   @include media("<tablet") {
     font-size: 14px;
   }
 }
+
 .robotoMedium {
   font-family: "Roboto Medium" !important;
 }

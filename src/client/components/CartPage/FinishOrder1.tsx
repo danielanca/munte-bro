@@ -1,6 +1,6 @@
 // @ts-nocheck
 import React, { useState, useEffect, useMemo } from "react";
-import OrderDone from "./OrderDone";
+import OrderDone from "./OrderDone1";
 import { sendOrderConfirmation, updateOrder } from "../../services/emails";
 import Checkboxer from "../MiniComponents/Checkboxer";
 import { NavHashLink } from "react-router-hash-link";
@@ -10,7 +10,7 @@ import { productConstants } from "../../data/componentStrings";
 import strings from "../../data/strings.json";
 import { ProductsFromSessionStorage, CartInfoItemCookie } from "../../data/constants";
 import styles from "./../CartPage/FinishOrder1.module.scss";
-import images from "../../data/images";
+import images from "../../data/images1";
 import { useOrderObject } from "./useOrderData";
 import { getInputFields } from "./inputFields";
 import { areInputsValid } from "./funcs";

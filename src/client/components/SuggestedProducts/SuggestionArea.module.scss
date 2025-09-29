@@ -1,15 +1,27 @@
+@import "../../main.module.scss";
+@import "../../data//themes.scss";
+
+@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@100;200;300;400;500;600;700&display=swap');
+
+
 .relatedContainer {
+  margin-top: 70px;
   height: 100%;
   min-height: 500px;
   width: 100%;
 }
 .titleProducts {
+  color: #3A5A40;
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 2.25rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
   text-align: center;
-  font-size: 1.5rem;
-  margin-top: 30px;
-
-  @include media("<tablet") {
-    font-size: 1rem;
+  text-decoration: underline;
+  cursor: default;
+  &:hover {
+    text-decoration: none;
   }
 }
 .productHead {
@@ -20,22 +32,18 @@
 .productArea {
   width: 100%;
   height: auto;
-  max-width: 1200px;
+  // max-width: 1200px;
   padding: 34px 0;
   margin: 40px auto;
   display: flex;
   flex-direction: row;
-  justify-content: flex-start;
-  box-shadow:
-    rgba(0, 0, 0, 0.05) 0px 6px 24px 0px,
-    rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
+  justify-content: center;
+  box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
   align-items: center;
   flex-wrap: wrap;
 
   @include media("<tablet") {
     column-gap: 2%;
     row-gap: 10px;
-    display: flex;
-    justify-content: space-evenly;
   }
 }

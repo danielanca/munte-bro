@@ -27,11 +27,7 @@ export default defineConfig({
   css: {
     preprocessorOptions: {
       scss: {
-        includePaths: ["node_modules", "src", "src/client/styles"],
-        // Inject ONCE into every file, without recursion:
-        additionalData: `@use "src/client/styles/_globals.scss" as *;`
-        // If you didn't make _globals.scss, you can do:
-        // additionalData: `@use "src/client/styles/_media.scss" as *;`
+        
       },
     },
   },

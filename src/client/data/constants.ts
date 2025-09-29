@@ -8,7 +8,7 @@ export const userAcceptedCookies = "userAccepted";
 export const inputStateEmail = {
   valid: "valid",
   notValid: "notValid",
-  init: "init",
+  init: "init"
 };
 export type emailValidType =
   | typeof inputStateEmail.init
@@ -25,5 +25,5 @@ export const TableState = {
   DATA_UPDATE: "DATA_UPDATED",
   INPUT_INTERACTING: "INPUT_INTERACTING",
   SEND_CLICKED: "SEND_CLICKED",
-  PARAM_RESET: "RESET_PARAMS",
+  PARAM_RESET: "RESET_PARAMS"
 };
