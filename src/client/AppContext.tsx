@@ -12,39 +12,59 @@ const AppContext = createContext<AppContextType | undefined>(undefined);
 
 // Create a provider component
 export const AppProvider = ({ children }: { children: ReactNode }) => {
-  const [cartItems, setCartItems] = useState<number>(() => getCartItems() ?? 0); // Provide fallback if null
+  const [cartItems, setCartItems] = useState<number>(() => {
+    if (typeof window !== "undefined") {
+      return getCartItems() ?? 0;
+    }
+    return 0;
+  });
 
   useEffect(() => {
     // Function to update cart items
     const updateCartItems = () => {
-      const totalItems = getCartItems() ?? 0; // Provide fallback if null
-      setCartItems(totalItems); // Update the state
+      const totalItems = getCartItems() ?? 0;
+      setCartItems(totalItems);
     };
 
-    // Perform an initial fetch of the cart items with a slight delay for safety (if needed)
+    // Perform an initial fetch of the cart items with a slight delay for safety
     const initialFetch = setTimeout(() => {
-      let cartFirstTime = getCartItems() ?? 0; // Provide fallback if null
+      const cartFirstTime = getCartItems() ?? 0;
       if (cartItems === 0) {
         setCartItems(cartFirstTime);
       }
-    }, 1500); // You can adjust the delay time here if needed
+    }, 1500);
 
     // Event listener for localStorage changes (to handle changes in other tabs)
-    const handleStorageChange = () => {
-      updateCartItems(); // Fetch the updated total items from localStorage
+    const handleStorageChange = (event: StorageEvent) => {
+      if (event.key === "cartData") {
+        updateCartItems();
+      }
+    };
+
+    // Custom event listener for cart updates within the same tab
+    const handleCartUpdate = () => {
+      updateCartItems();
     };
 
     // Listen for storage changes (cross-tab sync)
     window.addEventListener("storage", handleStorageChange);
+    
+    // Listen for custom cart update events (same tab)
+    window.addEventListener("cartUpdated", handleCartUpdate);
 
-    // Cleanup: clear the timeout and remove event listener when component unmounts
+    // Cleanup: clear the timeout and remove event listeners when component unmounts
     return () => {
       clearTimeout(initialFetch);
       window.removeEventListener("storage", handleStorageChange);
+      window.removeEventListener("cartUpdated", handleCartUpdate);
     };
-  }, [cartItems]); // Empty dependency array ensures it runs only once after the component mounts
+  }, [cartItems]);
 
-  return <AppContext.Provider value={{ cartItems, setCartItems }}>{children}</AppContext.Provider>;
+  return (
+    <AppContext.Provider value={{ cartItems, setCartItems }}>
+      {children}
+    </AppContext.Provider>
+  );
 };
 
 // Custom hook to use the AppContext

@@ -2,7 +2,6 @@ import React, { useEffect, useMemo, useState } from "react";
 import { NavHashLink } from "react-router-hash-link";
 import { uniqueId } from "lodash";
 import { productConstants } from "../../data/componentStrings";
-import { CartInfoItemCookie, ProductsFromSessionStorage } from "../../data/constants";
 import ItemCartList from "./ItemCartList";
 import { ProductSessionProps, ProductCookiesProps, CartProps } from "./typeProps1";
 import strings from "../../data/strings.json";
@@ -10,6 +9,13 @@ import styles from "./CartPage1.module.scss";
 import { AiOutlinePercentage } from "react-icons/ai";
 import { MdOutlineLocalOffer } from "react-icons/md";
 import { getCuponData, Cupon } from "../../data/CuponFetch";
+
+// Client-side check utility
+const isClient = typeof window !== "undefined";
+
+// Define constants locally instead of importing them
+const CartInfoItemCookie = "cartData";
+const ProductsFromSessionStorage = "productsFetched";
 
 const makeCheck = (sessionData: ProductSessionProps, cartData: ProductCookiesProps[]) => {
   const missing: string[] = [];
@@ -31,13 +37,15 @@ const CartPage = ({ notifyMe }: CartProps) => {
   const { MyCart: cartString } = strings;
   const deliveryFee = Number(productConstants.shippingFee);
 
-  // Load session products (catalog) and cart
+  // Load session products (catalog) and cart with client-side check
   const sessionProducts: ProductSessionProps | null = useMemo(() => {
+    if (!isClient) return null;
     const flat = sessionStorage.getItem(ProductsFromSessionStorage);
     return typeof flat === "string" ? (JSON.parse(flat) as ProductSessionProps) : null;
   }, []);
 
   const storedCart: ProductCookiesProps[] | null = useMemo(() => {
+    if (!isClient) return null;
     const expectedData = localStorage.getItem(CartInfoItemCookie);
     return expectedData ? (JSON.parse(expectedData) as ProductCookiesProps[]) : null;
   }, [updateMade]);
@@ -58,10 +66,16 @@ const CartPage = ({ notifyMe }: CartProps) => {
   const productNotification = () => {
     setUpdateMade((n) => n + 1);
     notifyMe(updateMade + 1);
+    
+    // Dispatch custom event to notify context about cart update
+    if (isClient) {
+      window.dispatchEvent(new Event("cartUpdated"));
+    }
   };
 
   // Fetch cupons once
   useEffect(() => {
+    if (!isClient) return;
     (async () => {
       try {
         const data = await getCuponData();
@@ -207,6 +221,8 @@ export default CartPage;
 
 // Utility used outside the component
 export const getCartItems = () => {
+  if (!isClient) return 0;
+  
   const itemFromSessionS = sessionStorage.getItem(ProductsFromSessionStorage);
   const sessionProducts: ProductSessionProps | null =
     itemFromSessionS ? (JSON.parse(itemFromSessionS) as ProductSessionProps) : null;
@@ -218,4 +234,30 @@ export const getCartItems = () => {
 
   cart = makeCheck(sessionProducts, cart);
   return cart.reduce((acc, item) => acc + Number(item.itemNumber ?? 0), 0);
+};
+
+export const CookiesTagConsent = "cookieConsentBrasov";
+export const userAcceptedCookies = "userAccepted";
+
+//Newsletter Component
+export const inputStateEmail = {
+  valid: "valid",
+  notValid: "notValid",
+  init: "init"
+};
+export type emailValidType =
+  | typeof inputStateEmail.init
+  | typeof inputStateEmail.notValid
+  | typeof inputStateEmail.valid;
+
+//Newsletter Subscrption state
+export const Sub = { initState: "INIT", SubscribedState: "SUBSCRIBED", ErrorState: "ERROR" };
+
+export type SubscriptionType = typeof Sub.initState | typeof Sub.SubscribedState | typeof Sub.ErrorState;
+
+export const TableState = {
+  DATA_UPDATE: "DATA_UPDATED",
+  INPUT_INTERACTING: "INPUT_INTERACTING",
+  SEND_CLICKED: "SEND_CLICKED",
+  PARAM_RESET: "RESET_PARAMS"
 };

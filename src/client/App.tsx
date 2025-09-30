@@ -16,7 +16,6 @@ import { LangContextProvider } from "./AdminDashboard/store/langContext";
 import { ThemeContextProvider } from "./AdminDashboard/store/themeContext";
 import { LoginContextProvider } from "./AdminDashboard/store/loginContext";
 
-import LoadingSpinner from "./AdminDashboard/components/UI/loadingSpinner/LoadingSpinner";
 // NOTE: path name intentionally left as in your repo; if your file is actually spelled "...Expiration"
 // then change the import path accordingly and keep the hook name consistent.
 import useAuthTokenExpiratio from "./AdminDashboard/components/auth/firebase/useAuthTokenExpiratio";
@@ -26,6 +25,7 @@ import AnalyticsSnippet from "./components/AnalyticsScript";
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./data/customCSS.scss";
+import LoadingSpinner from "./AdminDashboard/components/UI/loadingSpinner/LoadingSpinner";
 
 
 function isBrowser() {

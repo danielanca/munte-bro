@@ -1,19 +1,19 @@
 import loadable from "@loadable/component";
 
-const Mainpage = loadable(() => import("../pages/Mainpage"), { ssr: true });
-const PublicLayout = loadable(() => import("../layouts/public/PublicLayout"), { ssr: true });
-
-const ProduseleNoastre = loadable(() => import("../components/OurProducts/ProduseleNoastre"), { ssr: true });
-const ProductView = loadable(() => import("../components/Product/ProductView"), { ssr: true });
-const FinishOrder = loadable(() => import("../components/CartPage/FinishOrder1"), { ssr: true });
-const Thankyou = loadable(() => import("../components/CartPage/OrderDone1"), { ssr: true });
-const OrderView = loadable(() => import("../components/OrderView/OrderView"), { ssr: true });
-
-const Desprenoi = loadable(() => import("../blocks/Desprenoi"), { ssr: true });
+const Mainpage         = loadable(() => import("../pages/Mainpage"),                           { ssr: true, fallback: <PageLoader/> });
+const PublicLayout     = loadable(() => import("../layouts/public/PublicLayout"),              { ssr: true, fallback: <PageLoader/> });
+const ProduseleNoastre = loadable(() => import("../components/OurProducts/ProduseleNoastre"),  { ssr: true, fallback: <PageLoader/> });
+const ProductView      = loadable(() => import("../components/Product/ProductView"),           { ssr: true, fallback: <PageLoader/> });
+const FinishOrder      = loadable(() => import("../components/CartPage/FinishOrder1"),         { ssr: true, fallback: <PageLoader/> });
+const CartPage         = loadable(() => import("../components/CartPage/CartPage1"),            { ssr: true, fallback: <PageLoader/> });
+const Thankyou         = loadable(() => import("../components/CartPage/OrderDone1"),           { ssr: true, fallback: <PageLoader/> });
+const OrderView        = loadable(() => import("../components/OrderView/OrderView"),           { ssr: true, fallback: <PageLoader/> });
+const Desprenoi        = loadable(() => import("../blocks/Desprenoi"),                         { ssr: true, fallback: <PageLoader/> });
 
 
 import { TextContentRoutes } from "./contentRoutes/contentRoutes";
 import { RouteType } from "./types";
+import PageLoader from "../components/UI/PageLoader";
 
 
 
@@ -41,6 +41,12 @@ const publicRoutes: RouteType[] = [
     path: "finalizare-comanda",
     layout: PublicLayout,
     component: FinishOrder,
+    props: { clearNotification: clearNotification },
+  },
+  {
+    path: "cosulmeu",
+    layout: PublicLayout,
+    component: CartPage,
     props: { clearNotification: clearNotification },
   },
   {
