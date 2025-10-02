@@ -1,20 +1,25 @@
-// @ts-nocheck
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import ProductPreview from "../Product/ProductPreview";
-import { CuponModel, ProductListType, ProductModel } from "./../../utils/OrderInterfaces";
+import { 
+  Container, 
+  Row, 
+  Col, 
+  Card, 
+  Form, 
+  Button,
+  Alert 
+} from "react-bootstrap";
+
+import { CuponModel } from "../../utils/OrderInterfaces";
 import { getData } from "../../data/ProdFetch";
-import { updateCupon } from "./../../services/emails";
-import { Container, Row, Col, Card, CardHeader, CardBody } from "shards-react";
-// import PageTitle from "../AdminArea/ShardsDesign/components/common/PageTitle";
+import { updateCupon } from "../../services/emails";
 import styles from "./EditProduct.module.scss";
 
-const EditCupon = () => {
+const EditCupon: React.FC = () => {
   const [openPreviewArea, setOpenPreviewArea] = useState<boolean>(false);
-  let params = useParams();
-  let ID: any = params.id !== undefined ? params.id : "";
-  console.log("EDIT CUPON PARAM:", useParams());
-  const [CuponListUpdated, setCupons] = useState<CuponModel[]>();
+  const params = useParams<{ id: string }>();
+  const ID: string = params.id ?? "";
+  const [cuponListUpdated, setCupons] = useState<CuponModel[] | null>(null);
   const [editSent, setEditSent] = useState<boolean>(false);
   const [editCuponModel, setEditCuponModel] = useState<CuponModel>({
     ID: "",
@@ -24,34 +29,29 @@ const EditCupon = () => {
 
   const navigate = useNavigate();
 
-  const inputHandler = (data: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>) => {
+  const inputHandler = (data: React.ChangeEvent<HTMLInputElement>): void => {
     const { name, value } = data.target;
     setEditCuponModel((prevFormData) => {
-      return { ...prevFormData, [name]: value };
+      return { 
+        ...prevFormData, 
+        [name]: name === "cuponDiscount" ? Number(value) : value 
+      };
     });
   };
 
-  const separatorHandler = (data: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>) => {
-    const { name, value } = data.target;
-    if (name === "imageProduct" || name === "ULbeneficii") {
-      setEditCuponModel((editCuponModel) => ({
-        ...editCuponModel,
-        [name]: value.split(",")
-      }));
-    }
-  };
-
-  const submitEditOperation = () => {
+  const submitEditOperation = (): void => {
     setEditSent(true);
-    if (editCuponModel.cuponCode !== "") {
+    if (editCuponModel.cuponCode.trim() !== "") {
       updateCupon(editCuponModel).then((response) => {
         console.log("EDIT process sent to Cloud!");
+      }).catch((error) => {
+        console.error("Error updating cupon:", error);
       });
     }
   };
-  const previewOperation = () => {
+
+  const previewOperation = (): void => {
     setOpenPreviewArea((prevState) => !prevState);
-    // console.log(editCuponModel);
   };
 
   useEffect(() => {
@@ -63,79 +63,144 @@ const EditCupon = () => {
     }
   }, [editSent]);
 
-  const cancelOperation = () => {
+  const cancelOperation = (): void => {
     navigate("/admin/cupondiscount");
   };
 
   useEffect(() => {
-    if (CuponListUpdated == null) {
-      getData(ID).then((finalData) => {
+    if (cuponListUpdated === null && ID) {
+      getData(ID).then((finalData: CuponModel[]) => {
         setCupons(finalData);
+      }).catch((error) => {
+        console.error("Error fetching cupon data:", error);
       });
     }
-  });
+  }, [cuponListUpdated, ID]);
 
   useEffect(() => {
-    if (CuponListUpdated != null) {
-      setEditCuponModel(CuponListUpdated[ID]);
+    if (cuponListUpdated !== null && cuponListUpdated !== undefined && ID) {
+      const cupon = cuponListUpdated[ID as keyof typeof cuponListUpdated];
+      if (cupon) {
+        setEditCuponModel(cupon as CuponModel);
+      }
     }
-  }, [CuponListUpdated]);
+  }, [cuponListUpdated, ID]);
 
   return (
     <Container fluid className="main-content-container px-4">
-      {/* <Row noGutters className="page-header py-4">
-        <PageTitle sm="4" title="Product List" subtitle={"Edit Product"} className="text-sm-left" />
-      </Row> */}
+      <Row className="page-header py-4">
+        <Col>
+          <h2 className="mb-0">Edit Cupon</h2>
+          <p className="text-muted">Manage your cupon details</p>
+        </Col>
+      </Row>
+      
       <Row>
         <Col>
           <div className={styles.editPage}>
-            {CuponListUpdated != null ? (
-              <div className={styles.addAreaContainer}>
-                <h3>{" Edit Cupon"}</h3>
+            {cuponListUpdated !== null ? (
+              <Card>
+                <Card.Header>
+                  <h5 className="mb-0">Edit Cupon Details</h5>
+                </Card.Header>
+                <Card.Body>
+                  <Form>
+                    <Row>
+                      <Col md={6}>
+                        <Form.Group className="mb-3">
+                          <Form.Label htmlFor="ID">
+                            <strong>Link ID Name:</strong>
+                          </Form.Label>
+                          <Form.Control
+                            type="text"
+                            name="ID"
+                            value={editCuponModel.ID}
+                            onChange={inputHandler}
+                            readOnly
+                            plaintext
+                            className="bg-light"
+                          />
+                          <Form.Text className="text-muted">
+                            This field cannot be modified
+                          </Form.Text>
+                        </Form.Group>
+                      </Col>
+                      
+                      <Col md={6}>
+                        <Form.Group className="mb-3">
+                          <Form.Label htmlFor="cuponCode">
+                            <strong>Cupon Code *</strong>
+                          </Form.Label>
+                          <Form.Control
+                            type="text"
+                            name="cuponCode"
+                            value={editCuponModel.cuponCode}
+                            onChange={inputHandler}
+                            placeholder="Enter cupon code"
+                            required
+                          />
+                        </Form.Group>
+                      </Col>
+                    </Row>
 
-                <div className={styles.inputContainer}>
-                  <div className={styles.rowSpacer}>
-                    <div className={styles.inputFielder}>
-                      <label htmlFor="ID">{"Link ID Name:"}</label>
-                      <input
-                        style={{ opacity: "0.6", pointerEvents: "none" }}
-                        onChange={inputHandler}
-                        name="ID"
-                        value={editCuponModel.ID}
-                        readOnly
-                      />
-                    </div>
-                    <div className={styles.inputFielder}>
-                      <label htmlFor="cuponCode">{"Cupon Code"}</label>
-                      <input onChange={inputHandler} name="cuponCode" value={editCuponModel.cuponCode} />
-                    </div>
-                    <div className={styles.inputFielder}>
-                      <label htmlFor="cuponDiscount">{"Cupon Discount"}</label>
-                      <input onChange={inputHandler} name="cuponDiscount" value={editCuponModel.cuponDiscount} />
-                    </div>
-                  </div>
+                    <Row>
+                      <Col md={6}>
+                        <Form.Group className="mb-4">
+                          <Form.Label htmlFor="cuponDiscount">
+                            <strong>Cupon Discount (%) *</strong>
+                          </Form.Label>
+                          <Form.Control
+                            type="number"
+                            name="cuponDiscount"
+                            value={editCuponModel.cuponDiscount}
+                            onChange={inputHandler}
+                            placeholder="Enter discount percentage"
+                            min="0"
+                            max="100"
+                            required
+                          />
+                        </Form.Group>
+                      </Col>
+                    </Row>
 
-                  <div className={styles.actionControl}>
-                    <button className={styles.saveButton} onClick={submitEditOperation}>
-                      {"SAVE"}
-                    </button>
-                    <button onClick={cancelOperation} className={styles.cancelButton}>
-                      {"CANCEL"}
-                    </button>
-                  </div>
-                  {/* <div className={styles.dialogSpace}>
-                    {editSent && <p className={styles.confirmationSaveText}>{"Modificarile au avut loc!"}</p>}
-                  </div> */}
-                </div>
-              </div>
+                    <div className={styles.actionControl}>
+                      <Button 
+                        variant="primary" 
+                        onClick={submitEditOperation}
+                        className="me-2"
+                        disabled={!editCuponModel.cuponCode.trim()}
+                      >
+                        SAVE CHANGES
+                      </Button>
+                      <Button 
+                        variant="outline-secondary" 
+                        onClick={cancelOperation}
+                      >
+                        CANCEL
+                      </Button>
+                    </div>
+
+                    {editSent && (
+                      <Alert variant="success" className="mt-3">
+                        Changes have been saved successfully!
+                      </Alert>
+                    )}
+                  </Form>
+                </Card.Body>
+              </Card>
             ) : (
-              ""
+              <Card>
+                <Card.Body className="text-center">
+                  <div className="spinner-border text-primary" role="status">
+                    <span className="visually-hidden">Loading...</span>
+                  </div>
+                  <p className="mt-2">Loading cupon data...</p>
+                </Card.Body>
+              </Card>
             )}
           </div>
         </Col>
       </Row>
-      {/* {openPreviewArea && <ProductPreview ID={ID} productListUpdated={{ [ID]: ProductModel }} />} */}
-      {/* {openPreviewArea && <p>Mubbasher OP</p>} */}
     </Container>
   );
 };

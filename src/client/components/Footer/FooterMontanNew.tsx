@@ -7,7 +7,7 @@ import React, { useEffect, useState } from "react";
 import { BrowserRouter as Router, useLocation } from "react-router-dom";
 import { uniqueId } from "lodash";
 
-import styles from ".//FooterMontanNew.module.scss";
+import styles from "./FooterMontanNew.module.scss";
 import strings from "../../data/strings.json";
 import NewsletterBanner from "../MiniComponents/HeadLiners/NewsletterBanner";
 import allPathsURL from "../../data/allPathsURL.json";
@@ -22,10 +22,15 @@ const FooterMontanNew = () => {
   const { pathname } = useLocation();
   const [footerFetch, setFooterFetch] = useState({});
   useEffect(() => {
-    getStringsList("legalInfo").then((result: getType) => {
-      setFooterFetch(JSON.parse(JSON.stringify(result.resultSent.legalData)));
-    });
-  }, []);
+  let alive = true;
+  (async () => {
+    const result = await getStringsList("legalInfo");
+    if (alive) setFooterFetch(result.resultSent.legalData);
+  })();
+  return () => { alive = false; };
+}, []);
+
+
 
   // GoToTop function
   const handleScrollToTop = () => {

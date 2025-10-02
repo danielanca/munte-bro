@@ -1,6 +1,6 @@
 // @ts-nocheck
 import React, { useState, useRef } from "react";
-import useAuth from "./../hooks/useAuth";
+import useAuth from "../hooks/useAuth";
 import { requestLoginAccess } from "../../services/emails";
 import { Credentials, ResponseServer } from "./AdminTypes";
 import { useLocation, useNavigate } from "react-router-dom";

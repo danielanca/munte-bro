@@ -1,25 +1,18 @@
+// data/ProdFetch.ts
 import { doc, getFirestore, getDoc } from "firebase/firestore";
-import { initializeApp, getApps } from "firebase/app";
-import app from "./../firebase";
+import app from "../firebase";
+import { CuponModel } from "../utils/OrderInterfaces";
 
 const db = getFirestore(app);
 
-if (!getApps().length) {
-  initializeApp({ /* your config */ });
-}
-
-
-
-export const getData = async () => {
+export const getData = async (id?: string): Promise<CuponModel[]> => {
   const documentRef = doc(db, "products", "activeProds");
-  let fetchedData = null;
-  const docSnap = await getDoc(documentRef);
+  const snap = await getDoc(documentRef);
+  if (!snap.exists()) return [];
 
-  if (docSnap.exists()) {
-    fetchedData = docSnap.data();
-  } else {
-    console.log("No documents found");
-  }
+  const data = snap.data();
+  if (!data) return [];
 
-  return fetchedData;
+  if (id && data[id]) return [data[id] as CuponModel];
+  return Object.values(data) as CuponModel[];
 };

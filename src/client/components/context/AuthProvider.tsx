@@ -1,19 +1,19 @@
+// components/AdminArea/context/AuthProvider.tsx
 import { createContext, useState } from "react";
-import { getCookie } from "./../../utils/functions";
-import { ProviInter, Provi } from "./ProviderTypes";
+import { getCookie } from "../../utils/functions";
+import type { Provi, ProviInter } from "./ProviderTypes";
 
-const AuthContext = createContext<ProviInter | null>(null);
-interface AuthProviderProps {
-  children: React.ReactNode; // This line explicitly types the `children` prop
-}
-export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
-  let authoriseMe = false;
-  if (getCookie("jwt") === "ABCJWT") {
-    authoriseMe = true;
-    // setAuth((auth) => ({ ...auth, email: "yeah", authorise: true }));
-  }
-  //you have to learn React lifecycle
-  const [auth, setAuth] = useState<Provi>({ email: "", password: "", accessToken: "", authorise: authoriseMe });
+const AuthContext = createContext<ProviInter | undefined>(undefined);
+
+export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  // ✅ don’t hardcode token string; authorize if a jwt cookie exists
+  const hasToken = Boolean(getCookie("jwt"));
+  const [auth, setAuth] = useState<Provi>({
+    email: "",
+    password: "",
+    accessToken: "",
+    authorise: hasToken,
+  });
 
   return <AuthContext.Provider value={{ auth, setAuth }}>{children}</AuthContext.Provider>;
 };

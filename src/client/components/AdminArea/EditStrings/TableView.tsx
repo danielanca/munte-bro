@@ -1,81 +1,92 @@
-// @ts-nocheck
+// TableView.tsx
 import React, { useEffect, useReducer, useState, useRef } from "react";
-import { getStringsList, sendStringsList } from "../../../services/emails";
-import { TableProps, getType, disState, HereInterface } from "./TableTypes";
-import { TableState } from "../../../data/constants";
+import { Card } from "react-bootstrap";
 import stringify from "json-stable-stringify";
+import { getStringsList, sendStringsList } from "../../../services/emails";
+import { TableProps, GetStringsResponse, DisState, JSONDict, TableState, TableAction } from "./TableTypes";
 import styles from "./TableView.module.scss";
-import { CardBody } from "shards-react";
 
-const TableView = ({ tableID }: TableProps) => {
-  const [theObject, setObject] = useState<HereInterface | null>(null);
+const asDict = (v: string | JSONDict | undefined): JSONDict | undefined =>
+  v && typeof v === "object" ? (v as JSONDict) : undefined;
+
+function setIn(obj: JSONDict, path: string[], value: string): JSONDict {
+  if (path.length === 0) return obj;
+  const [key, ...rest] = path;
+  const cur = obj[key];
+  if (rest.length === 0) return { ...obj, [key]: value };
+  const next: JSONDict = asDict(cur) ?? {};
+  return { ...obj, [key]: setIn(next, rest, value) };
+}
+
+function firstRecord(o: JSONDict | null): JSONDict | undefined {
+  if (!o) return;
+  const ks = Object.keys(o);
+  if (ks.length === 0) return;
+  return asDict(o[ks[0]]);
+}
+
+function reduceMe(state: DisState, action: TableAction): DisState {
+  switch (action.type) {
+    case TableState.DATA_UPDATE:
+      return { internalState: "SUCCES_UPLOAD", buttonState: "active", infoText: "Salvat!" };
+    case TableState.INPUT_INTERACTING:
+      if (state.internalState === "PENDING_UPLOAD") return state;
+      return { ...state, buttonState: "active" };
+    case TableState.SEND_CLICKED:
+      return { internalState: "PENDING_UPLOAD", buttonState: "inactive", infoText: "In curs de salvare..." };
+    case TableState.PARAM_RESET:
+      return { ...state, internalState: "INIT_UPLOAD" };
+    default:
+      return state;
+  }
+}
+
+const TableView: React.FC<TableProps> = ({ tableID }) => {
+  const [theObject, setObject] = useState<JSONDict | null>(null);
 
   const [stateR, dispatch] = useReducer(reduceMe, {
     internalState: "UPLOAD_INIT",
     buttonState: "inactive",
-    infoText: " "
-  });
+    infoText: " ",
+  } as DisState);
 
-  let listPopulated = useRef(0);
+  const listPopulated = useRef(0);
 
   const changeInput = (event: React.FormEvent<HTMLInputElement>) => {
-    let { name, value } = event.currentTarget;
-    let sourcePath = name.split(",");
-    console.log("SourcePath", sourcePath);
-    if (theObject != null) {
-      setObject((theObject) => ({
-        ...theObject,
-        [sourcePath[0]]: { ...theObject[sourcePath[0]], [sourcePath[1]]: value }
-      }));
-    }
+    const { name, value } = event.currentTarget;
+    const path = name.split(",").map(s => s.trim()).filter(Boolean);
+    if (!theObject) return;
+    setObject(prev => (prev ? setIn(prev, path, value) : prev));
   };
 
-  const changeFromChild = (address: any, value: string) => {
-    let FAQAddress = address[0];
-    let questionList = address[1];
-    let questionNumber = address[2];
-    let answer = address[3];
-    if (theObject != null) {
-      setObject((theObject) => ({
-        ...theObject,
-        [FAQAddress]: {
-          ...theObject[FAQAddress],
-          [questionList]: {
-            ...theObject[FAQAddress][questionList],
-            [questionNumber]: {
-              ...theObject[FAQAddress][questionList][questionNumber],
-              [answer]: value
-            }
-          }
-        }
-      }));
-    }
+  const changeFromChild = (address: string[], value: string) => {
+    if (!theObject) return;
+    setObject(prev => (prev ? setIn(prev, address, value) : prev));
   };
 
   const refreshAction = () => window.location.reload();
+// TableView.tsx — replace the effect that loads data
+useEffect(() => {
+  (async () => {
+    const result: GetStringsResponse = await getStringsList(tableID);
+    const text = stringify(result?.resultSent ?? {}) ?? "{}";
+    const normalized: JSONDict = JSON.parse(text);
+    setObject(normalized);
+  })();
+}, [tableID]);
+
 
   useEffect(() => {
-    const fetchStringList = async () => {
-      const result = await getStringsList(tableID);
-      setObject(JSON.parse(stringify(result.resultSent)));
-    };
-
-    fetchStringList();
-  }, []);
-
-  useEffect(() => {
-    if (theObject != null && listPopulated.current === 1) {
+    if (theObject && listPopulated.current === 1) {
       dispatch({ type: TableState.INPUT_INTERACTING });
-    } else if (theObject != null) {
+    } else if (theObject) {
       listPopulated.current = 1;
     }
-    console.log("TheObject here up:", theObject);
   }, [theObject]);
 
   const sendToDatabase = () => {
-    dispatch({ type: "SEND_CLICKED" });
-
-    sendStringsList(tableID, JSON.stringify(theObject)).then((result: getType) => {
+    dispatch({ type: TableState.SEND_CLICKED });
+    sendStringsList(tableID, JSON.stringify(theObject ?? {})).then((result: GetStringsResponse) => {
       if (result.resultSent) dispatch({ type: TableState.DATA_UPDATE });
     });
   };
@@ -83,137 +94,152 @@ const TableView = ({ tableID }: TableProps) => {
   return (
     <div className={styles.tableContainer}>
       <h5 className="page-title px-3 text-muted">{tableID}</h5>
-      <CardBody className="p-0 pb-3">
-        <table className="table mb-0">
-          <TableHeader inputData={theObject} />
-          <tbody>
-            {theObject != null &&
-              Object.keys(theObject).map((item: string, index: number) => (
-                <TableRow
-                  key={index}
-                  item={item}
-                  theObject={theObject}
-                  changeInput={changeInput}
-                  generateTable={generateTable}
-                  changeFromChild={changeFromChild}
-                />
-              ))}
-          </tbody>
-        </table>
-      </CardBody>
+
+      <Card className="mb-3">
+        <Card.Body className="p-0 pb-3">
+          <table className="table mb-0">
+            <TableHeader inputData={theObject} />
+            <tbody>
+              {theObject &&
+                Object.keys(theObject).map((item, index) => (
+                  <TableRow
+                    key={index}
+                    item={item}
+                    theObject={theObject}
+                    changeInput={changeInput}
+                    generateTable={generateTable}
+                    changeFromChild={changeFromChild}
+                  />
+                ))}
+            </tbody>
+          </table>
+        </Card.Body>
+      </Card>
+
       <div className={styles.actionWrap}>
         <button
           onClick={sendToDatabase}
           className={stateR.buttonState === "active" ? styles.saveButton : styles.saveButtonInactive}
         >
-          {"Save"}
+          Save
         </button>
         <button className={styles.refreshButton} onClick={refreshAction}>
-          {"Anulare"}
+          Anulare
         </button>
       </div>
+
       {stateR.internalState === "PENDING_UPLOAD" ? (
-        <p style={{ textAlign: "left" }}>{"Saving..."}</p>
+        <p style={{ textAlign: "left" }}>Saving...</p>
       ) : stateR.internalState === "SUCCES_UPLOAD" ? (
-        <p style={{ textAlign: "left" }}>{"Saved!"}</p>
-      ) : (
-        ""
-      )}
+        <p style={{ textAlign: "left" }}>Saved!</p>
+      ) : null}
     </div>
   );
 };
 
-function generateTable(theObject: any, [...items]: string[], Inputhandler: (address: any, value: string) => void) {
-  let address: string[] = [...items];
-
-  return (
-    <tbody>
-      <tr>
-        <th></th>
-        {theObject != null &&
-          Object.keys(Object.values(theObject)[0]).map((item, index) => <th key={index}>{item}</th>)}
-      </tr>
-      {theObject != null &&
-        Object.keys(theObject).map((item: string, index: number) => (
-          <tr key={index} style={{ outline: "1px solid gray" }}>
-            <th style={{ textAlign: "left" }}>{item}</th>
-            {Object.keys(theObject[item]).map((itemInside, index: number) => {
-              return (
-                <td key={index}>
-                  <input
-                    name={`${item},${itemInside}`}
-                    onChange={(e) => {
-                      address.push(item, itemInside);
-                      Inputhandler(address, e.currentTarget.value);
-                    }}
-                    value={theObject[item][itemInside]}
-                  />
-                </td>
-              );
-            })}
-          </tr>
-        ))}
-    </tbody>
-  );
-}
-
-function TableHeader({ inputData }: { inputData: HereInterface | null }) {
+function TableHeader({ inputData }: { inputData: JSONDict | null }) {
+  const headSource = firstRecord(inputData);
   return (
     <thead className="bg-light">
       <tr>
         <th></th>
-        {inputData != null &&
-          Object.keys(Object.values(inputData)[0]).map((item, index) => <th key={index}>{item}</th>)}
+        {headSource && Object.keys(headSource).map((k, i) => <th key={i}>{k}</th>)}
       </tr>
     </thead>
   );
 }
 
-function TableRow({ item, theObject, changeInput, generateTable, changeFromChild }) {
+type RowProps = {
+  item: string;
+  theObject: JSONDict;
+  changeInput: (e: React.FormEvent<HTMLInputElement>) => void;
+  generateTable: (obj: JSONDict, path: string[], cb: (addr: string[], value: string) => void) => JSX.Element;
+  changeFromChild: (addr: string[], value: string) => void;
+};
+
+function TableRow({ item, theObject, changeInput, generateTable, changeFromChild }: RowProps) {
+  const rowVal = theObject[item] as string | JSONDict;
+
+  if (typeof rowVal === "string") {
+    return (
+      <tr>
+        <th role="col" className="border-0" style={{ textAlign: "left" }}>
+          {item}
+        </th>
+        <td>
+          <input name={`${item},value`} onChange={changeInput} value={rowVal} />
+        </td>
+      </tr>
+    );
+  }
+
+  const rowObj = rowVal as JSONDict;
+
   return (
     <tr>
-      <th role={"col"} className={"border-0"} style={{ textAlign: "left" }}>
+      <th role="col" className="border-0" style={{ textAlign: "left" }}>
         {item}
       </th>
-      {Object.keys(theObject[item]).map((itemInside, index: number) => {
-        if (typeof theObject[item][itemInside] === "object") {
+      {Object.keys(rowObj).map((innerKey, index) => {
+        const cell = rowObj[innerKey];
+        if (typeof cell === "object") {
           return (
-            <td className={"p-0"} key={index}>
-              {generateTable(theObject[item][itemInside], [item, itemInside], changeFromChild)}
+            <td className="p-0" key={index}>
+              {generateTable(cell as JSONDict, [item, innerKey], changeFromChild)}
             </td>
           );
-        } else
-          return (
-            <td key={index}>
-              <input name={`${item},${itemInside}`} onChange={changeInput} value={theObject[item][itemInside]} />
-            </td>
-          );
+        }
+        return (
+          <td key={index}>
+            <input name={`${item},${innerKey}`} onChange={changeInput} value={String(cell)} />
+          </td>
+        );
       })}
     </tr>
   );
 }
 
-function reduceMe(state: disState, action: any) {
-  switch (action.type) {
-    case TableState.DATA_UPDATE:
-      return {
-        internalState: "SUCCES_UPLOAD",
-        buttonState: "active",
-        infoText: "Salvat!"
-      };
-    case TableState.INPUT_INTERACTING:
-      return { ...state, buttonState: "active" };
-    case TableState.SEND_CLICKED:
-      return {
-        internalState: "PENDING_UPLOAD",
-        buttonState: "inactive",
-        infoText: "In curs de salvare..."
-      };
-    case TableState.PARAM_RESET:
-      return { ...state, internalState: "INIT_UPLOAD" };
-    default:
-      throw new Error();
-  }
+function generateTable(
+  theObject: JSONDict,
+  path: string[],
+  inputHandler: (address: string[], value: string) => void
+) {
+  const first = firstRecord(theObject);
+
+  return (
+    <table className="table mb-0">
+      <thead className="bg-light">
+        <tr>
+          <th></th>
+          {first && Object.keys(first).map((k, i) => <th key={i}>{k}</th>)}
+        </tr>
+      </thead>
+
+      <tbody>
+        {Object.keys(theObject).map((k, i) => {
+          const val = theObject[k];
+          if (typeof val === "object") {
+            return (
+              <tr key={i} style={{ outline: "1px solid gray" }}>
+                <th style={{ textAlign: "left" }}>{k}</th>
+                <td className="p-0" colSpan={first ? Object.keys(first).length : 1}>
+                  {generateTable(val as JSONDict, [...path, k], inputHandler)}
+                </td>
+              </tr>
+            );
+          }
+          return (
+            <tr key={i} style={{ outline: "1px solid gray" }}>
+              <th style={{ textAlign: "left" }}>{k}</th>
+              <td>
+                <input onChange={(e) => inputHandler([...path, k], e.currentTarget.value)} value={String(val)} />
+              </td>
+            </tr>
+          );
+        })}
+      </tbody>
+    </table>
+  );
 }
 
 export default TableView;

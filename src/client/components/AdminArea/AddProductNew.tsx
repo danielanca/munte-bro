@@ -1,19 +1,16 @@
-// @ts-nocheck
-
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import ProductPreview from "../Product/ProductPreview";
-import { ProductListType, ProductModel } from "./../../utils/OrderInterfaces";
+import { ProductModel } from "../../utils/OrderInterfaces";
 import { getProductWithID } from "../../data/productList";
 import { addProduct } from "./../../services/emails";
-import { Container, Row, Col, Card, CardHeader, CardBody } from "shards-react";
-import PageTitle from "../AdminArea/ShardsDesign/components/common/PageTitle";
+import { Container, Row, Col, Card, Button, Form } from "react-bootstrap";
 import styles from "./EditProduct.module.scss";
 
-const EditProduct = () => {
-  const [openPreviewArea, setOpenPreviewArea] = useState<boolean>(false);
+const EditProduct: React.FC = () => {
+  const [openPreviewArea, setOpenPreviewArea] = useState(false);
   const [productListUpdated, setProducts] = useState<any>();
-  const [editSent, setEditSent] = useState<boolean>(false);
+  const [editSent, setEditSent] = useState(false);
   const [editproductModel, setEditProductModel] = useState<ProductModel>({
     ID: "",
     price: "",
@@ -28,184 +25,149 @@ const EditProduct = () => {
     jsonContent: "",
     reviews: {},
     shortDescription: "",
-    title: ""
+    title: "",
   });
 
   const navigate = useNavigate();
+  const params = useParams();
+  const ID = params.id ?? "";
 
-  console.log("EDIT PRODUCTS PARAM:", useParams());
-  let params = useParams();
-  let ID: any = params.id !== undefined ? params.id : "";
-
-  const inputHandler = (data: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>) => {
-    const { name, value, type } = data.target;
-
-    let dataValues = value;
-
-    setEditProductModel((prevFormData) => {
-      if (type === "checkbox" && "checked" in data.target) {
-        dataValues = data.target.checked ? "true" : "false";
-      }
-      return { ...prevFormData, [name]: dataValues };
-    });
+  const inputHandler = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value, type } = e.target as HTMLInputElement;
+    let v: string = value;
+    if (type === "checkbox" && "checked" in e.target) v = e.target.checked ? "true" : "false";
+    setEditProductModel((prev) => ({ ...prev, [name]: v }));
   };
 
-  // const inputHandler = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-  //   const { name, type, value } = event.target;
-  //   let finalVal: string | boolean = value; // Allow both string and boolean types
-
-  //   if (event.target instanceof HTMLInputElement && type === "checkbox") {
-  //     finalVal = event.target.checked;
-  //     console.log("Checkbox updated to:", finalVal);
-  //   }
-
-  //   setEditProductModel((prevFormData) => {
-  //     return { ...prevFormData, [name]: finalVal };
-  //   });
-  // };
-
-  const separatorHandler = (data: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>) => {
-    const { name, value } = data.target;
+  const separatorHandler = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
     if (name === "imageProduct" || name === "ULbeneficii") {
-      setEditProductModel((editproductModel) => ({
-        ...editproductModel,
-        [name]: value.split(",")
-      }));
+      setEditProductModel((prev) => ({ ...prev, [name]: value.split(",") as any }));
     }
   };
 
   const submitAddOperation = () => {
-    if (editproductModel.title != "") {
-      addProduct(editproductModel).then((response) => {
-        console.log("Product addition request sent to Cloud!");
-        //needs to process the response
-      });
+    if (editproductModel.title) {
+      addProduct(editproductModel).then(() => setEditSent(true));
     }
   };
-  const previewOperation = () => {
-    setOpenPreviewArea(true);
-  };
+
+  const previewOperation = () => setOpenPreviewArea(true);
+  const cancelOperation = () => navigate("/admin/manage-product");
 
   useEffect(() => {
     if (editSent) {
-      const timer = setTimeout(() => {
-        setEditSent(false);
-      }, 5000);
-      return () => clearTimeout(timer);
+      const t = setTimeout(() => setEditSent(false), 5000);
+      return () => clearTimeout(t);
     }
   }, [editSent]);
 
-  const cancelOperation = () => {
-    navigate("/admin/manage-product");
-  };
-
   useEffect(() => {
-    if (productListUpdated == null) {
-      getProductWithID(ID).then((finalData) => {
-        setProducts(finalData);
-      });
+    if (productListUpdated == null && ID) {
+      getProductWithID(ID as string).then((finalData) => setProducts(finalData));
     }
-  });
+  }, [ID, productListUpdated]);
 
   return (
-    <Container  className="main-content-container px-4">
-      {/* <Row noGutters className="page-header py-4">
-        <PageTitle sm="4" title="Cupon List" subtitle={"Add Cupon"} className="text-sm-left" />
-      </Row> */}
+    <Container className="px-4">
       <Row>
         <Col>
           <div className={styles.editPage}>
             <div className={styles.addAreaContainer}>
               <h3>Add Cupon</h3>
+
               <div className={styles.inputContainer}>
                 <div className={styles.imageContainer}>
-                  <label htmlFor="imageProduct">{"Images"}</label>
-                  <p>{"Linkurile spre imagini trebuie separate de virgula"}</p>
-                  <textarea
-                    spellCheck="false"
+                  <Form.Label htmlFor="imageProduct">Images</Form.Label>
+                  <p>Linkurile spre imagini trebuie separate de virgula</p>
+                  <Form.Control
+                    as="textarea"
+                    spellCheck={false}
                     className={styles.imageTextArea}
                     onChange={separatorHandler}
                     name="imageProduct"
                   />
                 </div>
               </div>
+
               <div className={styles.inputContainer}>
                 <div className={styles.rowSpacer}>
                   <div className={styles.inputFielder}>
-                    <label htmlFor="title">{"Product name"}</label>
-                    <input onChange={inputHandler} name="title" />
+                    <Form.Label htmlFor="title">Product name</Form.Label>
+                    <Form.Control onChange={inputHandler} name="title" />
                   </div>
                   <div className={styles.inputFielder}>
-                    <label htmlFor="ID">{"Link ID Name:"}</label>
-                    <input onChange={inputHandler} name="ID" />
+                    <Form.Label htmlFor="ID">Link ID Name:</Form.Label>
+                    <Form.Control onChange={inputHandler} name="ID" />
                   </div>
                   <div className={styles.inputFielder}>
-                    <label htmlFor="price">{"Price (RON)"}</label>
-                    <input onChange={inputHandler} name="price" />
+                    <Form.Label htmlFor="price">Price (RON)</Form.Label>
+                    <Form.Control onChange={inputHandler} name="price" />
                   </div>
                   <div className={styles.inputFielder}>
-                    <label htmlFor="discountedPrice">{"Discount Price (RON)"}</label>
-                    <input onChange={inputHandler} name="discountedPrice" />
+                    <Form.Label htmlFor="discountedPrice">Discount Price (RON)</Form.Label>
+                    <Form.Control onChange={inputHandler} name="discountedPrice" />
                   </div>
 
                   <div className={styles.eachContainer}>
                     <div className={styles.inputFielder}>
-                      <label htmlFor="realStock">{"Real Stock"}</label>
-                      <input onChange={inputHandler} name="realStock" />
+                      <Form.Label htmlFor="realStock">Real Stock</Form.Label>
+                      <Form.Control onChange={inputHandler} name="realStock" />
                     </div>
                     <div className={styles.inputFielder}>
-                      <label htmlFor="realStockCheck">{"Real Stock Check"}</label>
-                      <input onChange={inputHandler} name="realStockCheck" />
+                      <Form.Label htmlFor="realStockCheck">Real Stock Check</Form.Label>
+                      <Form.Control onChange={inputHandler} name="realStockCheck" />
                     </div>
                   </div>
 
                   <div className={styles.eachContainer}>
                     <div className={styles.inputFielder}>
-                      <label htmlFor="fakeStock">{"Fake Stock"}</label>
-                      <input onChange={inputHandler} name="fakeStock" />
+                      <Form.Label htmlFor="fakeStock">Fake Stock</Form.Label>
+                      <Form.Control onChange={inputHandler} name="fakeStock" />
                     </div>
                     <div className={styles.inputFielder}>
-                      <label htmlFor="fakeStockCheck">{"Fake Stock Check"}</label>
-                      <input onChange={inputHandler} name="fakeStockCheck" />
+                      <Form.Label htmlFor="fakeStockCheck">Fake Stock Check</Form.Label>
+                      <Form.Control onChange={inputHandler} name="fakeStockCheck" />
                     </div>
                   </div>
                 </div>
+
                 <div className={styles.rowSpacerTextArea}>
                   <div className={styles.inputFielderTextArea}>
-                    <label htmlFor="shortDescription">{"short Description"}</label>
-                    <textarea spellCheck="false" onChange={inputHandler} name="shortDescription" />
+                    <Form.Label htmlFor="shortDescription">short Description</Form.Label>
+                    <Form.Control as="textarea" spellCheck={false} onChange={inputHandler} name="shortDescription" />
                   </div>
                   <div className={styles.inputFielderTextArea}>
-                    <label htmlFor="firstDescription">{"first Description"}</label>
-                    <textarea spellCheck="false" onChange={inputHandler} name="firstDescription" />
+                    <Form.Label htmlFor="firstDescription">first Description</Form.Label>
+                    <Form.Control as="textarea" spellCheck={false} onChange={inputHandler} name="firstDescription" />
                   </div>
                 </div>
 
                 <div className={styles.editorElement}>
-                  <label htmlFor="jsonContent">{"Full description HTML"}</label>
-                  <textarea spellCheck="false" onChange={inputHandler} name="jsonContent" />
+                  <Form.Label htmlFor="jsonContent">Full description HTML</Form.Label>
+                  <Form.Control as="textarea" spellCheck={false} onChange={inputHandler} name="jsonContent" />
                 </div>
 
                 <div className={styles.actionControl}>
-                  <button className={styles.saveButton} onClick={submitAddOperation}>
-                    {"SAVE"}
-                  </button>
-                  <button onClick={previewOperation} className={styles.previewButton}>
-                    {"PREVIEW"}
-                  </button>
-                  <button onClick={cancelOperation} className={styles.cancelButton}>
-                    {"CANCEL"}
-                  </button>
+                  <Button className={styles.saveButton} onClick={submitAddOperation}>
+                    SAVE
+                  </Button>
+                  <Button variant="secondary" onClick={previewOperation} className={styles.previewButton}>
+                    PREVIEW
+                  </Button>
+                  <Button variant="outline-secondary" onClick={cancelOperation} className={styles.cancelButton}>
+                    CANCEL
+                  </Button>
                 </div>
-                <div className={styles.dialogSpace}>
-                  {editSent && <p className={styles.confirmationSaveText}>{"Modificarile au avut loc!"}</p>}
-                </div>
+
+                <div className={styles.dialogSpace}>{editSent && <p className={styles.confirmationSaveText}>Modificarile au avut loc!</p>}</div>
               </div>
             </div>
           </div>
         </Col>
       </Row>
-      {openPreviewArea && <ProductPreview ID={ID} productListUpdated={{ [ID]: editproductModel }} />}
+
+      {openPreviewArea && <ProductPreview ID={ID as string} productListUpdated={{ [ID as string]: editproductModel }} />}
     </Container>
   );
 };

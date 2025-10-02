@@ -1,26 +1,29 @@
-// @ts-nocheck
-import React, { useEffect, useState } from "react";
+// EditStrings.tsx
+import React from "react";
+import { Container, Row, Col, Card } from "react-bootstrap";
 import TableView from "./TableView";
-import { Row, Container, Col, Card } from "shards-react";
-import PageTitle from "../ShardsDesign/components/common/PageTitle";
 import styles from "./EditStrings.module.scss";
 
-const EditStrings = () => {
-  let fetchList = ["categoriesList", "FAQ", "legalInfo"];
+const EditStrings: React.FC = () => {
+  const fetchList = ["categoriesList", "FAQ", "legalInfo"];
 
   return (
-    <Container fluid className="main-content-container px-4">
-      <Row noGutters className="page-header py-4">
-        <PageTitle sm="4" title="Product List" subtitle={`Product`} className="text-sm-left" />
+    <Container fluid className="px-4">
+      <Row className="py-4">
+        <Col sm="4">
+          <h2 className="mb-0">Product List</h2>
+          <div className="text-muted">Product</div>
+        </Col>
       </Row>
+
       <Row>
         <Col>
-          <Card small className="mb-4">
-            <div className={styles.editStringsPage}>
+          <Card className="mb-4">
+            <Card.Body className={styles.editStringsPage}>
               {fetchList.map((item) => (
-                <TableView tableID={item} />
+                <TableView key={item} tableID={item} />
               ))}
-            </div>
+            </Card.Body>
           </Card>
         </Col>
       </Row>

@@ -1,4 +1,3 @@
-// vite.config.ts
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import type { UserConfig } from "vitest/config";
@@ -17,6 +16,14 @@ const hmrProtocol = isHttps ? "wss" : "ws";
 
 export default defineConfig({
   plugins: [react()],
+  esbuild: {
+    jsx: "automatic",
+  },
+  optimizeDeps: {
+    esbuildOptions: {
+      loader: { ".js": "jsx" },
+    },
+  },
   server: {
     port: 8000,
     https: isHttps,
@@ -24,11 +31,5 @@ export default defineConfig({
   },
   build: { minify: isProd, sourcemap: !isProd },
   test,
-  css: {
-    preprocessorOptions: {
-      scss: {
-        
-      },
-    },
-  },
+  css: { preprocessorOptions: { scss: {} } },
 });
