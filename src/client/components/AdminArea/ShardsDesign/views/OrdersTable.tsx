@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { Container, Row, Col, Card, Button, Table } from "react-bootstrap";
+import { Container, Row, Col, Card, Button, Table, Spinner } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import RangeDatePicker from "../components/common/RangeDatePicker";
 import PageTitle from "../components/common/PageTitle";
@@ -55,22 +55,40 @@ const normalize = (o: OrderDoc): RowItem => {
   };
 };
 
+type SortKey = "recent" | "oldest" | "name" | "amount";
+type SortDir = "asc" | "desc";
+
 const OrdersTable: React.FC = () => {
   const [ordersLocal, setOrdersLocal] = useState<RowItem[] | null>(null);
   const [ordersList, setOrdersList] = useState<RowItem[] | null>(null);
   const [filterDates, setFilterDates] = useState<{ startDate: number; endDate: number }>({ startDate: 0, endDate: 0 });
 
+  // toolbar state
+  const [query, setQuery] = useState<string>("");
+  const [statusFilter, setStatusFilter] = useState<"ALL" | "PAID" | "UNPAID">("ALL");
+  const [sortKey, setSortKey] = useState<SortKey>("recent");
+  const [sortDir, setSortDir] = useState<SortDir>("desc");
+
+  // ux state
+  const [loading, setLoading] = useState<boolean>(true);
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
+
   useEffect(() => {
     (async () => {
       try {
+        setLoading(true);
+        setErrorMsg(null);
         const raw = await listOrders();
         const normalized = raw.map(normalize);
         setOrdersLocal(normalized);
         setOrdersList(normalized);
-      } catch (e) {
+      } catch (e: any) {
         console.error("Failed to fetch orders:", e);
         setOrdersLocal([]);
         setOrdersList([]);
+        setErrorMsg("Nu s-au putut încărca comenzile.");
+      } finally {
+        setLoading(false);
       }
     })();
   }, []);
@@ -81,6 +99,8 @@ const OrdersTable: React.FC = () => {
       endDate: new Date(data.dates.endDate).getTime() + DAY_OFFSET_MS,
     });
   };
+
+  const clearDates = () => setFilterDates({ startDate: 0, endDate: 0 });
 
   useEffect(() => {
     if (!ordersLocal) return;
@@ -96,14 +116,153 @@ const OrdersTable: React.FC = () => {
 
   const rows = useMemo(() => ordersList ?? [], [ordersList]);
 
+  // derived view with search/status/sort
+  const viewRows = useMemo(() => {
+    let data = rows;
+
+    // text search: name, invoice/order id
+    const q = query.trim().toLowerCase();
+    if (q) {
+      data = data.filter((r) => {
+        const full = `${r.firstName} ${r.lastName}`.trim().toLowerCase();
+        return (
+          full.includes(q) ||
+          r.invoiceLabel.toLowerCase().includes(q) ||
+          r.routeId.toLowerCase().includes(q)
+        );
+      });
+    }
+
+    // status filter
+    if (statusFilter !== "ALL") {
+      data = data.filter((r) => String(r.paymentStatus).toUpperCase() === statusFilter);
+    }
+
+    // sorting
+    const sorted = [...data].sort((a, b) => {
+      if (sortKey === "recent" || sortKey === "oldest") {
+        return a.timestamp - b.timestamp; // flip by dir below
+      }
+      if (sortKey === "name") {
+        const an = `${a.lastName || ""} ${a.firstName || ""}`.trim().toLowerCase();
+        const bn = `${b.lastName || ""} ${b.firstName || ""}`.trim().toLowerCase();
+        return an.localeCompare(bn);
+      }
+      // amount
+      const at = (a.shippingTax || 0) + (a.cartSum || 0);
+      const bt = (b.shippingTax || 0) + (b.cartSum || 0);
+      return at - bt;
+    });
+
+    // direction flip + special case for "recent"/"oldest"
+    const shouldDesc =
+      sortKey === "recent"
+        ? true // most recent => timestamp desc
+        : sortKey === "oldest"
+        ? false // oldest => asc
+        : sortDir === "desc";
+
+    return shouldDesc ? sorted.reverse() : sorted;
+  }, [rows, query, statusFilter, sortKey, sortDir]);
+
+  // summary for visible rows
+  const viewTotal = useMemo(
+    () => viewRows.reduce((acc, r) => acc + (r.shippingTax || 0) + (r.cartSum || 0), 0),
+    [viewRows]
+  );
+
+  // quick reset
+  const resetFilters = () => {
+    setQuery("");
+    setStatusFilter("ALL");
+    setSortKey("recent");
+    setSortDir("desc");
+    clearDates();
+  };
+
   return (
     <Container fluid className="px-4">
       <Row className="py-4">
         <PageTitle sm="4" title="Lista comenzi" subtitle="Orders List" className="text-sm-left" />
       </Row>
 
-      <Row className="mb-3">
-        <RangeDatePicker onValues={handleDateInputs} />
+      {/* Date range + clear */}
+      <Row className="mb-3 align-items-center g-2">
+        <Col md={6} sm={12}>
+          <RangeDatePicker onValues={handleDateInputs} />
+        </Col>
+        <Col md="auto">
+          <Button variant="outline-secondary" onClick={clearDates}>
+            Șterge intervalul
+          </Button>
+        </Col>
+      </Row>
+
+      {/* Filter toolbar */}
+      <Row className="g-2 align-items-center mb-3">
+        <Col md={4} sm={12}>
+          <input
+            className="form-control"
+            placeholder="Caută (nume, #comandă)"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+          />
+        </Col>
+        <Col md={3} sm={6}>
+          <select
+            className="form-select"
+            value={statusFilter}
+            onChange={(e) => setStatusFilter(e.target.value as "ALL" | "PAID" | "UNPAID")}
+          >
+            <option value="ALL">Toate statusurile</option>
+            <option value="PAID">PAID</option>
+            <option value="UNPAID">UNPAID</option>
+          </select>
+        </Col>
+        <Col md={3} sm={6}>
+          <select
+            className="form-select"
+            value={sortKey}
+            onChange={(e) => setSortKey(e.target.value as SortKey)}
+          >
+            <option value="recent">Cele mai recente</option>
+            <option value="oldest">Cele mai vechi</option>
+            <option value="name">Nume (A–Z)</option>
+            <option value="amount">Suma comandă</option>
+          </select>
+        </Col>
+        <Col md="auto" sm="auto">
+          <Button
+            variant="outline-secondary"
+            onClick={() => setSortDir((d) => (d === "asc" ? "desc" : "asc"))}
+            title={`Direcție sortare: ${sortDir}`}
+          >
+            {sortDir === "asc" ? "↑" : "↓"}
+          </Button>
+        </Col>
+        <Col md="auto" sm="auto">
+          <Button variant="outline-dark" onClick={resetFilters}>Reset</Button>
+        </Col>
+      </Row>
+
+      {/* Summary */}
+      <Row className="mb-2 g-2">
+        <Col md="auto">
+          <span className="badge bg-light text-dark">Comenzi: {viewRows.length}</span>
+        </Col>
+        <Col md="auto">
+          <span className="badge bg-success">Total vizibil: {fmtRON(viewTotal)}</span>
+        </Col>
+        {loading && (
+          <Col md="auto">
+            <Spinner animation="border" size="sm" /> <span className="text-muted">Se încarcă…</span>
+          </Col>
+        )}
+        {errorMsg && !loading && (
+          <Col md="auto">
+            <span className="badge bg-danger">{errorMsg}</span>
+          </Col>
+        )}
       </Row>
 
       <Row>
@@ -125,14 +284,14 @@ const OrdersTable: React.FC = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {rows.length === 0 ? (
+                  {!loading && viewRows.length === 0 ? (
                     <tr>
                       <td colSpan={6} className="text-center py-4">
                         No orders.
                       </td>
                     </tr>
                   ) : (
-                    rows.map((item) => {
+                    viewRows.map((item) => {
                       const total = item.shippingTax + item.cartSum;
                       const paid = item.paymentStatus === "PAID";
                       return (
@@ -146,9 +305,9 @@ const OrdersTable: React.FC = () => {
                             </Button>
                           </td>
                           <td>
-<Link target="_blank" to={`/admin/order/${encodeURIComponent(item.routeId)}`}>
-  <Button size="sm" variant="primary">VIZUALIZEAZA</Button>
-</Link>
+                            <Link target="_blank" to={`/admin/order/${encodeURIComponent(item.routeId)}`}>
+                              <Button size="sm" variant="primary">VIZUALIZEAZA</Button>
+                            </Link>
                           </td>
                           <td>{`#${item.invoiceLabel}`}</td>
                         </tr>

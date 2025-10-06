@@ -1,205 +1,390 @@
-@import "./../../main.module.scss";
-@import "./../../data/themes.scss";
+/* editPage.module.css */
 
 /* ===== tokens ===== */
 :root {
-  --primary-color:#4361ee;
-  --primary-2:#5a67d8;
-  --success:#06d6a0;
-  --danger:#ef476f;
-  --warning:#ffd166;
-  --ink:#0f172a;
-  --muted:#6b7280;
-  --surface:#ffffff;
-  --surface-2:#f8fafc;
-  --radius:12px;
-  --shadow:0 10px 30px rgba(2,6,23,.06), 0 2px 6px rgba(2,6,23,.04);
-  --shadow-lg:0 18px 50px rgba(2,6,23,.12);
-  --ring:rgba(67,97,238,.14);
-  --transition:all .2s ease;
+  --primary-color: #4361ee;
+  --primary-2: #5a67d8;
+  --success: #06d6a0;
+  --danger: #ef476f;
+  --warning: #ffd166;
+  --ink: #0f172a;
+  --muted: #6b7280;
+  --surface: #ffffff;
+  --surface-2: #f8fafc;
+  --radius: 12px;
+  --shadow: 0 10px 30px rgba(2, 6, 23, 0.06), 0 2px 6px rgba(2, 6, 23, 0.04);
+  --shadow-lg: 0 18px 50px rgba(2, 6, 23, 0.12);
+  --ring: rgba(67, 97, 238, 0.14);
+  --transition: all 0.2s ease;
 }
 
 /* ===== page shells ===== */
-.editPage{
-  min-height:500px;
-  width:100%;
-  background:linear-gradient(135deg,#f7f8fc,#e8eefc);
+.editPage {
+  min-height: 500px;
+  width: 100%;
+  background: linear-gradient(135deg, #f7f8fc, #e8eefc);
 }
 
-.codeElementStyle{
-  background:linear-gradient(135deg,#a8edea 0%,#fed6e3 100%);
-  border-radius:8px; padding:6px 10px;
-  font-family:"Fira Code",monospace; font-size:.9rem;
+.codeElementStyle {
+  background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+  border-radius: 8px;
+  padding: 6px 10px;
+  font-family: "Fira Code", monospace;
+  font-size: 0.9rem;
 }
 
-.editableContainer{ background:#d2fdff; font-family:"Roboto"; word-wrap:break-word; }
-.staticContainer{ background:#fffbf5; }
+.editableContainer {
+  background: #d2fdff;
+  font-family: "Roboto";
+  word-wrap: break-word;
+}
+
+.staticContainer {
+  background: #fffbf5;
+}
 
 /* ===== section ===== */
-.addAreaContainer{
-  min-height:800px; width:100%; padding:30px 20px; background:transparent;
-
-  h2{ text-align:center; color:#16a34a; font-size:2.25rem; font-weight:800; margin-bottom:16px; }
-
-  // legacy defaults (kept but neutralized by overrides below)
-  div>input, textarea{ font-family:"Roboto"; margin:auto; width:100%; background-color:#f2f2f2; }
-  textarea{ height:auto; }
-  div>label{ font-weight:700; color:#3f3e3e; max-width:300px; }
-  input{ background:#f7f7f7; outline:none; border:1px solid #d1d5db; font-family:"Roboto"; border-radius:6px; padding:10px 12px; }
+.addAreaContainer {
+  min-height: 800px;
+  width: 100%;
+  padding: 30px 20px;
+  background: transparent;
 }
-/* Bigger textareas just for Full description + Beneficii */
-.inputContainer {
-  /* labels a touch larger */
-  label[for="jsonContent"],
-  label[for="ULbeneficii"] {
-    font-size: 1.05rem;
-  }
 
-  /* textarea sizing + readability */
-  textarea[name="jsonContent"],
-  textarea[name="ULbeneficii"] {
-    min-height: 220px;   /* was ~120–180 */
-    max-height: 520px;   /* allow expand */
-    padding: 14px 16px;
-    font-size: 1rem;     /* slightly bigger text */
-    line-height: 1.55;
-  }
+.addAreaContainer h2 {
+  text-align: center;
+  color: #16a34a;
+  font-size: 2.25rem;
+  font-weight: 800;
+  margin-bottom: 16px;
+}
+
+/* Bigger textareas just for Full description + Beneficii */
+.inputContainer label[for="jsonContent"],
+.inputContainer label[for="ULbeneficii"] {
+  font-size: 1.05rem;
+}
+
+.inputContainer textarea[name="jsonContent"],
+.inputContainer textarea[name="ULbeneficii"] {
+  min-height: 220px;
+  max-height: 520px;
+  padding: 14px 16px;
+  font-size: 1rem;
+  line-height: 1.55;
 }
 
 /* ===== confirmation / gaps ===== */
-.confirmationSaveText{ text-align:center; font-weight:800; color:var(--success); }
-.dialogSpace{ height:50px; }
+.confirmationSaveText {
+  text-align: center;
+  font-weight: 800;
+  color: var(--success);
+}
+
+.dialogSpace {
+  height: 50px;
+}
 
 /* ===== field groups ===== */
-.inputFielder{
-  display:flex; flex-direction:column; width:100%; margin-bottom:16px;
-
-  label{ text-align:start; color:var(--ink); font-weight:700; margin-bottom:6px; }
-  p{ line-height:20px; color:#e9b200; font-weight:700; margin:4px 0 0; }
+.inputFielder {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin-bottom: 16px;
 }
-.disabledInput{ pointer-events:none; opacity:.7; }
+
+.inputFielder label {
+  text-align: start;
+  color: var(--ink);
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+.inputFielder p {
+  line-height: 20px;
+  color: #e9b200;
+  font-weight: 700;
+  margin: 4px 0 0;
+}
+
+.disabledInput {
+  pointer-events: none;
+  opacity: 0.7;
+}
 
 /* ===== legacy images textarea ===== */
-.imageContainer{
-  textarea{
-    max-height:150px; resize:none; background:#f7f7f7;
-    border:1px dashed #d1d5db; border-radius:8px; padding:10px 12px;
-    &:focus{ outline:none; border-style:solid; border-color:var(--primary-color); box-shadow:0 0 0 6px var(--ring); background:#fff; }
-  }
+.imageContainer textarea {
+  max-height: 150px;
+  resize: none;
+  background: #f7f7f7;
+  border: 1px dashed #d1d5db;
+  border-radius: 8px;
+  padding: 10px 12px;
 }
 
-.eachContainer{ width:100%; max-width:100%; }
-
-.inputFielderTextArea{
-  @extend .inputFielder;
-  textarea{
-    width:100%; min-height:120px; max-height:240px; resize:vertical;
-    background:#f7f7f7; border:1.5px solid #e5e7eb; border-radius:10px; padding:12px 14px; transition:var(--transition);
-    &:focus{ outline:none; border-color:var(--primary-color); box-shadow:0 0 0 6px var(--ring); background:#fff; }
-  }
+.imageContainer textarea:focus {
+  outline: none;
+  border-style: solid;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 6px var(--ring);
+  background: #fff;
 }
 
-.imageTextArea{
-  min-width:100%; max-width:100%;
-  @include media(">=tablet"){ min-width:400px; max-width:700px; }
+.eachContainer {
+  width: 100%;
+  max-width: 100%;
+}
+
+.inputFielderTextArea {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin-bottom: 16px;
+}
+
+.inputFielderTextArea textarea {
+  width: 100%;
+  min-height: 120px;
+  max-height: 240px;
+  resize: vertical;
+  background: #f7f7f7;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 10px;
+  padding: 12px 14px;
+  transition: var(--transition);
+}
+
+.inputFielderTextArea textarea:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 6px var(--ring);
+  background: #fff;
+}
+
+.imageTextArea {
+  min-width: 100%;
+  max-width: 100%;
+}
+
+/* Tablet and larger */
+@media (min-width: 768px) {
+  .imageTextArea {
+    min-width: 400px;
+    max-width: 700px;
+  }
 }
 
 /* ===== rows -> responsive grid ===== */
 .rowSpacerTextArea,
-.rowSpacer{
-  display:grid;
-  grid-template-columns:repeat(auto-fit, minmax(320px, 1fr));
-  gap:18px;
+.rowSpacer {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 18px;
 }
 
 /* full-width helper if needed on any child */
-.fullWidth{ grid-column:1 / -1; }
+.fullWidth {
+  grid-column: 1 / -1;
+}
 
 /* ===== main card ===== */
-.inputContainer{
-  max-width:1000px; /* tighter than 1250 */
-  padding:26px; margin:30px auto; display:flex; flex-direction:column; gap:16px;
-  min-height:200px; justify-content:center;
-  border-radius:var(--radius);
-  background:linear-gradient(#fff,#fff) padding-box, linear-gradient(135deg,#b8c6ff,#e9d4ff) border-box;
-  border:1px solid transparent; box-shadow:var(--shadow); transition:var(--transition);
+.inputContainer {
+  max-width: 1000px;
+  padding: 26px;
+  margin: 30px auto;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  min-height: 200px;
+  justify-content: center;
+  border-radius: var(--radius);
+  background: linear-gradient(#fff, #fff) padding-box,
+    linear-gradient(135deg, #b8c6ff, #e9d4ff) border-box;
+  border: 1px solid transparent;
+  box-shadow: var(--shadow);
+  transition: var(--transition);
+}
 
-  &:hover{ box-shadow:var(--shadow-lg); transform:translateY(-1px); }
+.inputContainer:hover {
+  box-shadow: var(--shadow-lg);
+  transform: translateY(-1px);
+}
 
-  color:var(--ink);
+.inputContainer {
+  color: var(--ink);
+}
 
-  .form-label, label{ color:var(--ink) !important; font-weight:700; margin-bottom:6px; }
+.inputContainer .formLabel,
+.inputContainer label {
+  color: var(--ink);
+  font-weight: 700;
+  margin-bottom: 6px;
+}
 
-  /* modern inputs */
-  .form-control, .form-select, input, textarea{
-    background:var(--surface); border:1.5px solid #e5e7eb; border-radius:12px;
-    padding:10px 12px; height:44px; box-shadow:none; transition:var(--transition);
+/* modern inputs */
+.inputContainer .formControl,
+.inputContainer .formSelect,
+.inputContainer input,
+.inputContainer textarea {
+  background: var(--surface);
+  border: 1.5px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 10px 12px;
+  height: 44px;
+  box-shadow: none;
+  transition: var(--transition);
+}
 
-    &:focus{ border-color:var(--primary-color); box-shadow:0 0 0 6px var(--ring); background:#fff; outline:none; }
-    &::placeholder{ color:#9aa3b2; }
-  }
+.inputContainer .formControl:focus,
+.inputContainer .formSelect:focus,
+.inputContainer input:focus,
+.inputContainer textarea:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 6px var(--ring);
+  background: #fff;
+  outline: none;
+}
 
-  textarea.form-control{ height:auto; min-height:120px; max-height:240px; resize:vertical; }
+.inputContainer .formControl::placeholder,
+.inputContainer .formSelect::placeholder,
+.inputContainer input::placeholder,
+.inputContainer textarea::placeholder {
+  color: #9aa3b2;
+}
 
-  /* remove old min-widths from parent rules */
-  div>input, textarea, input{ min-width:0; width:100%; }
+.inputContainer textarea.formControl {
+  height: auto;
+  min-height: 120px;
+  max-height: 240px;
+  resize: vertical;
+}
 
-  /* file inputs */
-  input[type="file"]{
-    padding:8px 10px;
-    &::file-selector-button{
-      margin-right:12px; padding:6px 12px; border:0; border-radius:10px;
-      background:linear-gradient(135deg,var(--primary-color),var(--primary-2)); color:#fff; font-weight:700; cursor:pointer; transition:var(--transition);
-      &:hover{ transform:translateY(-1px); }
-    }
-    &:focus{ outline:none; border-color:var(--primary-color); box-shadow:0 0 0 6px var(--ring); }
-  }
+/* remove old min-widths from parent rules */
+.inputContainer div > input,
+.inputContainer textarea,
+.inputContainer input {
+  min-width: 0;
+  width: 100%;
+}
 
-  /* optional thumbs */
-  .thumbList{ display:flex; flex-wrap:wrap; gap:10px; margin-top:10px; }
-  .thumbChip{
-    border-radius:12px; overflow:hidden; background:#fff; border:1px solid #e5e7eb;
-    box-shadow:0 6px 14px rgba(2,6,23,.06); display:inline-flex; align-items:center;
-    img{ width:96px; height:64px; object-fit:cover; display:block; }
-    button{ border:0; background:transparent; padding:0 8px; font-size:18px; line-height:1; color:#111827;
-      &:hover{ color:#ef4444; transform:scale(1.05); }
-    }
-  }
+/* file inputs */
+.inputContainer input[type="file"] {
+  padding: 8px 10px;
+}
+
+.inputContainer input[type="file"]::file-selector-button {
+  margin-right: 12px;
+  padding: 6px 12px;
+  border: 0;
+  border-radius: 10px;
+  background: linear-gradient(135deg, var(--primary-color), var(--primary-2));
+  color: #fff;
+  font-weight: 700;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.inputContainer input[type="file"]::file-selector-button:hover {
+  transform: translateY(-1px);
+}
+
+.inputContainer input[type="file"]:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 6px var(--ring);
+}
+
+/* optional thumbs */
+.thumbList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.thumbChip {
+  border-radius: 12px;
+  overflow: hidden;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 6px 14px rgba(2, 6, 23, 0.06);
+  display: inline-flex;
+  align-items: center;
+}
+
+.thumbChip img {
+  width: 96px;
+  height: 64px;
+  object-fit: cover;
+  display: block;
+}
+
+.thumbChip button {
+  border: 0;
+  background: transparent;
+  padding: 0 8px;
+  font-size: 18px;
+  line-height: 1;
+  color: #111827;
+}
+
+.thumbChip button:hover {
+  color: #ef4444;
+  transform: scale(1.05);
 }
 
 /* ===== action buttons ===== */
-.actionControl{
-  margin:10px auto 0; flex-wrap:wrap; display:flex; justify-content:center; gap:12px;
-  padding:14px; background:rgba(248,250,252,.75); border-radius:14px; border:1px solid #eef2ff;
+.actionControl {
+  margin: 10px auto 0;
+  flex-wrap: wrap;
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  padding: 14px;
+  background: rgba(248, 250, 252, 0.75);
+  border-radius: 14px;
+  border: 1px solid #eef2ff;
+}
 
-  @include media("<tablet"){ width:100%; }
-
-  button{
-    outline:none; border:none; width:200px; height:44px; color:#fff; border-radius:12px; font-weight:800;
-    box-shadow:var(--shadow); transition:var(--transition);
-
-    &:hover{ transform:translateY(-2px); box-shadow:var(--shadow-lg); }
+/* Mobile */
+@media (max-width: 767px) {
+  .actionControl {
+    width: 100%;
   }
+}
 
-  .saveButton{ background:linear-gradient(135deg,var(--success),#00b48a); }
-  .cancelButton{ background:linear-gradient(135deg,var(--danger),#d23669); }
-  .previewButton{ background:linear-gradient(135deg,#60a5fa,#3b82f6); }
+.actionControl button {
+  outline: none;
+  border: none;
+  width: 200px;
+  height: 44px;
+  color: #fff;
+  border-radius: 12px;
+  font-weight: 800;
+  box-shadow: var(--shadow);
+  transition: var(--transition);
+}
+
+.actionControl button:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+
+.saveButton {
+  background: linear-gradient(135deg, var(--success), #00b48a);
+}
+
+.cancelButton {
+  background: linear-gradient(135deg, var(--danger), #d23669);
+}
+
+.previewButton {
+  background: linear-gradient(135deg, #60a5fa, #3b82f6);
 }
 
 /* ===== centered row kept ===== */
-.imagesComponents{ display:flex; align-items:center; justify-content:center; }
-
-/* ===== dark mode ===== */
-@media (prefers-color-scheme: dark){
-  .editPage{ background:linear-gradient(135deg,#0b1020,#0f172a); }
-
-  .inputContainer{
-    background:linear-gradient(#111827,#0f172a) padding-box, linear-gradient(135deg,#384cff,#b05bff) border-box;
-    color:#e5e7eb !important;
-
-    .form-control, .form-select, input, textarea{
-      background:#111827; color:#e5e7eb; border-color:#1f2937;
-      &::placeholder{ color:#9aa3b2; }
-    }
-  }
+.imagesComponents {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }

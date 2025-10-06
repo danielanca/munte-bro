@@ -300,27 +300,7 @@ const EditProduct: React.FC = () => {
                     <Form.Control onChange={inputHandler} name="discountedPrice" value={String(editproductModel.discountedPrice ?? "")} />
                   </div>
 
-                  <div className={styles.eachContainer}>
-                    <div className={styles.inputFielder}>
-                      <Form.Label htmlFor="realStock">Real Stock</Form.Label>
-                      <Form.Control onChange={inputHandler} name="realStock" value={String(editproductModel.realStock ?? "")} />
-                    </div>
-                    <div className={styles.inputFielder}>
-                      <Form.Label htmlFor="realStockCheck">Real Stock Check</Form.Label>
-                      <Form.Control onChange={inputHandler} name="realStockCheck" value={String(editproductModel.realStockCheck ?? "")} />
-                    </div>
-                  </div>
-
-                  <div className={styles.eachContainer}>
-                    <div className={styles.inputFielder}>
-                      <Form.Label htmlFor="fakeStock">Fake Stock</Form.Label>
-                      <Form.Control onChange={inputHandler} name="fakeStock" value={String(editproductModel.fakeStock ?? "")} />
-                    </div>
-                    <div className={styles.inputFielder}>
-                      <Form.Label htmlFor="fakeStockCheck">Fake Stock Check</Form.Label>
-                      <Form.Control onChange={inputHandler} name="fakeStockCheck" value={String(editproductModel.fakeStockCheck ?? "")} />
-                    </div>
-                  </div>
+                
                 </div>
 
                 <div className={styles.rowSpacerTextArea}>
@@ -328,10 +308,7 @@ const EditProduct: React.FC = () => {
                     <Form.Label htmlFor="shortDescription">Short Description</Form.Label>
                     <Form.Control as="textarea" spellCheck={false} onChange={inputHandler} name="shortDescription" value={editproductModel.shortDescription ?? ""} />
                   </div>
-                  <div className={styles.inputFielderTextArea}>
-                    <Form.Label htmlFor="firstDescription">First Description</Form.Label>
-                    <Form.Control as="textarea" spellCheck={false} onChange={inputHandler} name="firstDescription" value={editproductModel.firstDescription ?? ""} />
-                  </div>
+                  
                 </div>
 
                 <div className={styles.inputFielder}>
