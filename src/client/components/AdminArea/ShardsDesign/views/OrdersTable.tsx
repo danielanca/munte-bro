@@ -3,39 +3,74 @@ import { Container, Row, Col, Card, Button, Table } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import RangeDatePicker from "../components/common/RangeDatePicker";
 import PageTitle from "../components/common/PageTitle";
-import { requestOrdersList } from "../../../../services/emails";
-import { convertDate } from "../../Dashboard/funcs";
+import { listOrders, OrderDoc } from "../../../../services/orders";
 
-type OrderItem = {
-  timestamp: string | number;
+// helpers
+const DAY_OFFSET_MS = 86_400_000;
+const toNumberRON = (v: unknown): number => {
+  if (typeof v === "number" && Number.isFinite(v)) return v;
+  if (typeof v === "string") {
+    const s = v.replace(/[^\d.,-]/g, "").replace(/\.(?=\d{3}(\D|$))/g, "").replace(",", ".");
+    const n = Number(s);
+    return Number.isFinite(n) ? n : 0;
+  }
+  return 0;
+};
+const fmtRON = (n: number) =>
+  new Intl.NumberFormat("ro-RO", { style: "currency", currency: "RON", minimumFractionDigits: 2 }).format(n);
+
+type RowItem = {
+  timestamp: number;
   firstName: string;
   lastName: string;
   shippingTax: number;
   cartSum: number;
-  paymentStatus: "PAID" | "NOT_PAID" | string;
-  invoiceID: string | number;
+  paymentStatus: "PAID" | "UNPAID" | string;
+  routeId: string;      // always safe for /order/:id
+  invoiceLabel: string; // displayed in the table (e.g., orderID)
 };
 
-type OrdersResponse = Record<string, OrderItem[]> | OrderItem[];
+const normalize = (o: OrderDoc): RowItem => {
+  const ts =
+    (o.createdAt && typeof (o.createdAt as any).toMillis === "function" && (o.createdAt as any).toMillis()) ||
+    (typeof (o as any).timestamp === "number" ? (o as any).timestamp : Date.parse(String((o as any).timestamp || Date.now())));
 
-const DAY_OFFSET_MS = 86_400_000;
+  const shippingTax = toNumberRON((o as any).shippingTax);
+  const cartSum = toNumberRON((o as any).cartSum);
+  const status = String((o as any).paymentStatus || "").toUpperCase();
+
+  // prefer orderID, else invoiceID, else Firestore doc id
+  const routeId = String((o as any).orderID || (o as any).invoiceID || (o as any).id || "");
+  const invoiceLabel = routeId;
+
+  return {
+    timestamp: Number.isFinite(ts) ? ts : Date.now(),
+    firstName: (o as any).firstName || "",
+    lastName: (o as any).lastName || "",
+    shippingTax,
+    cartSum,
+    paymentStatus: status === "PAID" ? "PAID" : "UNPAID",
+    routeId,
+    invoiceLabel,
+  };
+};
 
 const OrdersTable: React.FC = () => {
-  const [ordersLocal, setOrdersLocal] = useState<OrderItem[] | null>(null);
-  const [ordersList, setOrdersList] = useState<OrderItem[] | null>(null);
-  const [filterDates, setFilterDates] = useState<{ startDate: number; endDate: number }>({
-    startDate: 0,
-    endDate: 0,
-  });
+  const [ordersLocal, setOrdersLocal] = useState<RowItem[] | null>(null);
+  const [ordersList, setOrdersList] = useState<RowItem[] | null>(null);
+  const [filterDates, setFilterDates] = useState<{ startDate: number; endDate: number }>({ startDate: 0, endDate: 0 });
 
   useEffect(() => {
     (async () => {
-      const res = await requestOrdersList();
-      if (typeof res === "object" && "json" in res) {
-        const data: OrdersResponse = await (res as Response).json();
-        const items = Array.isArray(data) ? data : Object.values(data)[0];
-        setOrdersLocal(items ?? null);
-        setOrdersList(items ?? null);
+      try {
+        const raw = await listOrders();
+        const normalized = raw.map(normalize);
+        setOrdersLocal(normalized);
+        setOrdersList(normalized);
+      } catch (e) {
+        console.error("Failed to fetch orders:", e);
+        setOrdersLocal([]);
+        setOrdersList([]);
       }
     })();
   }, []);
@@ -50,10 +85,9 @@ const OrdersTable: React.FC = () => {
   useEffect(() => {
     if (!ordersLocal) return;
     if (filterDates.startDate && filterDates.endDate) {
-      const filtered = ordersLocal.filter((order) => {
-        const t = convertDate(order.timestamp);
-        return t >= filterDates.startDate && t <= filterDates.endDate;
-      });
+      const filtered = ordersLocal.filter(
+        (o) => o.timestamp >= filterDates.startDate && o.timestamp <= filterDates.endDate
+      );
       setOrdersList(filtered);
     } else {
       setOrdersList(ordersLocal);
@@ -76,7 +110,7 @@ const OrdersTable: React.FC = () => {
         <Col>
           <Card className="mb-4">
             <Card.Header>
-              <strong>Active Users</strong>
+              <strong>Orders</strong>
             </Card.Header>
             <Card.Body className="p-0">
               <Table responsive hover className="mb-0 align-middle">
@@ -98,30 +132,28 @@ const OrdersTable: React.FC = () => {
                       </td>
                     </tr>
                   ) : (
-                    rows.map((item) => (
-                      <tr key={String(item.invoiceID) + String(item.timestamp)}>
-                        <td>{item.timestamp}</td>
-                        <td className="fw-semibold">{`${item.firstName} ${item.lastName}`}</td>
-                        <td>{`${(Number(item.shippingTax) + Number(item.cartSum)).toFixed(2)} RON`}</td>
-                        <td>
-                          <Button
-                            size="sm"
-                            className="w-50"
-                            variant={item.paymentStatus === "PAID" ? "success" : "warning"}
-                          >
-                            {item.paymentStatus === "NOT_PAID" ? "UNPAID" : "PAID"}
-                          </Button>
-                        </td>
-                        <td>
-                          <Link target="_blank" to={`/order/${item.invoiceID}`}>
-                            <Button size="sm" variant="primary">
-                              VIZUALIZEAZA
+                    rows.map((item) => {
+                      const total = item.shippingTax + item.cartSum;
+                      const paid = item.paymentStatus === "PAID";
+                      return (
+                        <tr key={`${item.routeId}-${item.timestamp}`}>
+                          <td>{new Date(item.timestamp).toLocaleString("ro-RO")}</td>
+                          <td className="fw-semibold">{`${item.firstName} ${item.lastName}`.trim() || "—"}</td>
+                          <td>{fmtRON(total)}</td>
+                          <td>
+                            <Button size="sm" className="w-50" variant={paid ? "success" : "warning"}>
+                              {paid ? "PAID" : "UNPAID"}
                             </Button>
-                          </Link>
-                        </td>
-                        <td>{`#${item.invoiceID}`}</td>
-                      </tr>
-                    ))
+                          </td>
+                          <td>
+<Link target="_blank" to={`/admin/order/${encodeURIComponent(item.routeId)}`}>
+  <Button size="sm" variant="primary">VIZUALIZEAZA</Button>
+</Link>
+                          </td>
+                          <td>{`#${item.invoiceLabel}`}</td>
+                        </tr>
+                      );
+                    })
                   )}
                 </tbody>
               </Table>

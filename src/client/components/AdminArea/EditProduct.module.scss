@@ -1,181 +1,205 @@
 @import "./../../main.module.scss";
-@import "./../../data//themes.scss";
+@import "./../../data/themes.scss";
 
-.editPage {
-  min-height: 500px;
-  width: 100%;
-}
-.codeElementStyle {
-  background-color: rgb(206, 244, 255);
-}
-.editableContainer {
-  background-color: rgb(210, 253, 255);
-  font-family: "Roboto";
-  word-wrap: normal;
-}
-.staticContainer {
-  background-color: rgb(255, 251, 245);
-}
-
-.addAreaContainer {
-  min-height: 800px;
-  width: 100%;
-  padding: 30px 20px;
-  background-color: #f2f2f2;
-
-  h2 {
-    text-align: center;
-    color: green;
-    font-size: 40px;
-  }
-  div > input,
-  textarea {
-    font-family: "Roboto";
-    margin: auto;
-    min-width: 150px;
-    width: 100%;
-    background-color: #f2f2f2;
-  }
-  textarea {
-    height: 550px;
-  }
-  div > label {
-    font-weight: 700;
-    color: #3f3e3e;
-    max-width: 300px;
-  }
-
-  input {
-    background-color: #f7f7f7;
-    outline: none;
-    border: 1px solid gray;
-    font-family: "Roboto";
-    border-radius: 2px;
-    padding: 5px 10px;
-    min-width: 300px;
-  }
-}
-.confirmationSaveText {
-  text-align: center;
-  font-weight: bolder;
-  color: rgb(10, 175, 10);
-}
-.dialogSpace {
-  height: 50px;
-}
-.inputFielder {
-  display: flex;
-  flex-direction: column;
-
-  display: flex;
-  flex-direction: column;
-  max-width: 305px;
-  width: 100%;
-
-  label {
-    text-align: start;
-  }
-
-  p {
-    line-height: 20px;
-    color: rgb(233, 178, 0);
-    font-weight: bold;
-  }
+/* ===== tokens ===== */
+:root {
+  --primary-color:#4361ee;
+  --primary-2:#5a67d8;
+  --success:#06d6a0;
+  --danger:#ef476f;
+  --warning:#ffd166;
+  --ink:#0f172a;
+  --muted:#6b7280;
+  --surface:#ffffff;
+  --surface-2:#f8fafc;
+  --radius:12px;
+  --shadow:0 10px 30px rgba(2,6,23,.06), 0 2px 6px rgba(2,6,23,.04);
+  --shadow-lg:0 18px 50px rgba(2,6,23,.12);
+  --ring:rgba(67,97,238,.14);
+  --transition:all .2s ease;
 }
 
-.disabledInput {
-  pointer-events: none;
-  opacity: 0.7;
+/* ===== page shells ===== */
+.editPage{
+  min-height:500px;
+  width:100%;
+  background:linear-gradient(135deg,#f7f8fc,#e8eefc);
 }
 
-.imageContainer {
-  textarea {
-    max-height: 150px;
-    resize: none;
-    background-color: #f7f7f7;
-  }
+.codeElementStyle{
+  background:linear-gradient(135deg,#a8edea 0%,#fed6e3 100%);
+  border-radius:8px; padding:6px 10px;
+  font-family:"Fira Code",monospace; font-size:.9rem;
 }
 
-.eachContainer {
-  width: 100%;
-  max-width: 305px;
-}
-.inputFielderTextArea {
-  @extend .inputFielder;
-  textarea {
-    max-height: 180px;
-    width: 100%;
-    min-height: 120px;
-    max-width: 500px;
+.editableContainer{ background:#d2fdff; font-family:"Roboto"; word-wrap:break-word; }
+.staticContainer{ background:#fffbf5; }
 
-    resize: none;
-    background-color: #f7f7f7;
-  }
-}
-.imageTextArea {
-  min-width: 400px;
-  max-width: 700px;
-}
-.rowSpacerTextArea {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  flex-wrap: wrap;
-}
-.editorElement {
-  display: flex;
-  justify-content: flex-start;
-  flex-direction: column;
-}
+/* ===== section ===== */
+.addAreaContainer{
+  min-height:800px; width:100%; padding:30px 20px; background:transparent;
 
-.rowSpacer {
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
+  h2{ text-align:center; color:#16a34a; font-size:2.25rem; font-weight:800; margin-bottom:16px; }
+
+  // legacy defaults (kept but neutralized by overrides below)
+  div>input, textarea{ font-family:"Roboto"; margin:auto; width:100%; background-color:#f2f2f2; }
+  textarea{ height:auto; }
+  div>label{ font-weight:700; color:#3f3e3e; max-width:300px; }
+  input{ background:#f7f7f7; outline:none; border:1px solid #d1d5db; font-family:"Roboto"; border-radius:6px; padding:10px 12px; }
 }
+/* Bigger textareas just for Full description + Beneficii */
 .inputContainer {
-  max-width: 1250px;
-  padding: 26px;
-  margin: 30px auto;
-  display: flex;
-  min-height: 200px;
-  justify-content: center;
-  flex-direction: column;
-  border-radius: 10px;
-  background-color: white;
-  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
-}
-.actionControl {
-  margin: auto;
-  flex-wrap: wrap;
-  display: flex;
-  justify-content: center;
+  /* labels a touch larger */
+  label[for="jsonContent"],
+  label[for="ULbeneficii"] {
+    font-size: 1.05rem;
+  }
 
-  @include media("<tablet") {
-    width: 100%;
-  }
-  button {
-    outline: none;
-    border: none;
-    width: 220px;
-    height: 45px;
-
-    color: white;
-    margin: 10px 20px;
-  }
-  .saveButton {
-    background-color: rgb(10, 175, 10);
-  }
-  .cancelButton {
-    background-color: rgb(204, 7, 7);
-  }
-  .previewButton {
-    background-color: rgb(245, 167, 0);
+  /* textarea sizing + readability */
+  textarea[name="jsonContent"],
+  textarea[name="ULbeneficii"] {
+    min-height: 220px;   /* was ~120–180 */
+    max-height: 520px;   /* allow expand */
+    padding: 14px 16px;
+    font-size: 1rem;     /* slightly bigger text */
+    line-height: 1.55;
   }
 }
 
-.imagesComponents {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+/* ===== confirmation / gaps ===== */
+.confirmationSaveText{ text-align:center; font-weight:800; color:var(--success); }
+.dialogSpace{ height:50px; }
+
+/* ===== field groups ===== */
+.inputFielder{
+  display:flex; flex-direction:column; width:100%; margin-bottom:16px;
+
+  label{ text-align:start; color:var(--ink); font-weight:700; margin-bottom:6px; }
+  p{ line-height:20px; color:#e9b200; font-weight:700; margin:4px 0 0; }
+}
+.disabledInput{ pointer-events:none; opacity:.7; }
+
+/* ===== legacy images textarea ===== */
+.imageContainer{
+  textarea{
+    max-height:150px; resize:none; background:#f7f7f7;
+    border:1px dashed #d1d5db; border-radius:8px; padding:10px 12px;
+    &:focus{ outline:none; border-style:solid; border-color:var(--primary-color); box-shadow:0 0 0 6px var(--ring); background:#fff; }
+  }
+}
+
+.eachContainer{ width:100%; max-width:100%; }
+
+.inputFielderTextArea{
+  @extend .inputFielder;
+  textarea{
+    width:100%; min-height:120px; max-height:240px; resize:vertical;
+    background:#f7f7f7; border:1.5px solid #e5e7eb; border-radius:10px; padding:12px 14px; transition:var(--transition);
+    &:focus{ outline:none; border-color:var(--primary-color); box-shadow:0 0 0 6px var(--ring); background:#fff; }
+  }
+}
+
+.imageTextArea{
+  min-width:100%; max-width:100%;
+  @include media(">=tablet"){ min-width:400px; max-width:700px; }
+}
+
+/* ===== rows -> responsive grid ===== */
+.rowSpacerTextArea,
+.rowSpacer{
+  display:grid;
+  grid-template-columns:repeat(auto-fit, minmax(320px, 1fr));
+  gap:18px;
+}
+
+/* full-width helper if needed on any child */
+.fullWidth{ grid-column:1 / -1; }
+
+/* ===== main card ===== */
+.inputContainer{
+  max-width:1000px; /* tighter than 1250 */
+  padding:26px; margin:30px auto; display:flex; flex-direction:column; gap:16px;
+  min-height:200px; justify-content:center;
+  border-radius:var(--radius);
+  background:linear-gradient(#fff,#fff) padding-box, linear-gradient(135deg,#b8c6ff,#e9d4ff) border-box;
+  border:1px solid transparent; box-shadow:var(--shadow); transition:var(--transition);
+
+  &:hover{ box-shadow:var(--shadow-lg); transform:translateY(-1px); }
+
+  color:var(--ink);
+
+  .form-label, label{ color:var(--ink) !important; font-weight:700; margin-bottom:6px; }
+
+  /* modern inputs */
+  .form-control, .form-select, input, textarea{
+    background:var(--surface); border:1.5px solid #e5e7eb; border-radius:12px;
+    padding:10px 12px; height:44px; box-shadow:none; transition:var(--transition);
+
+    &:focus{ border-color:var(--primary-color); box-shadow:0 0 0 6px var(--ring); background:#fff; outline:none; }
+    &::placeholder{ color:#9aa3b2; }
+  }
+
+  textarea.form-control{ height:auto; min-height:120px; max-height:240px; resize:vertical; }
+
+  /* remove old min-widths from parent rules */
+  div>input, textarea, input{ min-width:0; width:100%; }
+
+  /* file inputs */
+  input[type="file"]{
+    padding:8px 10px;
+    &::file-selector-button{
+      margin-right:12px; padding:6px 12px; border:0; border-radius:10px;
+      background:linear-gradient(135deg,var(--primary-color),var(--primary-2)); color:#fff; font-weight:700; cursor:pointer; transition:var(--transition);
+      &:hover{ transform:translateY(-1px); }
+    }
+    &:focus{ outline:none; border-color:var(--primary-color); box-shadow:0 0 0 6px var(--ring); }
+  }
+
+  /* optional thumbs */
+  .thumbList{ display:flex; flex-wrap:wrap; gap:10px; margin-top:10px; }
+  .thumbChip{
+    border-radius:12px; overflow:hidden; background:#fff; border:1px solid #e5e7eb;
+    box-shadow:0 6px 14px rgba(2,6,23,.06); display:inline-flex; align-items:center;
+    img{ width:96px; height:64px; object-fit:cover; display:block; }
+    button{ border:0; background:transparent; padding:0 8px; font-size:18px; line-height:1; color:#111827;
+      &:hover{ color:#ef4444; transform:scale(1.05); }
+    }
+  }
+}
+
+/* ===== action buttons ===== */
+.actionControl{
+  margin:10px auto 0; flex-wrap:wrap; display:flex; justify-content:center; gap:12px;
+  padding:14px; background:rgba(248,250,252,.75); border-radius:14px; border:1px solid #eef2ff;
+
+  @include media("<tablet"){ width:100%; }
+
+  button{
+    outline:none; border:none; width:200px; height:44px; color:#fff; border-radius:12px; font-weight:800;
+    box-shadow:var(--shadow); transition:var(--transition);
+
+    &:hover{ transform:translateY(-2px); box-shadow:var(--shadow-lg); }
+  }
+
+  .saveButton{ background:linear-gradient(135deg,var(--success),#00b48a); }
+  .cancelButton{ background:linear-gradient(135deg,var(--danger),#d23669); }
+  .previewButton{ background:linear-gradient(135deg,#60a5fa,#3b82f6); }
+}
+
+/* ===== centered row kept ===== */
+.imagesComponents{ display:flex; align-items:center; justify-content:center; }
+
+/* ===== dark mode ===== */
+@media (prefers-color-scheme: dark){
+  .editPage{ background:linear-gradient(135deg,#0b1020,#0f172a); }
+
+  .inputContainer{
+    background:linear-gradient(#111827,#0f172a) padding-box, linear-gradient(135deg,#384cff,#b05bff) border-box;
+    color:#e5e7eb !important;
+
+    .form-control, .form-select, input, textarea{
+      background:#111827; color:#e5e7eb; border-color:#1f2937;
+      &::placeholder{ color:#9aa3b2; }
+    }
+  }
 }

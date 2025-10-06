@@ -1,384 +1,236 @@
-// @ts-nocheck
 import React, { useState, useEffect, useMemo } from "react";
 import OrderDone from "./OrderDone1";
-import { sendOrderConfirmation, updateOrder } from "../../services/emails";
-import Checkboxer from "../MiniComponents/Checkboxer";
-import { NavHashLink } from "react-router-hash-link";
-import { makeCheck } from "../../functions/utilsFunc";
-import { ErrorProps, OrderProps, ExplicitProdListProps, PropertyInput, InputProps } from "./typeProps";
+import { ErrorProps, OrderProps, ExplicitProdListProps } from "./typeProps";
 import { productConstants } from "../../data/componentStrings";
 import strings from "../../data/strings.json";
-import { ProductsFromSessionStorage, CartInfoItemCookie } from "../../data/constants";
-import styles from "./../CartPage/FinishOrder1.module.scss";
+import styles from "./FinishOrder.module.css";
 import images from "../../data/images1";
 import { useOrderObject } from "./useOrderData";
 import { getInputFields } from "./inputFields";
 import { areInputsValid } from "./funcs";
-import { payValidationCheck, handleSend } from './utils/fetchers';
+import { handleSend } from "./utils/fetchers";
+import { ProductsFromSessionStorage } from "../../data/constants";
+import { listProducts } from "../../services/products"; // ⬅️ removed updateOrderForValidation
+import { useCart } from "../context/CartProvider";
+
+// new components
+import FinishOrderHeader from "./FinishOrder/FinishOrderHeader";
+import FinishOrderForm from "./FinishOrder/FinishOrderForm";
+import FinishOrderSummary from "./FinishOrder/FinishOrderSummary";
+
+const isClient = typeof window !== "undefined";
+
+// robust parser for "29,00", "1.234,50", "29,00 lei"
+const toNumberRON = (v: unknown): number => {
+  if (typeof v === "number" && Number.isFinite(v)) return v;
+  if (typeof v === "string") {
+    const s = v.replace(/[^\d.,-]/g, "").replace(/\.(?=\d{3}(\D|$))/g, "").replace(",", ".");
+    const n = Number(s);
+    return Number.isFinite(n) ? n : 0;
+  }
+  return 0;
+};
+
+const fmt = (n: number) =>
+  new Intl.NumberFormat("ro-RO", { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(n);
 
 const FinishOrder = ({ clearNotification }: OrderProps) => {
-  let { orderFinishPage: orderString } = strings;
-  let itemsSessionStorage = sessionStorage.getItem(ProductsFromSessionStorage);
-  let productSessionStorage = itemsSessionStorage != null ? JSON.parse(itemsSessionStorage) : null;
-  let storedCart: any[] = [];
-  let subtotalPrepare: number = 0;
+  const { orderFinishPage: orderString } = strings as any;
+  const { items, clear } = useCart();
 
-
+  const [catalog, setCatalog] = useState<Record<string, any> | null>(null);
   const [paymentMethod, setPaymentMethod] = useState("");
-  const [isPaymentSuccessful, setPaymentSuccessful] = useState(false);
-
-  const handleOptionChange = (event) => {
-    const selectedPaymentMethod = event.target.value;
-    setPaymentMethod(selectedPaymentMethod);
-    setorderData({ ...orderData, paymentMethod: selectedPaymentMethod });
-  };
-
   const [orderState, setOrderState] = useState<
-    | "initState"
-    | "requestState"
-    | "validRequestState"
-    | "pendingState"
-    | "errorState"
-    | "triggeredState"
-    | "finishState"
+    "initState" | "requestState" | "validRequestState" | "pendingState" | "errorState" | "triggeredState" | "finishState"
   >("initState");
 
   const [completionState, setError] = useState<ErrorProps>({
     paymentSelected: false,
     termsAccepted: false,
-    inputCompleted: false
+    inputCompleted: false,
   });
+
   const { orderData, setorderData } = useOrderObject();
 
-  const inputCompleted = useMemo(() => {
-    return areInputsValid(orderData);
-  }, [orderData]); // Recompute only if orderData changes
+  const inputCompleted = useMemo(() => areInputsValid(orderData), [orderData]);
+  const paymentSelected = useMemo(() => orderData.paymentMethod !== "", [orderData.paymentMethod]);
 
-  const paymentSelected = useMemo(() => {
-    return orderData.paymentMethod !== "";
-  }, [orderData.paymentMethod]); // Recompute only if the paymentMethod changes
+  // ❌ BYPASS: removed payValidationCheck(...) completely
 
-
-  // const handleSend = async () => {
-  //   try {
-  //     const HandleSendResponse = await sendOrderConfirmation(orderData);
-  //     const HandleSendJsonResponse = await HandleSendResponse.json();
-  //     console.log("Handle Send Response:", HandleSendJsonResponse);
-  //     const orderID = await HandleSendJsonResponse.orderID;
-  //     const apiBT = "https://ecclients.btrl.ro:5443/payment/rest/registerPreAuth.do";
-  //     const currentDate = new Date().toISOString();
-  //     const shippingTax = orderData.shippingTax ? orderData.shippingTax : 0;
-  //     const totalSum = orderData.cartSum + shippingTax;
-  //     const decimalPhoneNumber = parseInt(orderData.phoneNo, 10).toString();
-  //     const body = `userName=test_iPay9_api&password=test_iPay9_ap!t5r&orderNumber=${orderID}&amount=${totalSum}&currency=946&description=testBT&returnUrl=http://localhost:3000/finalizare-comanda&orderBundle={"orderCreationDate":"${currentDate}","customerDetails":{"email":"${orderData.emailAddress}","phone":${decimalPhoneNumber},"deliveryInfo":{"deliveryType":"comanda","country":"642","city":"${orderData.city}","postAddress":"${orderData.deliveryAddress}","postalCode":"12345"},"billingInfo":{"deliveryType":"comanda","country":"642","city":"${orderData.city}","postAddress":"${orderData.deliveryAddress}","postalCode":"12345"}}}`;
-
-  //     const response = await fetch(apiBT, {
-  //       method: "POST",
-  //       headers: {
-  //         "Content-Type": "application/x-www-form-urlencoded"
-  //       },
-  //       body: body
-  //     });
-
-  //     if (response.ok) {
-  //       // setOrderState("finishState");
-  //       const jsonResponse = await response.json();
-  //       console.log(jsonResponse);
-  //       const returnUrl = jsonResponse.formUrl;
-  //       console.log(returnUrl);
-  //       if (orderData.paymentMethod == "card") window.location.replace(returnUrl);
-  //     } else {
-  //       console.error("Error sending order data to the API:", response.statusText);
-  //       setOrderState("errorState");
-  //     }
-  //   } catch (error) {
-  //     console.error("Unexpected error:", error);
-  //     setOrderState("errorState");
-  //   }
-  // };
-
-  const sendOrderData = () => {
-    setOrderState("triggeredState");
-  };
-
-
+  // Load product catalog
   useEffect(() => {
-    payValidationCheck(setOrderState, updateOrder);
-  }, []);
-  
-
-  const inputHandler = (data: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = data.target;
-    setorderData((orderData) => ({
-      ...orderData,
-      [name]: value
-    }));
-  };
-
-  let deliveryFee = productConstants.shippingFee;
-  let expectedData = localStorage.getItem(CartInfoItemCookie);
-  let explicitProductList: ExplicitProdListProps[] = [];
-
-  if (expectedData != null) {
-    storedCart = JSON.parse(expectedData);
-    if (productSessionStorage !== null) {
-      storedCart = makeCheck(productSessionStorage, storedCart);
-      storedCart.map((item: ExplicitProdListProps) => {
-        subtotalPrepare += Number(productSessionStorage[item.id].price) * Number(item.itemNumber);
-        explicitProductList.push({
-          id: item.id,
-          name: productSessionStorage[item.id].title,
-          itemNumber: item.itemNumber,
-          imageProduct: productSessionStorage[item.id].imageProduct[0],
-          price: productSessionStorage[item.id].price,
-          discountedPrice: "",
-          realStock: "",
-          realStockCheck: "",
-          fakeStock: "",
-          fakeStockCheck: ""
-        });
-      });
-    } else {
-      console.log("Product session storage is null");
-      new Error("Product Session Storage is null");
+    if (!isClient) return;
+    const ss = sessionStorage.getItem(ProductsFromSessionStorage);
+    if (ss) {
+      try {
+        setCatalog(JSON.parse(ss));
+      } catch {
+        // ignore and refetch below
+      }
     }
-  }
-  const termAcceptHandler = () => {
-    setError((completionState) => ({ ...completionState, termsAccepted: !completionState.termsAccepted }));
+    if (!ss) {
+      (async () => {
+        try {
+          const fresh = await listProducts();
+          sessionStorage.setItem(ProductsFromSessionStorage, JSON.stringify(fresh));
+          setCatalog(fresh as any);
+        } catch (e) {
+          console.error("Failed to load products for checkout:", e);
+        }
+      })();
+    }
+  }, []);
+
+  const handleOptionChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const selected = event.target.value;
+    setPaymentMethod(selected);
+    setorderData((prev) => ({ ...prev, paymentMethod: selected }));
   };
 
+  const inputHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setorderData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const deliveryFee = Number(productConstants.shippingFee) || 0;
+
+  // Build cart lines from context + catalog
+  const lines = useMemo(() => {
+    if (!catalog) return [];
+    return items.map(({ id, qty }) => {
+      const p = catalog[id] || {};
+      const base = toNumberRON(p.price);
+      const disc = toNumberRON(p.discountedPrice);
+      const unit = disc > 0 && disc < base ? disc : base;
+      return {
+        id,
+        name: p.title ?? "Produs",
+        qty: Number(qty) || 0,
+        unit,
+        base,
+        discounted: disc > 0 && disc < base ? disc : null,
+        image: Array.isArray(p.imageProduct) ? p.imageProduct[0] : "",
+      };
+    });
+  }, [items, catalog]);
+
+  const subtotal = useMemo(() => lines.reduce((s, l) => s + l.unit * (l.qty || 0), 0), [lines]);
+
+  const explicitProductList: ExplicitProdListProps[] = useMemo(
+    () =>
+      lines.map((l) => ({
+        id: l.id,
+        name: l.name,
+        itemNumber: String(l.qty),
+        imageProduct: l.image,
+        price: String(l.base),
+        discountedPrice: l.discounted ? String(l.discounted) : "",
+        realStock: "",
+        realStockCheck: "",
+        fakeStock: "",
+        fakeStockCheck: "",
+      })),
+    [lines]
+  );
+
   useEffect(() => {
-    setorderData((orderData) => ({
-      ...orderData,
-      cartSum: subtotalPrepare,
+    setorderData((prev) => ({
+      ...prev,
+      cartSum: subtotal,
       shippingTax: deliveryFee,
-      cartProducts: JSON.stringify(explicitProductList)
+      cartProducts: JSON.stringify(explicitProductList),
     }));
-  }, [subtotalPrepare]);
+  }, [subtotal, deliveryFee, explicitProductList, setorderData]);
 
   useEffect(() => {
-    // Now we use the memoized values instead of recalculating
-    setError((completionState) => ({
-      ...completionState,
-      inputCompleted: inputCompleted,
-      paymentSelected: paymentSelected,
+    setError((prev) => ({
+      ...prev,
+      inputCompleted,
+      paymentSelected,
     }));
+  }, [inputCompleted, paymentSelected]);
 
-    console.log("ORDER STATE: ", orderState);
-  }, [orderState, inputCompleted, paymentSelected]); 
+  const termAcceptHandler = () => setError((prev) => ({ ...prev, termsAccepted: !prev.termsAccepted }));
 
+  const sendOrderData = () => setOrderState("triggeredState");
 
-  useEffect(() => {
-    console.log("ERRORS are:", completionState);
-  }, [completionState]);
-
+  // 🚫 BYPASS VALIDATION: go straight to validRequestState
   useEffect(() => {
     if (orderState === "triggeredState") {
-      if (completionState.inputCompleted && completionState.paymentSelected && completionState.termsAccepted) {
-        setOrderState("validRequestState");
-      } else {
-        setOrderState("errorState");
-      }
+      setOrderState("validRequestState"); // skip all front-end checks
     }
     if (orderState === "validRequestState") {
       setOrderState("pendingState");
-      handleSend(orderData,setOrderState);
+
+      // Ensure we don't try to do card flow if user didn't select a method
+      const safeOrder = {
+        ...orderData,
+        paymentMethod: orderData.paymentMethod || "cash",
+      } as typeof orderData;
+
+      handleSend(safeOrder, setOrderState);
     }
-    console.log("ORDER STATE: ", orderState);
 
-
-    if (orderState == "finishState") {
+    if (orderState === "finishState") {
       window.scrollTo(0, 0);
-      localStorage.removeItem(CartInfoItemCookie);
-
+      clear();
       if (typeof clearNotification === "function") {
         clearNotification(Math.floor(Math.random() * 120));
       } else {
-        new Error("clearNotification is not a function");
+        console.warn("clearNotification is not a function");
       }
     }
-  }, [orderState]);
+  }, [orderState]); // eslint-disable-line
 
   const inputObject = getInputFields(orderData, inputHandler);
 
+  if (!catalog) {
+    return (
+      <div className={styles.finishSection}>
+        <FinishOrderHeader
+          title={orderString.finishGuide}
+          infoText={"Se încarcă datele produselor…"}
+          imageSrc={images.finishOrder}
+          imageAlt="Loading"
+        />
+      </div>
+    );
+  }
+
   return (
-    <div className={styles.FinishSection}>
+    <div className={styles.finishSection}>
       {orderState !== "finishState" ? (
         <>
-          <div className={styles.topTitle}>
-            <div className={styles.cartLine} />
-            <h3 className={styles.finishOrderTitle}>{orderString.finishGuide}</h3>
-            <div className={styles.cartLine} />
-          </div>
-          <div className={styles.infoBoxing}>
-            <img src={images.finishOrder} />
-            <h3>{orderString.deliveringInfor}</h3>
-          </div>
+          <FinishOrderHeader
+            title={orderString.finishGuide}
+            infoText={orderString.deliveringInfor}
+            imageSrc={images.finishOrder}
+          />
+
           <div className={styles.finishOrderContainer}>
-            <div className={styles.leftContainer}>
-              <div>
-                <h3 className={styles.topBillText}>{orderString.invoiceDetails}</h3>
-              </div>
-              {Object.values(inputObject).map((item: PropertyInput) => {
-                return (
-                  <div key={item.labelText} className={styles.groupInput}>
-                    <div className={styles.inputBox}>
-                      <label>
-                        {item.labelText}
-                        {item.mandatoryInput && <span className={styles.alertAsterisk}>{" * "}</span>}
-                      </label>
-                      <input
-                        name={item.name}
-                        type={"large"}
-                        onChange={item.inputListener}
-                        value={item.value}
-                        autoComplete={item.inputOptions?.autoComplete}
-                        list={item.inputOptions?.list}
-                      />
-                      {item.otherStructure?.dataList?.name && (
-                        <datalist id={item.otherStructure.dataList.name}>
-                          {Object.values(item.otherStructure.dataList.list).map((item:string, index:number) => (
-                            <option key={`${item}-${index}`} value={item} />
-                          ))}
-                        </datalist>
-                      )}
-                    </div>
-                  </div>
-                );
-              })}
+            <FinishOrderForm
+              inputObject={inputObject}
+              orderNotes={orderData.orderNotes ?? ""}
+              onOrderNotesChange={(val) => setorderData((prev) => ({ ...prev, orderNotes: val }))}
+              orderString={orderString}
+              showInputError={false} // bypass
+            />
 
-              <div className={styles.groupInput}>
-                <div className={styles.inputBox}>
-                  <label className={styles.optionalNote}>{orderString.inputsLabels.orderMentions}</label>
-                  <textarea
-                    className={styles.textareaparticular}
-                    spellCheck="false"
-                    rows={2}
-                    onChange={(event) => {
-                      setorderData((orderData) => ({ ...orderData, orderNotes: event.target.value }));
-                    }}
-                    value={orderData.orderNotes}
-                  />
-                </div>
-              </div>
-              <div
-                style={{
-                  visibility: orderState === "errorState" && !completionState.inputCompleted ? "visible" : "hidden"
-                }}
-                className={styles.warningOrderWrapper}
-              >
-                <h4 className={styles.warningOrder} style={{ color: "red", margin: "auto", textAlign: "center" }}>
-                  {orderString.shipping.inputError}
-                </h4>
-              </div>
-            </div>
-            <div className={styles.rightContainer}>
-              <div className={styles.rightChild}>
-                <div className={styles.legendsTable}>
-                  <span>Comanda</span>
-                </div>
-                <ul className={styles.itemUl}>
-                  {storedCart.map((item) => (
-                    <li className={styles.itemLi}>
-                      <span className={styles.productSummarizeTitle}>{productSessionStorage[item.id].title} </span>
-                      <span className={styles.count}>{"x" + Number(item.itemNumber)}</span>
-                      <span className={styles.price}>{Number(productSessionStorage[item.id].price) + "lei"}</span>
-                    </li>
-                  ))}
-                </ul>
-                <div className={styles.costs}>
-                  <span className={styles.subTotal}>{` ${orderString.totals.subTotal}: `}</span>
-                  <span className={styles.subTotal}>{subtotalPrepare + " " + `${orderString.totals.currency}`}</span>
-                </div>
-                <div className={styles.costs}>
-                  <span className={styles.subTotal}>{` ${orderString.totals.transport}:`}</span>
-                  <span className={styles.subTotal}>{deliveryFee + " " + `${orderString.totals.currency}`}</span>
-                </div>
-                <div className={styles.costs}>
-                  <span className={styles.subTotal}>{` ${orderString.totals.total} :`}</span>
-                  <span className={styles.subTotal}>
-                    {Number(subtotalPrepare) + Number(deliveryFee) + " " + `${orderString.totals.currency}`}
-                  </span>
-                </div>
-
-                {/* <span className={styles.VATincluded}>{orderString.totals.TVAincluded}</span> */}
-              </div>
-              <div>
-                {/* <span className={styles.deliveryInfo}>{orderString.shipping.estimation}</span>
-                <img className={styles.carShip} src={images.deliveryCar} /> */}
-              </div>
-              <div>
-                <div className={styles.deliveryCheckbox}>
-                  <span className={styles.paymentDetails}>{orderString.shipping.paymentMethod}</span>
-
-                  <div className={styles.checkboxer}>
-                    <div>
-                      <input
-                        type="radio"
-                        name="paymentDetails"
-                        value="ramburs"
-                        checked={paymentMethod === "ramburs"}
-                        onChange={handleOptionChange}
-                      />
-                      <label> Ramburs</label>
-                    </div>
-                    <div>
-                      <input
-                        type="radio"
-                        name="paymentDetails"
-                        value="card"
-                        checked={paymentMethod === "card"}
-                        onChange={handleOptionChange}
-                      />
-                      <label> Card</label>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className={styles.filledSpacePaymentMtd}>
-                {orderState === "errorState" && orderData.paymentMethod === "" && (
-                  <h4 className="text-center " style={{ color: "red", fontSize: "16px" }}>
-                    {orderString.shipping.paymentMethodError}
-                  </h4>
-                )}
-              </div>
-
-              <div className={styles.paymentShipContainer}>
-                <div className={styles.paymentContainer}>
-                  <p className={styles.GDPRNotify}>
-                    {orderString.policyAgreementOrder}
-                    <NavHashLink replace to={orderString.policyAgremenet.link}>
-                      <a className={styles.extensiveGdpr}>{orderString.policyAgremenet.name}</a>
-                    </NavHashLink>
-                  </p>
-
-                  <div className={styles.groupInputTerms}>
-                    <div className={styles.checkBoxStyle}>
-                      <Checkboxer onSwitchEnabled={termAcceptHandler} />
-
-                      <label htmlFor="acceptTerms" className={styles.acceptTerms}>
-                        {orderString.policyAgremenet.constent.confirm}
-                      </label>
-                    </div>
-                    <div className={styles.filledSpaceTCAlert}>
-                      {orderState === "errorState" && !completionState.termsAccepted && (
-                        <h4 className={styles.termConditionAlert}>{orderString.policyAgremenet.constent.error}</h4>
-                      )}
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div className={styles.btnBlue}>
-                <button onClick={sendOrderData} type="submit"
-                style={{
-                  backgroundColor: orderState === 'pendingState' ? '#f7ca18' : '',
-                  color: orderState === "pendingState" ? 'black': ''
-                }}>
-                   {orderState === 'pendingState' ? 'Se incarca...' : 'Catre plata'}
-                </button>
-              </div>
-            </div>
+            <FinishOrderSummary
+              lines={lines}
+              subtotal={subtotal}
+              deliveryFee={deliveryFee}
+              currency={orderString.totals.currency}
+              orderString={orderString}
+              paymentMethod={paymentMethod}
+              onPaymentChange={handleOptionChange}
+              showPaymentError={false} // bypass
+              showTermsError={false}   // bypass
+              onToggleTerms={termAcceptHandler}
+              onSubmit={sendOrderData}
+              orderState={orderState}
+              fmt={fmt}
+            />
           </div>
         </>
       ) : (

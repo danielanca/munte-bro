@@ -1,16 +1,22 @@
+// components/AdminArea/RequireAuth.tsx
 import React from "react";
-import { useLocation, Navigate, Outlet } from "react-router-dom";
-import { getCookie } from "../../utils/functions";
-import useAuth from "../hooks/useAuth";
+import { Outlet, Navigate, useLocation } from "react-router-dom";
+import useAuth from "../hooks/hooks/useAuth";
+import RouteSpinner from "../UI/RouteSpinner";
 
-const RequireAuth = () => {
-  const auth = useAuth();
-  console.log("Auth:", auth);
+const RequireAuth: React.FC = () => {
+  const { auth } = useAuth();
   const location = useLocation();
+  const loading = auth?.loading ?? false;
 
-  return getCookie("jwt") === "ABCJWT" ? <Outlet /> : <Navigate to="/login" state={{ from: location }} replace />;
-  // #1 return auth?.authorise == true ? <Outlet /> : <Navigate to="/login" state={{ from: location }} replace />;
+  if (loading) return <RouteSpinner />; // wait for Firebase/cookie check
+
+  // allow if authorised, otherwise kick to /login
+  return auth?.authorise ? (
+    <Outlet />
+  ) : (
+    <Navigate to="/login" state={{ from: location }} replace />
+  );
 };
-//BUG: Can't do #1 because its state changes too late (authorise) , and appears as false in the first place, it needs
-//a refresh to get the updated value of TRUE
+
 export default RequireAuth;

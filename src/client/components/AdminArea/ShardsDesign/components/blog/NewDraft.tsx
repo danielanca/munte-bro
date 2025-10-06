@@ -1,56 +1,62 @@
-// @ts-nocheck
-import React from "react";
-import PropTypes from "prop-types";
-import {
-  Card,
-  CardHeader,
-  CardBody,
-  Form,
-  FormGroup,
-  FormInput,
-  FormTextarea,
-  Button
-} from "shards-react";
+// components/AdminArea/NewDraft.tsx
+import React, { useState } from "react";
+import { Card, Form, Button } from "react-bootstrap";
 
-const NewDraft = ({ title }) => (
-  <Card small className="h-100">
-    {/* Card Header */}
-    <CardHeader className="border-bottom">
-      <h6 className="m-0">{title}</h6>
-    </CardHeader>
+export interface NewDraftProps {
+  /** The card title shown in the header */
+  title?: string;
+  /** Optional submit handler (receives title & body) */
+  onCreate?: (payload: { title: string; body: string }) => void;
+}
 
-    <CardBody className="d-flex flex-column">
-      <Form className="quick-post-form">
-        {/* Title */}
-        <FormGroup>
-          <FormInput placeholder="Brave New World" />
-        </FormGroup>
+const NewDraft: React.FC<NewDraftProps> = ({ title = "New Draft", onCreate }) => {
+  const [draftTitle, setDraftTitle] = useState("");
+  const [draftBody, setDraftBody] = useState("");
 
-        {/* Body */}
-        <FormGroup>
-          <FormTextarea placeholder="Words can be like X-rays if you use them properly..." />
-        </FormGroup>
+  const handleSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
+    e.preventDefault();
+    onCreate?.({ title: draftTitle.trim(), body: draftBody.trim() });
+    // optional: clear after submit
+    setDraftTitle("");
+    setDraftBody("");
+  };
 
-        {/* Create Draft */}
-        <FormGroup className="mb-0">
-          <Button theme="accent" type="submit">
-            Create Draft
-          </Button>
-        </FormGroup>
-      </Form>
-    </CardBody>
-  </Card>
-);
+  return (
+    <Card className="h-100">
+      <Card.Header className="border-bottom">
+        <h6 className="m-0">{title}</h6>
+      </Card.Header>
 
-NewDraft.propTypes = {
-  /**
-   * The component's title.
-   */
-  title: PropTypes.string
-};
+      <Card.Body className="d-flex flex-column">
+        <Form onSubmit={handleSubmit} className="quick-post-form">
+          <Form.Group className="mb-3" controlId="newDraftTitle">
+            <Form.Control
+              type="text"
+              placeholder="Brave New World"
+              value={draftTitle}
+              onChange={(e) => setDraftTitle(e.target.value)}
+            />
+          </Form.Group>
 
-NewDraft.defaultProps = {
-  title: "New Draft"
+          <Form.Group className="mb-3" controlId="newDraftBody">
+            <Form.Control
+              as="textarea"
+              rows={4}
+              placeholder="Words can be like X-rays if you use them properly..."
+              value={draftBody}
+              onChange={(e) => setDraftBody(e.target.value)}
+            />
+          </Form.Group>
+
+          <div className="mb-0">
+            <Button type="submit" variant="primary">
+              Create Draft
+            </Button>
+          </div>
+        </Form>
+      </Card.Body>
+    </Card>
+  );
 };
 
 export default NewDraft;

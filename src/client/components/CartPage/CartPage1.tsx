@@ -1,79 +1,96 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { NavHashLink } from "react-router-hash-link";
-import { uniqueId } from "lodash";
 import { productConstants } from "../../data/componentStrings";
 import ItemCartList from "./ItemCartList";
-import { ProductSessionProps, ProductCookiesProps, CartProps } from "./typeProps1";
 import strings from "../../data/strings.json";
 import styles from "./CartPage1.module.scss";
 import { AiOutlinePercentage } from "react-icons/ai";
 import { MdOutlineLocalOffer } from "react-icons/md";
 import { getCuponData, Cupon } from "../../data/CuponFetch";
+import { useCart } from "../context/CartProvider";
+// CartPage.tsx
 
-// Client-side check utility
+
+// ✅ unified key + fetch fallback
+import { ProductsFromSessionStorage,CartInfoItemCookie } from "../../data/constants";
+import { listProducts } from "../../services/products";
+
 const isClient = typeof window !== "undefined";
 
-// Define constants locally instead of importing them
-const CartInfoItemCookie = "cartData";
-const ProductsFromSessionStorage = "productsFetched";
-
-const makeCheck = (sessionData: ProductSessionProps, cartData: ProductCookiesProps[]) => {
-  const missing: string[] = [];
-  for (const item of cartData) {
-    if (sessionData && !Object.prototype.hasOwnProperty.call(sessionData, item.id)) {
-      missing.push(item.id);
-    }
+// Robust RON parser: keeps digits, dot/comma, minus; removes currency/suffixes and thousand dots
+const toNumberRON = (v: unknown): number => {
+  if (typeof v === "number" && Number.isFinite(v)) return v;
+  if (typeof v === "string") {
+    const s = v
+      .replace(/[^\d.,-]/g, "")         // strip letters / spaces
+      .replace(/\.(?=\d{3}(\D|$))/g, "") // remove thousands dots like 1.234
+      .replace(",", ".");
+    const n = Number(s);
+    return Number.isFinite(n) ? n : 0;
   }
-  return cartData.filter((x) => !missing.includes(x.id));
+  return 0;
 };
 
-const CartPage = ({ notifyMe }: CartProps) => {
+const fmt = (n: number) =>
+  new Intl.NumberFormat("ro-RO", { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(n);
+
+const CartPage: React.FC = () => {
+  const { items } = useCart();
+
   const [cuponData, setCuponData] = useState<Cupon[]>([]);
-  const [inputValue, setInputValue] = useState<string>("");
-  const [cuponCode, setCuponCode] = useState<string>("");
-  const [cuponDiscount, setCuponDiscount] = useState<number>(0);
-  const [updateMade, setUpdateMade] = useState<number>(1);
+  const [inputValue, setInputValue] = useState("");
+  const [cuponCode, setCuponCode] = useState("");
+  const [cuponDiscount, setCuponDiscount] = useState(0);
 
-  const { MyCart: cartString } = strings;
-  const deliveryFee = Number(productConstants.shippingFee);
+  const { MyCart: cartString } = strings as any;
+  const deliveryFee = Number(productConstants.shippingFee) || 0;
 
-  // Load session products (catalog) and cart with client-side check
-  const sessionProducts: ProductSessionProps | null = useMemo(() => {
-    if (!isClient) return null;
-    const flat = sessionStorage.getItem(ProductsFromSessionStorage);
-    return typeof flat === "string" ? (JSON.parse(flat) as ProductSessionProps) : null;
+  // ✅ central product catalog (from SS or fetched)
+  const [catalog, setCatalog] = useState<Record<string, any> | null>(null);
+
+  useEffect(() => {
+    if (!isClient) return;
+
+    // try sessionStorage first
+    const ss = sessionStorage.getItem(ProductsFromSessionStorage);
+    if (ss) {
+      try {
+        setCatalog(JSON.parse(ss));
+      } catch {
+        // ignore; we'll refetch below
+      }
+    }
+
+    // if not present or parse failed -> fetch
+    if (!ss) {
+      (async () => {
+        try {
+          const fresh = await listProducts(); // Record<string, ProductModel>
+          sessionStorage.setItem(ProductsFromSessionStorage, JSON.stringify(fresh));
+          setCatalog(fresh as any);
+        } catch (e) {
+          console.error("Failed to load products for cart:", e);
+        }
+      })();
+    }
   }, []);
 
-  const storedCart: ProductCookiesProps[] | null = useMemo(() => {
-    if (!isClient) return null;
-    const expectedData = localStorage.getItem(CartInfoItemCookie);
-    return expectedData ? (JSON.parse(expectedData) as ProductCookiesProps[]) : null;
-  }, [updateMade]);
-
-  const filteredCart = useMemo(() => {
-    if (!sessionProducts || !storedCart) return null;
-    return makeCheck(sessionProducts, storedCart);
-  }, [sessionProducts, storedCart]);
-
-  const subtotalPrepare = useMemo(() => {
-    if (!sessionProducts || !filteredCart) return 0;
-    return filteredCart.reduce((sum, item) => {
-      const price = Number(sessionProducts[item.id]?.price ?? 0);
-      return sum + price * Number(item.itemNumber ?? 0);
-    }, 0);
-  }, [sessionProducts, filteredCart]);
-
-  const productNotification = () => {
-    setUpdateMade((n) => n + 1);
-    notifyMe(updateMade + 1);
-    
-    // Dispatch custom event to notify context about cart update
-    if (isClient) {
-      window.dispatchEvent(new Event("cartUpdated"));
-    }
+  // price resolver prefers discountedPrice when valid
+  const priceFor = (id: string): number => {
+    const p = catalog?.[id];
+    if (!p) return 0;
+    const discounted = toNumberRON(p.discountedPrice);
+    const base = toNumberRON(p.price);
+    if (discounted > 0 && discounted < base) return discounted;
+    return base;
   };
 
-  // Fetch cupons once
+  const subtotal = useMemo(() => {
+    if (!catalog || items.length === 0) return 0;
+    return items.reduce((sum, it) => sum + priceFor(it.id) * (Number(it.qty) || 0), 0);
+  }, [items, catalog]);
+
+  // coupons
   useEffect(() => {
     if (!isClient) return;
     (async () => {
@@ -86,31 +103,17 @@ const CartPage = ({ notifyMe }: CartProps) => {
     })();
   }, []);
 
-  // Handle cupon input
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setInputValue(e.target.value.trim());
-  };
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => setInputValue(e.target.value.trim());
 
-  // Resolve the currently typed cupon
   useEffect(() => {
-    const match = cuponData.find(
-      (c) => c.cuponCode?.toLowerCase() === inputValue.toLowerCase()
-    );
-    if (match) {
-      setCuponCode(match.cuponCode);
-      setCuponDiscount(Number(match.cuponDiscount) || 0);
-    } else {
-      setCuponCode("");
-      setCuponDiscount(0);
-    }
+    const match = cuponData.find((c) => c.cuponCode?.toLowerCase() === inputValue.toLowerCase());
+    setCuponCode(match ? match.cuponCode : "");
+    setCuponDiscount(match ? Number(match.cuponDiscount) || 0 : 0);
   }, [inputValue, cuponData]);
 
-  // Totals
-  const subtotal = Number(subtotalPrepare);
   const totalBeforeDiscount = subtotal + deliveryFee;
   const discountAmount = (Number(cuponDiscount) / 100) * totalBeforeDiscount;
   const finalTotal = totalBeforeDiscount - discountAmount;
-  const formattedTotal = ` ${finalTotal.toFixed(2)} ${cartString.currency}`;
 
   const displayFinishOrderDialog = () => (
     <NavHashLink className={styles.hashTransparent} to={cartString.finishOrderCosulmeu.link}>
@@ -125,15 +128,9 @@ const CartPage = ({ notifyMe }: CartProps) => {
       <div className={styles.CartSection}>
         <div className={styles.mainParentContainer}>
           <div className={styles.leftContainer}>
-            {subtotalPrepare !== 0 && filteredCart ? (
-              filteredCart.map((item) => (
-                <ItemCartList
-                  key={uniqueId()}
-                  productID={item.id}
-                  amount={Number(item.itemNumber)}
-                  updateRequest={productNotification}
-                />
-              ))
+            {items.length > 0 ? (
+              // ✅ stable keys to avoid remounts
+              items.map((item) => <ItemCartList key={item.id} productID={item.id} />)
             ) : (
               <div className={styles.emptyCart}>{cartString.emptyCart}</div>
             )}
@@ -153,22 +150,18 @@ const CartPage = ({ notifyMe }: CartProps) => {
               <h1 className={styles.comandaTitle}>Comanda</h1>
 
               <div className={styles.subTotalContainer}>
-                <span className={styles.subTotal}>{` ${cartString.subTotal} `}</span>
-                <span className={styles.subTotal}>
-                  {`${subtotalPrepare} ${cartString.currency}`}
-                </span>
+                <span className={styles.subTotal}>{cartString.subTotal}</span>
+                <span className={styles.subTotal}>{`${fmt(subtotal)} ${cartString.currency}`}</span>
               </div>
 
               <div className={styles.subTotalContainer}>
                 <span className={styles.subTotal}>Discount</span>
-                <span className={styles.subTotal}>{`0.00 ${cartString.currency}`}</span>
+                <span className={styles.subTotal}>{`${fmt(0)} ${cartString.currency}`}</span>
               </div>
 
               <div className={styles.subTotalContainer}>
                 <span className={styles.subTotal}>Delivery</span>
-                <span className={styles.subTotal}>
-                  {`${deliveryFee} ${cartString.currency}`}
-                </span>
+                <span className={styles.subTotal}>{`${fmt(deliveryFee)} ${cartString.currency}`}</span>
               </div>
 
               <div className={styles.subTotalContainer}>
@@ -181,15 +174,17 @@ const CartPage = ({ notifyMe }: CartProps) => {
               </div>
 
               <div className={styles.subTotalContainer}>
-                <span className={styles.subTotalTotal}>{` ${cartString.total} `}</span>
+                <span className={styles.subTotalTotal}>{cartString.total}</span>
                 <span className={styles.subTotalTotalPrice}>
-                  {`${subtotal + deliveryFee} ${cartString.currency}`}
+                  {`${fmt(totalBeforeDiscount)} ${cartString.currency}`}
                 </span>
               </div>
 
               <div className={styles.subTotalContainer}>
-                <span className={styles.subTotalTotal}>{`Discounted ${cartString.total} `}</span>
-                <span className={styles.subTotalTotalPrice}>{formattedTotal}</span>
+                <span className={styles.subTotalTotal}>{`Discounted ${cartString.total}`}</span>
+                <span className={styles.subTotalTotalPrice}>
+                  {`${fmt(finalTotal)} ${cartString.currency}`}
+                </span>
               </div>
 
               <div className={styles.subTotalContainer}>
@@ -197,7 +192,6 @@ const CartPage = ({ notifyMe }: CartProps) => {
                 <span className={styles.cuponTime}>01 Feb, 2023</span>
               </div>
 
-              {/* Cupon Input */}
               <div className={styles.cuponInputFormContainer}>
                 <input
                   placeholder="Cupon Reducere"
@@ -219,45 +213,17 @@ const CartPage = ({ notifyMe }: CartProps) => {
 
 export default CartPage;
 
-// Utility used outside the component
+/** Legacy helper for places that still read localStorage directly. Prefer the context. */
 export const getCartItems = () => {
-  if (!isClient) return 0;
-  
-  const itemFromSessionS = sessionStorage.getItem(ProductsFromSessionStorage);
-  const sessionProducts: ProductSessionProps | null =
-    itemFromSessionS ? (JSON.parse(itemFromSessionS) as ProductSessionProps) : null;
-
-  const expectedData = localStorage.getItem(CartInfoItemCookie);
-  let cart: ProductCookiesProps[] | null = expectedData ? (JSON.parse(expectedData) as ProductCookiesProps[]) : null;
-
-  if (!expectedData || !sessionProducts || !cart) return 0;
-
-  cart = makeCheck(sessionProducts, cart);
-  return cart.reduce((acc, item) => acc + Number(item.itemNumber ?? 0), 0);
-};
-
-export const CookiesTagConsent = "cookieConsentBrasov";
-export const userAcceptedCookies = "userAccepted";
-
-//Newsletter Component
-export const inputStateEmail = {
-  valid: "valid",
-  notValid: "notValid",
-  init: "init"
-};
-export type emailValidType =
-  | typeof inputStateEmail.init
-  | typeof inputStateEmail.notValid
-  | typeof inputStateEmail.valid;
-
-//Newsletter Subscrption state
-export const Sub = { initState: "INIT", SubscribedState: "SUBSCRIBED", ErrorState: "ERROR" };
-
-export type SubscriptionType = typeof Sub.initState | typeof Sub.SubscribedState | typeof Sub.ErrorState;
-
-export const TableState = {
-  DATA_UPDATE: "DATA_UPDATED",
-  INPUT_INTERACTING: "INPUT_INTERACTING",
-  SEND_CLICKED: "SEND_CLICKED",
-  PARAM_RESET: "RESET_PARAMS"
+  if (typeof window === "undefined") return 0;
+  const raw =
+    localStorage.getItem(CartInfoItemCookie || "cartData") ||
+    localStorage.getItem("cartData");
+  if (!raw) return 0;
+  try {
+    const cart = JSON.parse(raw) as Array<{ id: string; itemNumber: string | number }>;
+    return cart.reduce((acc, it) => acc + Number(it.itemNumber ?? 0), 0);
+  } catch {
+    return 0;
+  }
 };

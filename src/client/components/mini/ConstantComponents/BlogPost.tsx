@@ -1,5 +1,4 @@
-import React from "react";
-import BlogItem from "./BlogItem";
+
 import { NavHashLink } from "react-router-hash-link";
 import { useParams } from "react-router-dom";
 import parse from "html-react-parser";

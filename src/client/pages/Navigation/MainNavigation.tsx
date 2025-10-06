@@ -1,37 +1,50 @@
+// MainNavigation.tsx
 import React, { useEffect, useState } from "react";
-
 import strings from "./../../data/strings.json";
 import FeaturedProductNew from "../../components/FeaturedProduct/FeaturedProductNew";
-import { ProductListType } from "../../utils/OrderInterfaces";
 import { ProductsFromSessionStorage } from "../../data/constants";
-import { getData } from "../../data/productList";
 import ProductsGallery from "../../components/SuggestedProducts/ProductsGallery";
 import FeaturedTextNew from "../../components/Products/FeaturedTextNew";
 import GrayBanner from "../../components/mini/HeadLiners/HeadLiners/GrayBanner";
 import HelloAllNew from "../../components/HelloAll/HelloAllNew";
 
-const MainNavigation = () => {
-  let {  GrayPromotion } = strings;
+// ⬇️ use Firestore service
+import { listProducts } from "../../services/products";
+import type { ProductModel } from "../../utils/OrderInterfaces";
 
-  const [products, setProducts] = useState<ProductListType[] | null>(null);
-  let productsFromSession = sessionStorage.getItem(ProductsFromSessionStorage);
+type ProductsDict = Record<string, ProductModel>;
+
+const MainNavigation = () => {
+  const { GrayPromotion } = strings;
+
+  const [products, setProducts] = useState<ProductsDict | null>(null);
 
   useEffect(() => {
-    if (productsFromSession != null) {
-      setProducts(JSON.parse(productsFromSession));
-    } else {
-      getData().then(finalData => {
-        setProducts(JSON.parse(JSON.stringify(finalData)));
-      });
+    // 1) try cache
+    const cached = sessionStorage.getItem(ProductsFromSessionStorage);
+    if (cached) {
+      try {
+        setProducts(JSON.parse(cached) as ProductsDict);
+      } catch {}
     }
-  }, [productsFromSession]);
+
+    // 2) fetch fresh from Firestore
+    (async () => {
+      try {
+        const data = await listProducts();      // <-- pulls from Firestore "products"
+        setProducts(data);
+        sessionStorage.setItem(ProductsFromSessionStorage, JSON.stringify(data));
+      } catch (e) {
+        console.error("Failed to load products:", e);
+      }
+    })();
+  }, []);
 
   return (
     <>
       <HelloAllNew />
       <FeaturedProductNew />
-      <ProductsGallery productsToShow={products} />
-
+<ProductsGallery productsToShow={products} limit={8} randomize />
       <FeaturedTextNew />
       <GrayBanner text={GrayPromotion.text} />
     </>

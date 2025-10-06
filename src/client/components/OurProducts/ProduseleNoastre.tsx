@@ -3,35 +3,49 @@ import React, { useEffect, useState } from "react";
 import HelmetHead from "../MiniComponents/HelmetHead/HelmetHead";
 import ProductItemDetailsNew from "./ProductItemDetailsNew";
 import strings from "../../data/strings.json";
-import { getData } from "../../data/productList";
 import { ProductsFromSessionStorage } from "../../data/constants";
 import styles from "./ProduseleNoastre.module.scss";
 
-// import your types
+// ⬇️ use Firestore service instead of getData()
+import { listProducts } from "../../services/products";
+
+// types
 import type { ProductListType, ProductListArray } from "../../utils/OrderInterfaces";
 
 const ProduseleNoastre = () => {
   const { ProduseleNoastre } = strings;
 
-  // Allow both shapes: array or map
+  // can be an object map (Record) or an array — keep union
   const [products, setProducts] = useState<ProductListType | ProductListArray | null>(null);
 
   useEffect(() => {
-    const fromSession = sessionStorage.getItem(ProductsFromSessionStorage);
-    if (fromSession) {
-      setProducts(JSON.parse(fromSession)); // could be array or map
-    } else {
-      getData().then((finalData) => {
-        // getData() often returns a map; keep as-is
-        setProducts(finalData as ProductListType);
-      });
+    const cached = sessionStorage.getItem(ProductsFromSessionStorage);
+    if (cached) {
+      try {
+        setProducts(JSON.parse(cached));   // map or array
+      } catch {
+        // ignore parse errors and fetch fresh
+      }
     }
-    // NOTE: don’t put fromSession in deps; you only want to run this on mount
+
+    // Always fetch fresh from Firestore so a direct hit to /produse works
+    (async () => {
+      try {
+        const fresh = await listProducts();              // -> Record<string, ProductModel>
+        setProducts(fresh as unknown as ProductListType);
+        sessionStorage.setItem(ProductsFromSessionStorage, JSON.stringify(fresh));
+      } catch (e) {
+        console.error("Failed to load products from Firestore:", e);
+      }
+    })();
   }, []);
 
   return (
     <>
-      <HelmetHead title={ProduseleNoastre.title} description={ProduseleNoastre.metaDescription} />
+      <HelmetHead
+        title={ProduseleNoastre.title}
+        description={ProduseleNoastre.metaDescription}
+      />
       <div className={styles.blockContainer}>
         <div>
           <ProductItemDetailsNew productData={products} />

@@ -1,54 +1,50 @@
+// MainFooter.tsx
 import React from "react";
 import { Container, Row, Nav } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
-export type FooterMenuItem = {
-  title: string;
-  to: string;
-};
+type MenuItem = { title: string; to: string };
 
-export type MainFooterProps = {
-  /** When true, container is fluid (full width). Mirrors previous `fluid={contained}`. */
+type MainFooterProps = {
+  /** Whether content is contained (false = fluid). */
   contained?: boolean;
-  /** Optional nav items (pass [] to hide). */
-  menuItems?: FooterMenuItem[];
+  /** Optional nav items. */
+  menuItems?: MenuItem[];
   /** Copyright text. */
   copyright?: string;
-  className?: string;
 };
-
-const DEFAULT_MENU: FooterMenuItem[] = [
-  { title: "Home", to: "#" },
-  { title: "Services", to: "#" },
-  { title: "About", to: "#" },
-  { title: "Products", to: "#" },
-  { title: "Blog", to: "#" },
-];
 
 const MainFooter: React.FC<MainFooterProps> = ({
   contained = false,
-  menuItems = DEFAULT_MENU,
   copyright = "Copyright © MontanAir.Ro  dezvoltat de DaniAnca.Ro",
-  className,
+  menuItems = [
+    { title: "Home", to: "#" },
+    { title: "Services", to: "#" },
+    { title: "About", to: "#" },
+    { title: "Products", to: "#" },
+    { title: "Blog", to: "#" },
+  ],
 }) => {
-  return (
-    <footer className={`main-footer d-flex p-2 px-3 bg-white border-top ${className ?? ""}`}>
-      {/* Note: react-bootstrap uses `fluid` to mean full-width. */}
-      <Container fluid={contained}>
-        <Row className="w-100 align-items-center">
-          {menuItems.length > 0 && (
-            <Nav className="flex-row">
-              {menuItems.map((item, idx) => (
-                <Nav.Item key={idx} className="me-3">
-                  <Nav.Link as={Link} to={item.to}>
-                    {item.title}
-                  </Nav.Link>
-                </Nav.Item>
-              ))}
-            </Nav>
-          )}
+  // Container: fluid when contained=false (match original behavior)
+  const fluid = !contained;
 
-          <p className="ms-auto mb-0 text-end copyright" style={{ textAlign: "right" }}>
+  return (
+    <footer className="main-footer d-flex p-2 px-3 bg-white border-top w-100">
+      <Container fluid={fluid}>
+        <Row className="w-100 m-0 justify-content-between align-items-center">
+          {/* Uncomment to show the menu */}
+          {/*
+          <Nav as="nav">
+            {menuItems.map((item, idx) => (
+              <Nav.Item key={idx}>
+                <Nav.Link as={Link} to={item.to}>
+                  {item.title}
+                </Nav.Link>
+              </Nav.Item>
+            ))}
+          </Nav>
+          */}
+          <p className="copyright ms-auto mb-0 text-end" style={{ textAlign: "right" }}>
             {copyright}
           </p>
         </Row>

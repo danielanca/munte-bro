@@ -1,0 +1,87 @@
+.wrap {
+  padding: 16px;
+}
+
+.loading {
+  padding: 24px;
+  font-weight: 600;
+}
+
+.headerCard,
+.totalsCard {
+  border-radius: 12px;
+}
+
+.cardHeader {
+  background: var(--bs-light);
+}
+
+.headerRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.hTitle {
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+.hSub {
+  color: #6b7280; /* gray-500 */
+  font-size: 0.9rem;
+}
+
+.statusWrap {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.statusBadge,
+.methodBadge {
+  font-weight: 600;
+}
+
+.metaGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px 24px;
+}
+
+.kv {
+  display: flex;
+  gap: 8px;
+  align-items: baseline;
+}
+
+.k {
+  color: #6b7280;
+  min-width: 120px;
+}
+
+.v {
+  font-weight: 600;
+}
+
+.totalRow .v {
+  font-size: 1.1rem;
+}
+
+.imgThumb {
+  width: 56px;
+  height: 56px;
+  object-fit: cover;
+  border-radius: 8px;
+  display: block;
+}
+
+.noImg {
+  width: 56px;
+  height: 56px;
+  display: grid;
+  place-items: center;
+  color: #9ca3af;
+  background: #f3f4f6;
+  border-radius: 8px;
+}

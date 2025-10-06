@@ -1,110 +1,116 @@
 // @ts-nocheck
 import { orderProps } from "../../../utils/OrderInterfaces";
 import { sendOrderConfirmation } from "../../../services/emails";
-import { NavigateFunction } from 'react-router-dom';
-type OrderState = "initState" | "requestState" | "validRequestState" | "pendingState" | "errorState" | "triggeredState" | "finishState";
+import { db } from "../../../firebase";
+import { doc, setDoc, serverTimestamp } from "firebase/firestore";
 
-type OrderUpdateModel = {
-  invoiceID: string;
-  paymentStatus: "PAID" | "UNPAID"; // Adjust based on your actual use case
+type OrderState =
+  | "initState" | "requestState" | "validRequestState" | "pendingState"
+  | "errorState" | "triggeredState" | "finishState";
+
+const makeOrderId = () =>
+  `ORD-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 8)}`;
+
+const saveOrderClientSide = async (orderID: string, data: orderProps) => {
+  const ref = doc(db, "orders", String(orderID));
+  await setDoc(ref, { ...data, orderID, paymentStatus: "UNPAID", createdAt: serverTimestamp() }, { merge: true });
 };
 
-export const payValidationCheck = async (setOrderState: React.Dispatch<React.SetStateAction<OrderState>>, updateOrder : (orderModel: OrderUpdateModel) => Promise<void>) => {
+export const handleSend = async (
+  orderData: orderProps,
+  setOrderState: React.Dispatch<React.SetStateAction<OrderState>>,
+) => {
+  try {
+    let orderID: string | undefined;
+
+    // Try email (best effort only)
     try {
-      const queryParams = new URLSearchParams(window.location.search);
-      const orderId = queryParams.get("orderId");
-      // Check if any of the expected parameters are present
-      if (!orderId) {
-        console.log("Query parameters are not present.");
-        return; // Exit the function early if no relevant query params are found
+      const res = await sendOrderConfirmation(orderData);
+      if (res?.ok) {
+        const json = await res.json().catch(() => null);
+        orderID = json?.orderID;
+      } else {
+        console.warn("sendEmail non-OK, bypassing:", res?.statusText);
       }
-      
-      // Proceed with your existing logic if the check passes
-      const token = queryParams.get("token");
-      const approvalCode = queryParams.get("approvalCode");
-      const refNum = queryParams.get("refNum");
-      const language = queryParams.get("language");
-      console.log("orderId:", orderId);
-      console.log("token:", token);
-      console.log("approvalCode:", approvalCode);
-      console.log("refNum:", refNum);
-      console.log("language:", language);
-
-      const apiPLATA = "https://ecclients.btrl.ro:5443/payment/rest/getOrderStatusExtended.do";
-
-      const info = `userName=test_iPay9_api&password=test_iPay9_ap!t5r&orderId=${orderId}`;
-
-      const response = await fetch(apiPLATA, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded"
-        },
-        body: info
-      });
-      const data = await response.json();
-      console.log("Other API Response:", data);
-
-      if (data.paymentAmountInfo.paymentState == "APPROVED") {
-        setOrderState("finishState");
-        const idOrder = data.orderNumber;
-        const orderModel = {
-          invoiceID: idOrder,
-          paymentStatus: "PAID"
-        };
-
-        updateOrder(orderModel)
-          .then((response:any) => {
-            console.log("Order updated successfully:", response);
-          })
-          .catch((error:any) => {
-            console.error("Error updating order:", error);
-          });
-
-        console.log("Payment for ID :", idOrder);
-      } else setOrderState("pendingState");
-    } catch (error) {
-      console.error("Error fetching data:", error);
+    } catch (e) {
+      console.warn("sendEmail offline, bypassing.", e);
     }
-  };
 
+    // Fallback order id + persist to Firestore
+    if (!orderID) orderID = makeOrderId();
+    await saveOrderClientSide(orderID, orderData);
 
+    const method = (orderData.paymentMethod || "cash").toLowerCase();
 
-  export const handleSend = async (orderData:orderProps, setOrderState: React.Dispatch<React.SetStateAction<OrderState>>, navigate?: NavigateFunction) => {
+    // >>> BYPASS: if not card, finish now
+    if (method !== "card") {
+      setOrderState("finishState");
+      return;
+    }
+
+    // Card flow (also bypass on any failure)
     try {
-      const HandleSendResponse = await sendOrderConfirmation(orderData);
-      const HandleSendJsonResponse = await HandleSendResponse.json();
-      console.log("Handle Send Response:", HandleSendJsonResponse);
-      const orderID = HandleSendJsonResponse.orderID; // Removed await as it's unnecessary
       const apiBT = "https://ecclients.btrl.ro:5443/payment/rest/registerPreAuth.do";
       const currentDate = new Date().toISOString();
       const shippingTax = orderData.shippingTax ? orderData.shippingTax : 0;
       const totalSum = orderData.cartSum + shippingTax;
       const decimalPhoneNumber = parseInt(orderData.phoneNo, 10).toString();
-      const body = `userName=test_iPay9_api&password=test_iPay9_ap!t5r&orderNumber=${orderID}&amount=${totalSum}&currency=946&description=testBT&returnUrl=http://localhost:3000/finalizare-comanda&orderBundle={"orderCreationDate":"${currentDate}","customerDetails":{"email":"${orderData.emailAddress}","phone":${decimalPhoneNumber},"deliveryInfo":{"deliveryType":"comanda","country":"642","city":"${orderData.city}","postAddress":"${orderData.deliveryAddress}","postalCode":"12345"},"billingInfo":{"deliveryType":"comanda","country":"642","city":"${orderData.city}","postAddress":"${orderData.deliveryAddress}","postalCode":"12345"}}}`;
-  
+      const returnUrl = `${window.location.origin}/finalizare-comanda`;
+      const orderBundle = {
+        orderCreationDate: currentDate,
+        customerDetails: {
+          email: orderData.emailAddress,
+          phone: decimalPhoneNumber,
+          deliveryInfo: {
+            deliveryType: "comanda",
+            country: "642",
+            city: orderData.city,
+            postAddress: orderData.deliveryAddress,
+            postalCode: "12345",
+          },
+          billingInfo: {
+            deliveryType: "comanda",
+            country: "642",
+            city: orderData.city,
+            postAddress: orderData.deliveryAddress,
+            postalCode: "12345",
+          },
+        },
+      };
+
+      const body =
+        `userName=test_iPay9_api&password=test_iPay9_ap!t5r` +
+        `&orderNumber=${encodeURIComponent(orderID)}` +
+        `&amount=${encodeURIComponent(totalSum)}` +
+        `&currency=946` +
+        `&description=${encodeURIComponent("testBT")}` +
+        `&returnUrl=${encodeURIComponent(returnUrl)}` +
+        `&orderBundle=${encodeURIComponent(JSON.stringify(orderBundle))}`;
+
       const response = await fetch(apiBT, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded"
-        },
-        body: body
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body,
       });
-  
+
       if (response.ok) {
         const jsonResponse = await response.json();
-        console.log(jsonResponse);
-        const returnUrl = jsonResponse.formUrl;
-        console.log(returnUrl);
-        if (orderData.paymentMethod === "card") {
-          window.location.replace(returnUrl);
+        const formUrl = jsonResponse.formUrl;
+        if (formUrl) {
+          // normal redirect to BT page
+          window.location.replace(formUrl);
+          return;
         }
-      } else {
-        console.error("Error sending order data to the API:", response.statusText);
-        setOrderState("errorState");
       }
-    } catch (error) {
-      console.error("Unexpected error:", error);
-      setOrderState("errorState");
+      // If we reach here, gateway didn’t return a usable URL — bypass to finish
+      setOrderState("finishState");
+    } catch (e) {
+      console.warn("BT gateway error, bypassing to finish:", e);
+      setOrderState("finishState");
     }
-  };
-  
+  } catch (error) {
+    console.error("Unexpected error:", error);
+    // still finish (since you see orders in Firestore and want the done page)
+    setOrderState("finishState");
+  }
+};

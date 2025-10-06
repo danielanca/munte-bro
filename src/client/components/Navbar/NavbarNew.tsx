@@ -1,16 +1,11 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { HashLink, NavHashLink } from "react-router-hash-link";
 import ReactGA from "react-ga4";
 import { useLocation } from "react-router-dom";
-
-import { getCartItems } from "../CartPage/CartPage1";
 import TopBanner from "./TopBanner";
-
 import styles from "./NavbarNew.module.scss";
 import images from "../../data/images1";
 import strings from "../../data/strings.json";
-
-// Icons
 import { FiSearch } from "react-icons/fi";
 import { BiShoppingBag } from "react-icons/bi";
 import { GiHamburgerMenu } from "react-icons/gi";
@@ -18,36 +13,27 @@ import { IoMdClose } from "react-icons/io";
 import { FaFacebookF } from "react-icons/fa";
 import { AiOutlineTwitter, AiOutlineInstagram, AiOutlineShopping } from "react-icons/ai";
 import { HiOutlineHome } from "react-icons/hi";
-
 import HelloAllNew from "../../blocks/HelloAllNew";
+import { useCart } from "../context/CartProvider";
 
 interface NavProps {
-  updateNotification?: () => void;
   clearNotif: number;
+  updateNotification?: () => void;
 }
 
-const NavbarNew: React.FC<NavProps> = ({ clearNotif }) => {
+const NavbarNew: React.FC<NavProps> = () => {
   const { navMenu: navItems, cart } = strings as any;
   const { pathname } = useLocation();
+  const { totalItems } = useCart();
 
-  // compute initial cart items only once at mount
-  const initialItems = useMemo(() => getCartItems(), []);
-  const [totalItems, setTotalItems] = useState<number>(initialItems);
-
-  useEffect(() => {
-    // whenever clearNotif changes, recompute cart items
-    setTotalItems(getCartItems());
-  }, [clearNotif]);
+  const [openNav, setOpenNav] = useState<boolean>(false);
 
   const sendAnalyticsIdea = () => {
     ReactGA.event("User pressed on gallery");
   };
 
-  const [openNav, setOpenNav] = useState<boolean>(false);
-
   const toggleHandler = () => setOpenNav((s) => !s);
 
-  // Prevent background scroll when mobile nav is open
   useEffect(() => {
     const original = document.body.style.overflow;
     document.body.style.overflow = openNav ? "hidden" : original || "";
@@ -56,11 +42,8 @@ const NavbarNew: React.FC<NavProps> = ({ clearNotif }) => {
     };
   }, [openNav]);
 
-  // hide navbar on admin/login routes
   const hideNav = pathname.includes("/admin") || pathname.includes("/login");
-  if (hideNav) {
-    return null;
-  }
+  if (hideNav) return null;
 
   return (
     <div className="navbarParentContainer">
@@ -75,37 +58,23 @@ const NavbarNew: React.FC<NavProps> = ({ clearNotif }) => {
             </HashLink>
 
             <nav className={styles.navbarLaptopPagesConatiner} aria-label="Primary">
-              <HashLink to="/produsele-noastre" className={styles.headerPages}>
-                Sare
-              </HashLink>
-              <HashLink to="/produsele-noastre" className={styles.headerPages}>
-                Siropuri
-              </HashLink>
-              <HashLink to="/sapunuri" className={styles.headerPages}>
-                Sapunuri
-              </HashLink>
-              <HashLink to="/bombe" className={styles.headerPages}>
-                Bombe
-              </HashLink>
-              <HashLink to="/desprenoi" className={styles.headerPages}>
-                Despre Noi
-              </HashLink>
+              <HashLink to="/produsele-noastre" className={styles.headerPages}>Sare</HashLink>
+              <HashLink to="/produsele-noastre" className={styles.headerPages}>Siropuri</HashLink>
+              <HashLink to="/sapunuri" className={styles.headerPages}>Sapunuri</HashLink>
+              <HashLink to="/bombe" className={styles.headerPages}>Bombe</HashLink>
+              <HashLink to="/desprenoi" className={styles.headerPages}>Despre Noi</HashLink>
             </nav>
 
             <div className={styles.rightActions}>
-              {/* (Placeholder) search icon currently routes to cart.link as in your code */}
               <NavHashLink className={styles.searchIconParent} to={cart.link} aria-label="Search">
                 <img alt="search icon" className={styles.searchIcon} src={images.searchIcon} />
               </NavHashLink>
 
               <NavHashLink className={styles.hashTransparent} to={cart.link} aria-label="Cart">
                 <img alt="cart icon" className={styles.shopIcon} src={images.cartLogo} />
-                <span className={styles.jewel} aria-live="polite">
-                  {totalItems}
-                </span>
+                <span className={styles.jewel} aria-live="polite">{totalItems}</span>
               </NavHashLink>
 
-              {/* FIX: use the link, not the name */}
               <NavHashLink className={styles.HashLinkStyle} to={navItems.contactUs.link}>
                 Contacteaza-ne
               </NavHashLink>
@@ -165,22 +134,12 @@ const NavbarNew: React.FC<NavProps> = ({ clearNotif }) => {
 
               <div className={styles.openTogglePagesHeroMobile}>
                 <div className={styles.tabletPagesContainer}>
-                  <HashLink
-                    to="/"
-                    className={styles.headerPagesTablet}
-                    style={{ display: "flex", alignItems: "center" }}
-                    onClick={toggleHandler}
-                  >
+                  <HashLink to="/" className={styles.headerPagesTablet} style={{ display: "flex", alignItems: "center" }} onClick={toggleHandler}>
                     <HiOutlineHome className={styles.homePageIcon} style={{ paddingRight: "4px", width: "40px" }} />
                     <span>Home</span>
                   </HashLink>
 
-                  <HashLink
-                    to="/saredebai"
-                    className={styles.headerPagesTablet}
-                    style={{ display: "flex", alignItems: "center" }}
-                    onClick={toggleHandler}
-                  >
+                  <HashLink to="/saredebai" className={styles.headerPagesTablet} style={{ display: "flex", alignItems: "center" }} onClick={toggleHandler}>
                     <HiOutlineHome className={styles.homePageIcon} style={{ paddingRight: "4px", width: "40px", visibility: "hidden" }} />
                     <span>Sare</span>
                   </HashLink>
@@ -198,33 +157,19 @@ const NavbarNew: React.FC<NavProps> = ({ clearNotif }) => {
                     <span>Siropuri</span>
                   </HashLink>
 
-                  <HashLink
-                    to="/sapunuri"
-                    className={styles.headerPagesTablet}
-                    style={{ display: "flex", alignItems: "center" }}
-                    onClick={toggleHandler}
-                  >
+                  <HashLink to="/sapunuri" className={styles.headerPagesTablet} style={{ display: "flex", alignItems: "center" }} onClick={toggleHandler}>
                     <HiOutlineHome className={styles.homePageIcon} style={{ paddingRight: "4px", width: "40px", visibility: "hidden" }} />
                     <span>Sapunuri</span>
                   </HashLink>
 
-                  <HashLink
-                    to="/bombe"
-                    className={styles.headerPagesTablet}
-                    style={{ display: "flex", alignItems: "center" }}
-                    onClick={toggleHandler}
-                  >
+                  <HashLink to="/bombe" className={styles.headerPagesTablet} style={{ display: "flex", alignItems: "center" }} onClick={toggleHandler}>
                     <HiOutlineHome className={styles.homePageIcon} style={{ paddingRight: "4px", width: "40px", visibility: "hidden" }} />
                     <span>Bombe</span>
                   </HashLink>
                 </div>
 
                 <div className={styles.heroSectionInOpenedToggleMobile}>
-                  <img
-                    src={images.DinMunteLogo}
-                    alt="Brand"
-                    style={{ width: "117px", paddingBottom: "10px", paddingLeft: "10px" }}
-                  />
+                  <img src={images.DinMunteLogo} alt="Brand" style={{ width: "117px", paddingBottom: "10px", paddingLeft: "10px" }} />
                   <HelloAllNew />
                 </div>
               </div>

@@ -1,127 +1,106 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { HashLink } from "react-router-hash-link";
-import styles from "./ItemCartList.module.scss";
-import { ProductsFromSessionStorage, CartInfoItemCookie } from "../../data/constants";
+import styles from "./ItemCartList.module.css";
+import { ProductsFromSessionStorage } from "../../data/constants";
 import { IoIosAdd } from "react-icons/io";
 import { GrFormSubtract } from "react-icons/gr";
+import { useCart } from "../context/CartProvider";
 
-interface itemCart {
-  productID: string;
-  amount: number; 
-  updateRequest: () => void;
-}
-interface LocalStorageProps {
-  id: string;
-  // id: any;
-  itemNumber: string;
-}
-const getCartData = () => {
-  let expectedData: string | null = localStorage.getItem(CartInfoItemCookie);
-  return expectedData !== null ? JSON.parse(expectedData) : null;
+type Props = { productID: string };
+
+// parse "29,00", "1.234,50", "29,00 lei"
+const toNumberRON = (v: unknown): number => {
+  if (typeof v === "number" && Number.isFinite(v)) return v;
+  if (typeof v === "string") {
+    const s = v
+      .replace(/[^\d.,-]/g, "")          // strip letters/symbols
+      .replace(/\.(?=\d{3}(\D|$))/g, "")  // remove thousand dots
+      .replace(",", ".");
+    const n = Number(s);
+    return Number.isFinite(n) ? n : 0;
+  }
+  return 0;
 };
-const ItemCartList = ({ productID, amount, updateRequest }: itemCart) => {
-    let storedCart: LocalStorageProps[] = [];
-  let sessionFlat = sessionStorage.getItem(ProductsFromSessionStorage);
-  let sessionProducts = sessionFlat !== null ? JSON.parse(sessionFlat) : null;
 
-let value: number = Number(amount) || 0;  // let value: number = itemBulkQuantity;
+const fmtRON = (n: number) =>
+  new Intl.NumberFormat("ro-RO", { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(n);
 
-  storedCart = getCartData();
-  storedCart.forEach((item) => {
-    if (item.id === productID) {
-      value = Number(item.itemNumber);
+const ItemCartList: React.FC<Props> = ({ productID }) => {
+  const { getQty, increment, decrement, removeItem } = useCart();
+
+  const sessionProducts = useMemo<Record<string, any> | null>(() => {
+    try {
+      const flat = sessionStorage.getItem(ProductsFromSessionStorage);
+      return flat ? (JSON.parse(flat) as Record<string, any>) : null;
+    } catch {
+      return null;
     }
-  });
+  }, []);
 
-  const addOneItem = () => {
-    storedCart = getCartData();
-    storedCart.forEach((item) => {
-      if (item.id === productID) {
-        item.itemNumber = (Number(item.itemNumber) + 1).toString();
-        value = Number(item.itemNumber);
-      }
-    });
+  const qty = getQty(productID);
+  const product = sessionProducts?.[productID];
 
-    localStorage.setItem(CartInfoItemCookie, JSON.stringify(storedCart));
-    updateRequest();
-  };
+  const title = product?.title ?? "Produs";
+  const img = product?.imageProduct?.[0] ?? "";
 
-  const removeOneItem = () => {
-    storedCart = getCartData();
-    if (storedCart !== null) {
-      storedCart.forEach((item) => {
-        if (item.id === productID) {
-          if (Number(item.itemNumber) > 1) {
-            item.itemNumber = (Number(item.itemNumber) - 1).toString();
-            value = Number(item.itemNumber);
-          }
-        }
-      });
-      localStorage.setItem(CartInfoItemCookie, JSON.stringify(storedCart));
-    }
+  // prefer discountedPrice if valid
+  const base = toNumberRON(product?.price ?? 0);
+  const disc = toNumberRON(product?.discountedPrice ?? 0);
+  const unit = disc > 0 && disc < base ? disc : base;
 
-    updateRequest();
-  };
+  const lineTotal = unit * (Number(qty) || 0);
 
-  const deleteProduct = () => {
-    storedCart = getCartData();
-    let index_del: number = 0;
-    storedCart.forEach((item, index) => {
-      console.log(item);
-      if (item.id === productID.toString()) {
-        index_del = index;
-      }
-    });
-    storedCart.splice(index_del, 1);
-    localStorage.setItem(CartInfoItemCookie, JSON.stringify(storedCart));
-    updateRequest();
-  };
+  const onPlus = () => increment(productID, 1);
+  const onMinus = () => (qty > 1 ? decrement(productID, 1) : removeItem(productID));
+  const onDelete = () => removeItem(productID);
+
+  const disabled = !product || qty <= 0;
+
   return (
-    //styles.cartWrapper +
-    <>
-      <div className={styles.productContainer}>
-        <div className={styles.productItem}>
-          <div className={styles.comProductContainer}>
-            <div className={styles.productBox}>
-              <div className={styles.imageContainer}>
-                <img className={styles.productImage} src={sessionProducts[productID].imageProduct[0]} />
-              </div>
-
-              <div className={styles.productDetails}>
-                <HashLink className={styles.HashLinkStyle} to={"/produs/" + productID}>
-                  <h3 className={styles.titleInCart}>{sessionProducts[productID].title}</h3>
-                </HashLink>
-
-                <div className={styles.productTipContainer}>
-                  <span className={styles.tipHeading}>Tip</span>
-                  <span className={styles.tipProperty}>EUCALIPT</span>
-                </div>
-
-                {/* Counter */}
-                <div className={styles.counterParentContainer}>
-                  <div className={styles.counterContainer}>
-                    <div className={styles.productAdd} onClick={addOneItem}>
-                      <IoIosAdd />
-                    </div>
-                    <div className={styles.productQuantity}>{value}</div>
-                    <div className={styles.productSubtract} onClick={removeOneItem}>
-                      <GrFormSubtract />
-                    </div>
-                  </div>
-                  <div onClick={deleteProduct} className={styles.deleteProductCart}>
-                    {"ELIMINA"}
-                  </div>
-                </div>
-              </div>
+    <div className={styles.productContainer}>
+      <div className={styles.productItem}>
+        <div className={styles.comProductContainer}>
+          <div className={styles.productBox}>
+            <div className={styles.imageContainer}>
+              {img ? <img className={styles.productImage} src={img} alt={title} /> : null}
             </div>
 
-            <div className={styles.priceContainer}>
-              <p className={styles.priceInCart}>{sessionProducts[productID].price + ".00 lei"}</p>
+            <div className={styles.productDetails}>
+              <HashLink className={styles.HashLinkStyle} to={`/produs/${productID}`}>
+                <h3 className={styles.titleInCart}>{title}</h3>
+              </HashLink>
+
+              <div className={styles.counterParentContainer}>
+                <div className={styles.counterContainer}>
+                  <button className={styles.productAdd} onClick={onPlus} aria-label="Adaugă" disabled={!product}>
+                    <IoIosAdd />
+                  </button>
+                  <div className={styles.productQuantity}>{qty}</div>
+                  <button
+                    className={styles.productSubtract}
+                    onClick={onMinus}
+                    aria-label="Scade"
+                    disabled={disabled}
+                  >
+                    <GrFormSubtract />
+                  </button>
+                </div>
+
+                <button onClick={onDelete} className={styles.deleteProductCart} disabled={!product}>
+                  ELIMINĂ
+                </button>
+              </div>
             </div>
+          </div>
+
+          <div className={styles.priceContainer}>
+            <p className={styles.priceInCart}>{fmtRON(lineTotal)} lei</p>
+            {/* (optional) show unit price */}
+            {/* <small className={styles.unitPrice}>({fmtRON(unit)} lei / buc)</small> */}
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

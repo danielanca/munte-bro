@@ -1,5 +1,4 @@
 import { ComponentType, PropsWithChildren } from "react";
-import { DefaultLayout } from "./layouts";
 import BlogOverview from "./views/BlogOverview";
 import AddNewPost from "./views/AddNewPost";
 import OrdersTable from "./views/OrdersTable";
@@ -10,6 +9,7 @@ import AddProductNew from "../AddProductNew";
 import AddCuponNew from "../AddCuponNew";
 import CuponReducere from "../CuponReducere";
 import EditCupon from "../EditCupon";
+import DefaultLayout from "./layouts/Default";
 
 export type RouteConfig = {
   /** relative to /admin */

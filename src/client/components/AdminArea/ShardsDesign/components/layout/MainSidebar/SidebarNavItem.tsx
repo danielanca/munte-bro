@@ -1,41 +1,40 @@
+// components/AdminArea/ShardsDesign/components/layout/SidebarNavItem.tsx
 import React from "react";
-import { NavLink as RouterNavLink } from "react-router-dom";
 import { Nav } from "react-bootstrap";
+import { NavLink } from "react-router-dom";
+import { MdEdit, MdTableChart, MdNoteAdd } from "react-icons/md";
+import type { IconType } from "react-icons";
+import type { SidebarItem as LegacySidebarItem } from "../../../data/sidebar-nav-items";
 
-export type SidebarItem = {
-  to: string;
-  title?: string;
-  htmlBefore?: string; // raw HTML string (e.g., icon markup)
-  htmlAfter?: string;  // raw HTML string (e.g., badge markup)
-  className?: string;
+type Props = { item: LegacySidebarItem };
+
+const iconMap: Record<string, IconType> = {
+  edit: MdEdit,
+  table_chart: MdTableChart,
+  note_add: MdNoteAdd,
 };
 
-export type SidebarNavItemProps = {
-  item: SidebarItem;
-};
+function pickIcon(htmlBefore?: string): IconType {
+  const name = htmlBefore?.match(/material-icons">([^<]+)<\/i>/)?.[1] ?? "edit";
+  return iconMap[name] ?? MdEdit;
+}
 
-const SidebarNavItem: React.FC<SidebarNavItemProps> = ({ item }) => {
+const SidebarNavItem: React.FC<Props> = ({ item }) => {
+  const Icon = pickIcon(item.htmlBefore);
+
   return (
-    <Nav.Item>
-      <Nav.Link
-        as={RouterNavLink}
+    <Nav.Item as="li">
+      <NavLink
         to={item.to}
-        className={`d-flex ${item.className ?? ""}`}
+        className={({ isActive }) =>
+          `nav-link d-flex align-items-center${isActive ? " active" : ""}`
+        }
+        style={({ isActive }) => ({ fontWeight: isActive ? 600 : 400 })}
+        end
       >
-        {item.htmlBefore && (
-          <div
-            className="d-inline-block item-icon-wrapper"
-            dangerouslySetInnerHTML={{ __html: item.htmlBefore }}
-          />
-        )}
-        {item.title && <span>{item.title}</span>}
-        {item.htmlAfter && (
-          <div
-            className="d-inline-block item-icon-wrapper ms-auto"
-            dangerouslySetInnerHTML={{ __html: item.htmlAfter }}
-          />
-        )}
-      </Nav.Link>
+        <Icon size={18} className="me-2" aria-hidden />
+        <span>{item.title}</span>
+      </NavLink>
     </Nav.Item>
   );
 };

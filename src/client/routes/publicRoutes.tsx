@@ -68,7 +68,7 @@ const publicRoutes: RouteType[] = [
 
 
   {
-    path: "//desprenoi",
+    path: "/desprenoi",
         layout: PublicLayout,
 
     component: Desprenoi,

@@ -1,261 +1,177 @@
-import React, { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import React, { useEffect, useMemo, useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import ProductPreview from "../Product/ProductPreview";
-import { ProductModel } from "../../utils/OrderInterfaces";
 import { getProductWithID } from "../../data/productList";
-import { updateProduct } from "../../services/emails";
-import { Container, Row, Col } from "react-bootstrap"; // ⬅️ swapped
+import { Container, Row, Col, Card, Button, Alert } from "react-bootstrap";
+import { doc, setDoc } from "firebase/firestore";
 import styles from "./EditProduct.module.scss";
-import ImageComponent from "./ImageComponent/ImageComponent";
-
-type RouteParams = { id?: string };
-
-const EMPTY_PRODUCT: ProductModel = {
-  ID: "",
-  price: "",
-  ULbeneficii: [],
-  firstDescription: "",
-  discountedPrice: "",
-  realStock: "",
-  realStockCheck: "",
-  fakeStock: "",
-  fakeStockCheck: "",
-  imageProduct: ["", "", ""],
-  jsonContent: "",
-  reviews: {},
-  shortDescription: "",
-  title: "",
-};
+import { db } from "../../firebase";
+import { toSlug, splitToArray, EMPTY_PRODUCT } from "./AddProducts/EditProductHelpers";
+import type { EditableProduct } from "./AddProducts/EditProductTypes";
+import ProductForm from "./AddProducts/ProductForm";
 
 const EditProduct: React.FC = () => {
-  const navigate = useNavigate();
-  const { id } = useParams<RouteParams>();
-  const ID = id ?? "";
-
   const [openPreviewArea, setOpenPreviewArea] = useState(false);
-  const [editSent, setEditSent] = useState(false);
-  const [product, setProduct] = useState<ProductModel>(EMPTY_PRODUCT);
+  const [productListUpdated, setProducts] = useState<any>();
+  const [editSent, setEditSent] = useState<"ok" | "err" | null>(null);
+  const [saving, setSaving] = useState(false);
+  const [model, setModel] = useState<EditableProduct>(EMPTY_PRODUCT);
 
-  const inputHandler = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    const { name, value } = e.target;
-    setProduct((prev) => ({ ...prev, [name]: value }));
-  };
+  const navigate = useNavigate();
+  const params = useParams();
+  const IDParam = params.id ?? "";
 
-  const separatorHandler = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    const { name, value } = e.target;
-    if (name === "imageProduct" || name === "ULbeneficii") {
-      setProduct((prev) => ({ ...prev, [name]: value.split(",") as any }));
-    }
-  };
-
-  const handleUrlsUpdated = (newUrls: string[]) => {
-    setProduct((prev) => {
-      const updated = [...prev.imageProduct];
-      newUrls.forEach((url, idx) => (updated[idx] = url));
-      return { ...prev, imageProduct: updated };
-    });
-  };
-
-  const onDelete = (index: number) => {
-    setProduct((prev) => {
-      const updated = prev.imageProduct.filter((_, i) => i !== index);
-      const next = { ...prev, imageProduct: updated };
-      void updateProduct(next);
-      return next;
-    });
-  };
-
-  const submitEditOperation = async () => {
-    setEditSent(true);
-    if (product.title.trim() !== "") {
-      try {
-        await updateProduct(product);
-      } catch {}
-    }
-  };
-
-  const previewOperation = () => setOpenPreviewArea((s) => !s);
-  const cancelOperation = () => navigate("/admin/manage-product");
+  const isValid = useMemo(() => {
+    return (
+      model.title.trim().length > 2 &&
+      (model.ID || toSlug(model.title)).trim().length > 2 &&
+      model.price >= 0 &&
+      model.discountedPrice >= 0 &&
+      model.productCode.trim().length > 0 &&
+      model.category.trim().length > 0 &&
+      model.mainImage.trim().length > 0 // Changed from null check to string length check
+    );
+  }, [model]);
 
   useEffect(() => {
-    let alive = true;
-    const run = async () => {
-      if (!ID) return;
-      const result = await getProductWithID(ID);
-      const next: ProductModel = Array.isArray(result)
-        ? (result.find((p) => p.ID === ID) ?? EMPTY_PRODUCT)
-        : (result ?? EMPTY_PRODUCT);
-      if (alive) setProduct(next);
-    };
-    run();
-    return () => {
-      alive = false;
-    };
-  }, [ID]);
+    if (productListUpdated == null && IDParam) {
+      getProductWithID(IDParam as string).then((finalData) => setProducts(finalData));
+    }
+  }, [IDParam, productListUpdated]);
 
   useEffect(() => {
-    if (!editSent) return;
-    const t = setTimeout(() => setEditSent(false), 5000);
-    return () => clearTimeout(t);
+    if (editSent) {
+      const t = setTimeout(() => setEditSent(null), 4000);
+      return () => clearTimeout(t);
+    }
   }, [editSent]);
 
-  const hasProduct = product.ID !== "";
+  const setField = (name: keyof EditableProduct, value: any) =>
+    setModel((prev) => ({ ...prev, [name]: value }));
+
+  const addProductFirestore = async (payload: EditableProduct) => {
+    const finalID = (payload.ID || toSlug(payload.title)).trim();
+    
+    // Combine all image URLs from the different sections
+    const allImageUrls = [
+      payload.mainImage, // main image URL
+      ...payload.ambianceImages, // ambiance image URLs
+      ...payload.descriptionImages, // description image URLs
+      ...payload.imageProduct // legacy image URLs
+    ].filter(url => url.trim().length > 0); // Remove empty strings
+
+    // Prepare the product data for Firestore
+    const productData = {
+      ...payload,
+      imageProduct: allImageUrls, // Combine all images into imageProduct array
+      ID: finalID,
+    };
+
+    const ref = doc(db, "products", "activeProds");
+    await setDoc(ref, { [finalID]: productData }, { merge: true });
+  };
+
+  const submitAddOperation = async () => {
+    if (!isValid) return;
+    try {
+      setSaving(true);
+      await addProductFirestore(model);
+      setEditSent("ok");
+      // Reset form after successful save
+      setTimeout(() => {
+        setModel(EMPTY_PRODUCT);
+      }, 2000);
+    } catch (e) {
+      console.error(e);
+      setEditSent("err");
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  const previewOperation = () => setOpenPreviewArea(true);
+  const cancelOperation = () => navigate("/admin/manage-product");
 
   return (
-    <Container fluid className="main-content-container px-4">
-      <Row className="g-0 page-header py-4" /> {/* noGutters → g-0 */}
-      <Row>
+    <Container fluid className="px-3 px-lg-4 py-4">
+      <Row className="g-4">
         <Col>
           <div className={styles.editPage}>
-            {hasProduct && (
-              <div className={styles.addAreaContainer}>
-                <h3>Edit Product</h3>
-
-                <div className={styles.inputContainer}>
-                  <div className={styles.imageContainer}>
-                    <label htmlFor="imageProduct">Images</label>
-                    <div className={styles.imagesComponents}>
-                      <ImageComponent
-                        existingImageUrls={product.imageProduct}
-                        onUrlsUpdated={handleUrlsUpdated}
-                        onDelete={onDelete}
-                      />
-                    </div>
-                  </div>
+            <Card className={`${styles.cardModern} border-0`}>
+              <Card.Header className={`${styles.cardHeader} bg-white border-0 d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center py-4`}>
+                <div className="mb-3 mb-md-0">
+                  <h5 className="mb-2 fw-bold text-dark">Add / Edit Product</h5>
+                  <small className="text-muted">Completează detaliile produsului și salvează în Firestore.</small>
                 </div>
-
-                <div className={styles.inputContainer}>
-                  <div className={styles.rowSpacer}>
-                    <div className={styles.inputFielder}>
-                      <label htmlFor="title">Product name</label>
-                      <input onChange={inputHandler} name="title" value={product.title ?? ""} />
-                    </div>
-
-                    <div className={styles.inputFielder}>
-                      <label htmlFor="ID">Link ID Name:</label>
-                      <input
-                        style={{ opacity: 0.6, pointerEvents: "none" }}
-                        onChange={inputHandler}
-                        name="ID"
-                        value={product.ID ?? ""}
-                        readOnly
-                      />
-                    </div>
-
-                    <div className={styles.inputFielder}>
-                      <label htmlFor="price">Price (RON)</label>
-                      <input onChange={inputHandler} name="price" value={product.price ?? ""} />
-                    </div>
-
-                    <div className={styles.inputFielder}>
-                      <label htmlFor="discountedPrice">Discounted Price (RON)</label>
-                      <input
-                        onChange={inputHandler}
-                        name="discountedPrice"
-                        value={product.discountedPrice ?? ""}
-                      />
-                    </div>
-
-                    <div className={styles.eachContainer}>
-                      <div className={styles.inputFielder}>
-                        <label htmlFor="realStock">Real Stock</label>
-                        <input
-                          onChange={inputHandler}
-                          name="realStock"
-                          value={product.realStock ?? ""}
-                        />
-                      </div>
-                      <div className={styles.inputFielder}>
-                        <label htmlFor="realStockCheck">Real Stock Check</label>
-                        <input
-                          onChange={inputHandler}
-                          name="realStockCheck"
-                          value={product.realStockCheck ?? ""}
-                        />
-                      </div>
-                    </div>
-
-                    <div className={styles.eachContainer}>
-                      <div className={styles.inputFielder}>
-                        <label htmlFor="fakeStock">Fake Stock</label>
-                        <input
-                          onChange={inputHandler}
-                          name="fakeStock"
-                          value={product.fakeStock ?? ""}
-                        />
-                      </div>
-                      <div className={styles.inputFielder}>
-                        <label htmlFor="fakeStockCheck">Fake Stock Check</label>
-                        <input
-                          onChange={inputHandler}
-                          name="fakeStockCheck"
-                          value={product.fakeStockCheck ?? ""}
-                        />
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className={styles.rowSpacerTextArea}>
-                    <div className={styles.inputFielderTextArea}>
-                      <label htmlFor="shortDescription">Short Description</label>
-                      <textarea
-                        spellCheck={false}
-                        onChange={inputHandler}
-                        name="shortDescription"
-                        value={product.shortDescription ?? ""}
-                      />
-                    </div>
-
-                    <div className={styles.inputFielderTextArea}>
-                      <label htmlFor="firstDescription">First Description</label>
-                      <textarea
-                        spellCheck={false}
-                        onChange={inputHandler}
-                        name="firstDescription"
-                        value={product.firstDescription ?? ""}
-                      />
-                    </div>
-                  </div>
-
-                  <div className={styles.editorElement}>
-                    <label htmlFor="jsonContent">Full description HTML</label>
-                    <textarea
-                      spellCheck={false}
-                      onChange={inputHandler}
-                      name="jsonContent"
-                      value={product.jsonContent ?? ""}
-                    />
-                  </div>
-
-                  <div className={styles.actionControl}>
-                    <button className={styles.saveButton} onClick={submitEditOperation}>
-                      SAVE
-                    </button>
-                    <button onClick={previewOperation} className={styles.previewButton}>
-                      PREVIEW
-                    </button>
-                    <button onClick={cancelOperation} className={styles.cancelButton}>
-                      CANCEL
-                    </button>
-                  </div>
-
-                  <div className={styles.dialogSpace}>
-                    {editSent && (
-                      <p className={styles.confirmationSaveText}>Modificarile au avut loc!</p>
+                <div className="d-flex flex-wrap gap-2 w-100 w-md-auto">
+                  <Button 
+                    variant="outline-secondary" 
+                    onClick={cancelOperation}
+                    className={styles.actionBtn}
+                  >
+                    Cancel
+                  </Button>
+                  <Button 
+                    variant="outline-primary" 
+                    onClick={previewOperation}
+                    className={styles.actionBtn}
+                  >
+                    Preview
+                  </Button>
+                  <Button 
+                    onClick={submitAddOperation} 
+                    disabled={!isValid || saving}
+                    className={`${styles.saveBtn} ${styles.actionBtn}`}
+                  >
+                    {saving ? (
+                      <>
+                        <span className={styles.spinner}></span>
+                        Saving...
+                      </>
+                    ) : (
+                      "Save Product"
                     )}
-                  </div>
+                  </Button>
                 </div>
-              </div>
-            )}
+              </Card.Header>
+
+              <Card.Body className="pt-0">
+                {editSent && (
+                  <Alert
+                    variant={editSent === "ok" ? "success" : "danger"}
+                    className={`${styles.alertModern} mt-3`}
+                    onClose={() => setEditSent(null)}
+                    dismissible
+                  >
+                    <div className="d-flex align-items-center">
+                      <i className={`bi ${editSent === "ok" ? "bi-check-circle-fill" : "bi-exclamation-circle-fill"} me-2`}></i>
+                      {editSent === "ok" ? "Produsul a fost salvat cu succes!" : "Eroare la salvare. Încearcă din nou."}
+                    </div>
+                  </Alert>
+                )}
+
+                {/* <ProductForm 
+                  model={model} 
+                  setModel={setModel} 
+                  setField={setField}
+                  isValid={isValid}
+                  saving={saving}
+                  onCancel={cancelOperation}
+                  onPreview={previewOperation}
+                  onSubmit={submitAddOperation}
+                /> */}
+              </Card.Body>
+            </Card>
           </div>
         </Col>
       </Row>
 
-      {openPreviewArea && <ProductPreview ID={ID} productListUpdated={{ [ID]: product }} />}
+      {openPreviewArea && (
+        <ProductPreview
+          ID={(IDParam as string) || (model.ID || toSlug(model.title))}
+          productListUpdated={{ [(model.ID || toSlug(model.title)) as string]: model }}
+        />
+      )}
     </Container>
   );
 };

@@ -1,0 +1,480 @@
+.finishSection {
+  width: 100%;
+  height: auto;
+  min-height: 300px;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 58px;
+}
+
+.cartLine {
+  width: clamp(30px, 17vw, 65px);
+  height: 4px;
+  background-color: rgba(0, 0, 0, 0.4);
+  margin: 10px;
+}
+
+.topTitle {
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+  color: rgba(0, 0, 0, 0.4);
+  align-items: center;
+}
+
+.finishOrderTitle {
+  text-align: center;
+  white-space: nowrap;
+  margin: 0;
+  font-family: "Open Sans", sans-serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.infoBoxing {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin: 50px 0;
+  padding: 2% 4%;
+  max-width: 560px;
+  width: 80%;
+  font-family: "Roboto Medium", sans-serif;
+}
+
+.infoBoxing img {
+  width: 70px;
+  height: 70px;
+}
+
+.infoBoxing h3 {
+  margin-top: 20px;
+  font-size: 1.25rem;
+  text-align: center;
+  font-family: "Roboto Medium", sans-serif;
+}
+
+.finishOrderContainer {
+  display: grid;
+  grid-template-columns: 60% 40%;
+  max-width: 1200px;
+  width: 100%;
+  padding: 0 35px;
+  gap: 2rem;
+}
+
+.leftContainer {
+  padding: 27px 10px;
+  width: 100%;
+}
+
+.topBillText {
+  font-family: "Open Sans", sans-serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  color: #17183B;
+}
+
+.groupInput {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 1rem;
+}
+
+.inputBox {
+  display: flex;
+  flex-direction: column;
+  margin: 0 20px 0 10px;
+  width: 100%;
+  font-family: "Open Sans", sans-serif;
+}
+
+.inputBox label {
+  font-family: "Open Sans", sans-serif;
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: #333;
+}
+
+.inputBox input {
+  font-family: "Open Sans", sans-serif;
+  border: 2px solid #b5b5b5;
+  border-radius: 5px;
+  padding: 0.75rem;
+  font-size: 1rem;
+  transition: border-color 0.2s ease;
+}
+
+.inputBox input:focus {
+  outline: none;
+  border-color: #3aa39f;
+}
+
+.alertAsterisk {
+  font-weight: bolder;
+  color: red;
+}
+
+.optionalNote {
+  margin-right: 10px;
+  font-family: "Open Sans", sans-serif;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #333;
+}
+
+.textarea {
+  resize: none;
+  font-family: "Open Sans", sans-serif;
+  border: 2px solid #b5b5b5;
+  border-radius: 5px;
+  padding: 0.75rem;
+  font-size: 1rem;
+  width: 100%;
+  transition: border-color 0.2s ease;
+}
+
+.textarea:focus {
+  outline: none;
+  border-color: #3aa39f;
+}
+
+.warningOrderWrapper {
+  margin-top: 1rem;
+}
+
+.warningOrder {
+  padding: 2rem 0;
+  font-family: "Open Sans", sans-serif;
+  font-size: clamp(10px, 4.3vw, 16px);
+  color: red;
+  text-align: center;
+}
+
+.rightContainer {
+  width: 100%;
+  height: auto;
+  box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
+  padding: 1.5rem;
+  border-radius: 8px;
+  background: white;
+}
+
+.rightChild {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  border-bottom: 2px solid #000;
+  padding: 1rem 0;
+}
+
+.legendsTable {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 5%;
+  margin-bottom: 1rem;
+}
+
+.legendsTable span {
+  font-family: "Open Sans", sans-serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #17183B;
+}
+
+.itemList {
+  margin: 10px 0;
+  padding: 1rem 0;
+  width: 100%;
+  list-style: none;
+}
+
+.item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 0;
+  font-family: "Roboto", sans-serif;
+}
+
+.productTitle {
+  flex: 1;
+  font-weight: bold;
+  font-size: 0.9rem;
+}
+
+.count {
+  width: 40px;
+  text-align: center;
+  font-size: 0.9rem;
+}
+
+.price {
+  width: 80px;
+  text-align: right;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.costs {
+  padding: 0.5rem 0;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.subTotal {
+  font-weight: 600;
+  font-size: 1.1rem;
+  font-family: "Roboto", sans-serif;
+  color: #333;
+}
+
+.deliveryCheckbox {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.paymentDetails {
+  display: flex;
+  justify-content: center;
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  font-family: "Open Sans", sans-serif;
+  color: #17183B;
+}
+
+.radioGroup {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.radioOption {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.radioOption input[type="radio"] {
+  width: 18px;
+  height: 18px;
+  margin: 0;
+}
+
+.radioOption label {
+  font-family: "Open Sans", sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #17183B;
+  cursor: pointer;
+}
+
+.paymentError {
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.paymentErrorText {
+  color: red;
+  font-size: 0.9rem;
+  text-align: center;
+  font-family: "Open Sans", sans-serif;
+}
+
+.termsContainer {
+  display: flex;
+  justify-content: center;
+  height: auto;
+  margin-top: 1.5rem;
+}
+
+.paymentContainer {
+  width: 100%;
+  height: 100%;
+  padding: 0;
+}
+
+.gdprText {
+  font-family: "Open Sans", sans-serif;
+  color: #000;
+  font-size: 0.75rem;
+  font-weight: 600;
+  line-height: 1.4;
+  margin-bottom: 1rem;
+}
+
+.gdprLink {
+  color: red;
+  cursor: pointer;
+  text-decoration: none;
+  font-family: "Open Sans", sans-serif;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.gdprLink:hover {
+  opacity: 0.7;
+}
+
+.termsInput {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.checkboxContainer {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.acceptTerms {
+  font-size: 0.8rem;
+  font-weight: 600;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: "Open Sans", sans-serif;
+  cursor: pointer;
+}
+
+.termsError {
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.termsErrorText {
+  padding: 1rem 0;
+  color: red;
+  font-size: 0.8rem;
+  margin: auto;
+  text-align: center;
+  font-family: "Open Sans", sans-serif;
+}
+
+.submitButton {
+  width: 100%;
+  padding: 2rem 0 1rem;
+}
+
+.submitButton button {
+  width: 100%;
+  background-color: #3aa39f;
+  color: white;
+  font-family: "Open Sans", sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 20px;
+  letter-spacing: 0.1px;
+  text-align: center;
+  border: none;
+  padding: 18px 40px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.submitButton button:hover:not(:disabled) {
+  background-color: #2d8c88;
+}
+
+.submitButton button.loading {
+  background-color: #f7ca18;
+  color: black;
+  cursor: not-allowed;
+}
+
+/* Mobile Styles */
+@media (max-width: 1024px) {
+  .finishOrderContainer {
+    grid-template-columns: 1fr;
+    padding: 0 5%;
+    gap: 1.5rem;
+  }
+
+  .rightContainer {
+    width: 100%;
+    max-width: 559px;
+    margin: 0 auto;
+  }
+}
+
+@media (max-width: 768px) {
+  .topTitle {
+    padding: 20px 0;
+  }
+
+  .finishOrderContainer {
+    padding: 0 1%;
+  }
+
+  .leftContainer {
+    width: 100%;
+  }
+
+  .groupInput {
+    flex-direction: column;
+    width: 100%;
+    margin: 0 auto 1rem;
+  }
+
+  .inputBox {
+    margin: 0;
+  }
+
+  .infoBoxing img {
+    width: 60px;
+    height: 60px;
+  }
+
+  .gdprText {
+    font-size: calc(9px + 0.5vw);
+  }
+
+  .subTotal {
+    text-align: center;
+    font-size: calc(16px + 2vw);
+  }
+
+  .rightContainer {
+    width: 100%;
+    padding: 5%;
+  }
+
+  .productTitle {
+    font-size: 0.8rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .finishOrderContainer {
+    flex-direction: column;
+  }
+
+  .rightContainer {
+    width: 100%;
+  }
+
+  .topBillText {
+    text-align: center;
+  }
+}

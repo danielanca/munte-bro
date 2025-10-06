@@ -1,0 +1,231 @@
+/* Links */
+.hashLink,
+.HashLinkStyle {
+  color: #17183b;
+  text-decoration: none;
+  text-align: inherit;
+}
+.hashLink:hover,
+.HashLinkStyle:hover {
+  color: #17183b;
+}
+
+/* Row wrapper */
+.productContainer {
+  width: 100%;
+  margin: 0 auto;
+  display: flex;
+}
+
+/* Row */
+.productItem {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid #d1d1d8;
+  padding: 16px 0;
+  gap: 16px;
+  background: #fff; /* consistent background */
+}
+
+/* Left side (image + details) */
+.comProductContainer {
+  flex: 1 1 auto;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  min-width: 0; /* allow text to truncate properly */
+}
+
+.productBox {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  min-height: 100px;
+}
+
+/* Image */
+.imageContainer {
+  width: 96px;
+  height: 96px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+}
+.productImage {
+  width: 100%;
+  height: 100%;
+  border-radius: 6px;
+  object-fit: cover;
+  background: #f4f4f7;
+}
+
+/* Details */
+.productDetails {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-width: 520px;
+}
+
+.titleInCart {
+  margin: 0;
+  color: #17183b;
+  font: 700 1.1rem/1.25 "Open Sans", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Qty controls */
+.counterParentContainer {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.counterContainer {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 40px;
+  min-width: 128px;
+  padding: 0 6px;
+  border: 1px solid #a2a3b1;
+  border-radius: 8px;
+  background: #fff;
+  gap: 8px;
+}
+
+.productQuantity {
+  color: #17183b;
+  font-size: 1.1rem;
+  min-width: 32px;
+  text-align: center;
+}
+
+/* + / - buttons */
+.productAdd,
+.productSubtract {
+  width: 32px;
+  height: 32px;
+  border: 1px solid #a2a3b1;
+  border-radius: 6px;
+  background: #fff;
+  color: #17183b;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  padding: 0;
+  transition: transform 0.06s ease, background 0.15s ease, border-color 0.15s ease;
+}
+.productAdd:hover,
+.productSubtract:hover {
+  background: #f4f6f8;
+  border-color: #8f90a6;
+}
+.productAdd:active,
+.productSubtract:active {
+  transform: translateY(1px);
+}
+.productAdd:disabled,
+.productSubtract:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* Remove button */
+.deleteProductCart {
+  cursor: pointer;
+  padding: 8px 10px;
+  color: #e14b4b;
+  font: 700 0.95rem/1 "Open Sans", sans-serif;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+}
+.deleteProductCart:hover {
+  background: #ffe9e9;
+  border-color: #ffc7c7;
+}
+.deleteProductCart:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* Right side (price) */
+.priceContainer {
+  flex: 0 0 auto;
+  min-width: 140px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+.priceInCart {
+  margin: 0;
+  text-align: right;
+  color: #17183b;
+  letter-spacing: 0.2px;
+  font: 700 1.2rem/1.2 "Open Sans", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .titleInCart { font-size: 1rem; }
+  .priceInCart { font-size: 1.1rem; }
+}
+
+@media (max-width: 768px) {
+  .productItem {
+    padding: 14px 0;
+  }
+  .comProductContainer {
+    gap: 12px;
+  }
+  .imageContainer {
+    width: 84px;
+    height: 84px;
+  }
+  .counterContainer {
+    min-width: 112px;
+    height: 38px;
+  }
+  .productAdd, .productSubtract {
+    width: 30px;
+    height: 30px;
+  }
+  .priceContainer {
+    min-width: 110px;
+  }
+}
+
+@media (max-width: 576px) {
+  .productItem {
+    flex-wrap: wrap;
+    gap: 10px 12px;
+  }
+  .priceContainer {
+    width: 100%;
+    justify-content: flex-start;
+    padding-left: 112px; /* aligns under image; tweak to taste */
+  }
+  .priceInCart {
+    font-size: 1rem;
+    text-align: left;
+  }
+  .imageContainer {
+    width: 76px;
+    height: 76px;
+  }
+  .titleInCart {
+    font-size: 0.95rem;
+  }
+  .deleteProductCart {
+    font-size: 0.85rem;
+    padding: 6px 8px;
+  }
+}

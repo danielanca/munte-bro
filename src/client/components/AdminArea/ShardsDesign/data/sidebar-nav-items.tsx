@@ -11,7 +11,7 @@ export default function getSidebarNavItems(): SidebarItem[] {
     {
       title: "Main Panel",
       to: "/admin/",
-      htmlBefore: '<i class="material-icons">edit</i>',
+      htmlBefore: '',
     },
     {
       title: "Orders",

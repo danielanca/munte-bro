@@ -12,6 +12,18 @@ export interface DayTime {
 // Narrow-but-flexible payment status
 export type PaymentStatus = "PAID" | "UNPAID" | (string & {});
 
+// Accept both the old string shape and the new numeric/boolean shape
+export type Numish = number | string;
+export type Boolish = boolean | string;
+
+// Firestore timestamp type
+export interface FirestoreTimestamp {
+  seconds: number;
+  nanoseconds: number;
+}
+
+export type AnyTimestamp = Date | FirestoreTimestamp | string;
+
 // ----------------------------------
 // Cart / Local Storage
 // ----------------------------------
@@ -93,95 +105,47 @@ export interface OrderViewProps {
 }
 
 // ----------------------------------
-// Products
+// Products - Consolidated and Cleaned
 // ----------------------------------
-export interface ProductModel {
-  ID: string;
 
-  ULbeneficii: string[];
-  imageProduct: string[];
-
-  firstDescription: string;
-  jsonContent: string;
-  price: string;
-  shortDescription: string;
-  title: string;
-
-  reviews: Record<string, unknown>;
-
-  discountedPrice?: string;
-  realStock?: string;
-  realStockCheck?: string;
-  fakeStock?: string;
-  fakeStockCheck?: string;
-}
-
-// Single product object shape (used in some places)
-export interface productObject {
+// Base product interface with all common fields
+export interface ProductBase {
   ID: string;
   title: string;
   firstDescription: string;
   shortDescription: string;
   imageProduct: string[];
   jsonContent: string;
-  price: string;
+  price: Numish;
   reviews: Record<string, unknown>;
   ULbeneficii: string[];
-
-  discountedPrice?: string;
-  realStock?: string;
-  realStockCheck?: string;
-  fakeStock?: string;
-  fakeStockCheck?: string;
-
+  
+  // Timestamp fields
+  createdAt?: AnyTimestamp;
+  updatedAt?: AnyTimestamp;
+  
+  // Optional fields
+  discountedPrice?: Numish;
+  realStock?: Numish;
+  realStockCheck?: Boolish;
+  fakeStock?: Numish;
+  fakeStockCheck?: Boolish;
   productTotalReviews?: number | string;
 }
 
-/** Canonical product item (use this for arrays) */
-export interface ProductListItem {
-  ID: string;
-  title: string;
-  firstDescription: string;
-  shortDescription: string;
-  imageProduct: string[];
-  jsonContent: string;
-  price: string;
-  reviews: Record<string, unknown>;
-  ULbeneficii: string[];
+// Main product interfaces extending the base
+export interface ProductModel extends ProductBase {}
 
-  discountedPrice?: string;
-  realStock?: string;
-  realStockCheck?: string;
-  fakeStock?: string;
-  fakeStockCheck?: string;
+export interface ProductListItem extends ProductBase {}
 
-  productTotalReviews?: number | string;
-}
+export interface productObject extends ProductBase {}
 
 /** Array form some loaders/hooks return */
 export type ProductListArray = ProductListItem[];
 
-/** Product list keyed by something (e.g., slug/ID) */
+/** Product list keyed by ID */
 export interface ProductListType {
-  [key: string]: {
-    ID: string;
-    title: string;
-    firstDescription: string;
-    shortDescription: string;
-    imageProduct: string[];
-    jsonContent: string;
-    price: string;
-    reviews: Record<string, unknown>;
-    ULbeneficii: string[];
-
-    discountedPrice?: string;
-    realStock?: string;
-    realStockCheck?: string;
-    fakeStock?: string;
-    fakeStockCheck?: string;
-
-    productTotalReviews?: number | string;
-  };
+  [key: string]: ProductListItem;
 }
 
 /** Handy aliases for components that accept either array or map */
@@ -190,7 +154,6 @@ export type NormalizedProductData = ProductListArray | ProductMap | null | undef
 
 // Props used by product renderers/cards
 export interface ProdItemProps {
-  // Prefer stricter type; keep wide enough for both call sites
   productObject: productObject | ProductListType;
   size?: string;
 }
@@ -202,8 +165,8 @@ export interface ProductTypes {
 
   // UI state + handlers
   productCountQuantity?: number;
-  productQuantityIncrement?: () => void; // ✅ function handlers
-  productQuantityDecrement?: () => void; // ✅ function handlers
+  productQuantityIncrement?: () => void;
+  productQuantityDecrement?: () => void;
 }
 
 // Initial model with safe defaults
@@ -272,5 +235,94 @@ export interface InvoiceOrderProps {
     timestamp?: string;
     invoiceID?: string;
   };
-  // If you later add companyInfo, place it here.
 }
+
+// ----------------------------------
+// Utility functions for product data
+// ----------------------------------
+
+/**
+ * Check if a product is new (created within last 30 days)
+ */
+export const isProductNew = (createdAt: AnyTimestamp | undefined): boolean => {
+  if (!createdAt) return false;
+  
+  try {
+    let createdDate: Date;
+    
+    if (createdAt instanceof Date) {
+      createdDate = createdAt;
+    } else if (typeof createdAt === 'object' && 'seconds' in createdAt) {
+      // Firestore timestamp object
+      createdDate = new Date((createdAt as FirestoreTimestamp).seconds * 1000);
+    } else if (typeof createdAt === 'string') {
+      // ISO string
+      createdDate = new Date(createdAt);
+    } else {
+      return false;
+    }
+    
+    const currentDate = new Date();
+    const diffTime = Math.abs(currentDate.getTime() - createdDate.getTime());
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    return diffDays <= 30;
+  } catch (error) {
+    console.error('Error parsing createdAt:', error);
+    return false;
+  }
+};
+
+/**
+ * Check if product has a valid discount
+ */
+export const hasProductDiscount = (price: Numish, discountedPrice?: Numish): boolean => {
+  if (!discountedPrice) return false;
+  
+  // Handle empty string case
+  if (discountedPrice === "" || discountedPrice === "0" || discountedPrice === 0) return false;
+  
+  const priceNum = typeof price === 'string' ? parseFloat(price.replace(',', '.')) : price;
+  const discountedNum = typeof discountedPrice === 'string' ? parseFloat(discountedPrice.replace(',', '.')) : discountedPrice;
+  
+  // Check if discountedNum is a valid number and less than price
+  return !isNaN(discountedNum) && discountedNum < priceNum;
+};
+
+/**
+ * Format price for display
+ */
+export const formatProductPrice = (price: Numish): string => {
+  if (typeof price === 'number') {
+    return price.toFixed(2).replace('.', ',');
+  }
+  return price;
+};
+
+/**
+ * Calculate discount percentage
+ */
+export const calculateDiscountPercentage = (price: Numish, discountedPrice: Numish): string => {
+  const priceNum = typeof price === 'string' ? parseFloat(price.replace(',', '.')) : price;
+  const discountedNum = typeof discountedPrice === 'string' ? parseFloat(discountedPrice.replace(',', '.')) : discountedPrice;
+  
+  if (isNaN(priceNum) || isNaN(discountedNum)) return "-0%";
+  
+  const percentage = ((priceNum - discountedNum) / priceNum) * 100;
+  return `-${Math.round(percentage)}%`;
+};
+
+/**
+ * Get display price (discounted if available, otherwise regular price)
+ */
+export const getDisplayPrice = (price: Numish, discountedPrice?: Numish): string => {
+  const hasDisc = hasProductDiscount(price, discountedPrice);
+  return hasDisc && discountedPrice ? formatProductPrice(discountedPrice) : formatProductPrice(price);
+};
+
+/**
+ * Get original price for display (when discounted)
+ */
+export const getOriginalPrice = (price: Numish, discountedPrice?: Numish): string | null => {
+  const hasDisc = hasProductDiscount(price, discountedPrice);
+  return hasDisc ? formatProductPrice(price) : null;
+};

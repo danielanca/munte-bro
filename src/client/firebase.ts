@@ -9,15 +9,6 @@ import { getFirestore } from "firebase/firestore";
 
 let analytics: any;
 
-// const firebaseConfig = {
-//   apiKey: "AIzaSyDxmbqzBXpIUoYCevqizlncQ80CH9b8--s",
-//   authDomain: "diniubire-89ce0.firebaseapp.com",
-//   projectId: "diniubire-89ce0",
-//   storageBucket: "diniubire-89ce0.appspot.com",
-//   messagingSenderId: "207405173084",
-//   appId: "1:207405173084:web:1bfdc7d5f35678d9789999",
-//   measurementId: "G-WFWYP44Z7L",
-// }; 
 
 const firebaseConfig = {
   apiKey: "AIzaSyBU-XLXRpmXuGWH8D0XLFRGU4-UA-b_fbg",

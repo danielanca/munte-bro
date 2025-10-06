@@ -1,5 +1,4 @@
 import { ComponentType, PropsWithChildren } from "react";
-import { DefaultLayout } from "./layouts";
 import BlogOverview from "./views/BlogOverview";
 import AddNewPost from "./views/AddNewPost";
 import OrdersTable from "./views/OrdersTable";
@@ -10,6 +9,8 @@ import AddProductNew from "../AddProductNew";
 import AddCuponNew from "../AddCuponNew";
 import CuponReducere from "../CuponReducere";
 import EditCupon from "../EditCupon";
+import DefaultLayout from "./layouts/Default";
+import OrderView from "../ShardsDesign/views/OrderView"; 
 
 export type RouteConfig = {
   /** relative to /admin */
@@ -22,6 +23,8 @@ const adminRoutes: RouteConfig[] = [
   { path: "", layout: DefaultLayout, component: BlogOverview },
   { path: "addpost", layout: DefaultLayout, component: AddNewPost },
   { path: "orders", layout: DefaultLayout, component: OrdersTable },
+    { path: "order/:id", layout: DefaultLayout, component: OrderView }, // ✅ here
+
   { path: "manage-product", layout: DefaultLayout, component: ProductsPage },
   { path: "products/add", layout: DefaultLayout, component: AddProductNew },
   { path: "cupondiscount/add", layout: DefaultLayout, component: AddCuponNew },

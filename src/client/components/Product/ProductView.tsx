@@ -1,115 +1,145 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import Comments from "../Comments/Comments";
 import ProductPreview from "./ProductPreview";
 import Loader from "../MiniComponents/Loader";
 import SuggestionArea from "../SuggestedProducts/SuggestionArea";
 import ReactGA from "react-ga4";
-import { getProductWithID } from "../../data/productList";
-import { CartInfoItemCookie } from "./../../data/constants";
-import { ProductListType, CartProps } from "./../../utils/OrderInterfaces";
+import { CartInfoItemCookie, ProductsFromSessionStorage } from "./../../data/constants";
+import type { ProductListType, CartProps, ProductListItem } from "./../../utils/OrderInterfaces";
 import { NotExistingProduct } from "../../data/strings.json";
 import images from "../../data/images1";
-import styles from "./ProductView.module.scss";
+import styles from "./ProductView.module.css";
 import { useScrollSense, useSenseScreen } from "../hooks/senseHook/useScrollSense";
+import { getProductById } from "../../services/products";
 
-
-// keep cart items consistent with your interfaces
 type StoredCartItem = { id: string; itemNumber: string };
 
-const ProductView = ({ notifyMe, productQuantity }: CartProps) => {
-  // const [productCount, setProductCount] = useState<number>(1); // unused, can remove
+const ProductView = ({ notifyMe }: CartProps) => {
   const [productCountQuantity, setProductCountQuantity] = useState<number>(1);
-
-  // quantity handlers
   const productQuantityIncrement = () => setProductCountQuantity((q) => q + 1);
-  const productQuantityDecrement = () =>
-    setProductCountQuantity((q) => (q > 1 ? q - 1 : q));
+  const productQuantityDecrement = () => setProductCountQuantity((q) => Math.max(0, q - 1)); // allow 0
 
   const params = useParams();
   const ID = params.productID ?? "";
   const ref = useRef<HTMLDivElement | null>(null);
 
-  const [productListUpdated, setProducts] = useState<ProductListType>();
+  const [productMap, setProductMap] = useState<ProductListType | undefined>();
+  const [status, setStatus] = useState<"idle" | "loading" | "loaded" | "notfound" | "error">("idle");
 
   useScrollSense(() => {
-    ReactGA.event(`User scrolled to bottom on [${window.location.pathname}]`);
-    console.log(`User scrolled to bottom on [${window.location.pathname}]`);
+    ReactGA.event("scroll_bottom", { page: window.location.pathname });
   });
   useSenseScreen(ref, window.location.pathname);
 
-  // fetch once per ID
   useEffect(() => {
-    if (!productListUpdated) {
-      getProductWithID(ID).then((finalData) => setProducts(finalData));
-    }
-  }, [ID, productListUpdated]);
+    let alive = true;
+    if (!ID) return;
+
+    setStatus("loading");
+    setProductMap(undefined);
+
+    (async () => {
+      try {
+        const prod = await getProductById(ID);
+        if (!alive) return;
+
+        if (prod) {
+          // keep preview prop shape
+          const map = { [ID]: prod } as ProductListType;
+          setProductMap(map);
+          setStatus("loaded");
+
+          // GA view_item
+          ReactGA.event("view_item", {
+            item_id: ID,
+            item_name: (prod as any).title ?? "",
+            price: Number((prod as any).discountedPrice ?? (prod as any).price ?? 0) || undefined,
+          });
+
+          // ensure ProductAdded popup has data
+          try {
+            const raw = sessionStorage.getItem(ProductsFromSessionStorage);
+            const current = raw ? JSON.parse(raw) : {};
+            if (!current[ID]) {
+              current[ID] = prod;
+              sessionStorage.setItem(ProductsFromSessionStorage, JSON.stringify(current));
+            }
+          } catch {}
+        } else {
+          setStatus("notfound");
+        }
+      } catch (e) {
+        console.error("Failed to load product:", e);
+        if (alive) setStatus("error");
+      }
+    })();
+
+    return () => {
+      alive = false;
+    };
+  }, [ID]);
 
   const addCartHandler = () => {
+    if (productCountQuantity <= 0) return; // don't add zero
     const productId = String(ID);
-
-    // read cart
     const expectedData = localStorage.getItem(CartInfoItemCookie);
     let storedCart: StoredCartItem[] = expectedData ? JSON.parse(expectedData) : [];
 
-    // try to find existing item
     const existing = storedCart.find((i) => i.id === productId);
     if (existing) {
       const nextQty = Number(existing.itemNumber) + Number(productCountQuantity);
-      existing.itemNumber = String(nextQty); // ✅ keep as string
+      existing.itemNumber = String(nextQty);
     } else {
-      storedCart.push({
-        id: productId,
-        itemNumber: String(productCountQuantity), // ✅ string, not number
-      });
+      storedCart.push({ id: productId, itemNumber: String(productCountQuantity) });
     }
 
-    // persist
     localStorage.setItem(CartInfoItemCookie, JSON.stringify(storedCart));
-
-    // trigger a UI refresh counter (your current pattern)
     notifyMe(Math.floor(Math.random() * 100));
   };
+
+  const product: ProductListItem | undefined = productMap?.[ID];
 
   return (
     <div className={styles.productViewParentContainer}>
       <div ref={ref} className={styles.padder}>
-        {productListUpdated != null && Object.prototype.hasOwnProperty.call(productListUpdated, ID) ? (
+        {status === "loading" && <Loader />}
+
+        {status === "loaded" && product && (
           <ProductPreview
             addCartHandler={addCartHandler}
             ID={ID}
-            productListUpdated={productListUpdated}
+            productListUpdated={productMap!}
             productCountQuantity={productCountQuantity}
             productQuantityIncrement={productQuantityIncrement}
             productQuantityDecrement={productQuantityDecrement}
           />
-        ) : (
-          <Loader />
         )}
-      </div>
 
-      <div>
-        {typeof productListUpdated !== "undefined" && Object.prototype.hasOwnProperty.call(productListUpdated, ID) ? (
-          <Comments
-            productData={JSON.stringify(productListUpdated)}
-            productID={ID}
-            reviewsList={productListUpdated[ID].reviews}
-          />
-        ) : (
-          typeof productListUpdated !== "undefined" &&
-          !Object.prototype.hasOwnProperty.call(productListUpdated, ID) && (
-            <div className={styles.noProductFoundContainer}>
-              <h2 className={styles.warningHeadline}>{NotExistingProduct.warningHeadline}</h2>
-              <div className={styles.noProductWrapper}>
-                <img src={images.noProduct} alt="Product not found" />
-              </div>
-              <h2 className={styles.warningHeadline}>{NotExistingProduct.productNotFound}</h2>
+        {(status === "notfound" || status === "error") && (
+          <div className={styles.noProductFoundContainer}>
+            <h2 className={styles.warningHeadline}>
+              {status === "notfound" ? NotExistingProduct.warningHeadline : "A apărut o eroare"}
+            </h2>
+            <div className={styles.noProductWrapper}>
+              <img src={images.noProduct} alt="Product not found" />
             </div>
-          )
+            <h2 className={styles.warningHeadline}>
+              {status === "notfound" ? NotExistingProduct.productNotFound : "Reîncearcă mai târziu."}
+            </h2>
+          </div>
         )}
       </div>
 
-      {productListUpdated && <SuggestionArea productID={ID} />}
+      {status === "loaded" && product && (
+        <Comments
+          productData={JSON.stringify(productMap)}
+          productID={ID}
+          reviewsList={(product as any).reviews ?? []}
+        />
+      )}
+
+      {status === "loaded" && <SuggestionArea productID={ID} />}
     </div>
   );
 };

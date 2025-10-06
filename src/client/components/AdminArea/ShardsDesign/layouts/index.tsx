@@ -1,3 +1,8 @@
-import DefaultLayout from "./Default";
+// Default.tsx
+import React from "react";
 
-export { DefaultLayout };
+const DefaultLayout: React.FC<React.PropsWithChildren> = ({ children }) => (
+  <main className="container">{children}</main>
+);
+
+export default DefaultLayout;
