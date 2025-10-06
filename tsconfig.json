@@ -1,27 +1,34 @@
 {
   "compilerOptions": {
+    "target": "ES2020",
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+
+    "jsx": "react-jsx",
+    "lib": ["DOM", "DOM.Iterable", "ESNext"],
+    "types": ["vite/client", "node"],
+
     "resolveJsonModule": true,
     "allowJs": true,
+    "checkJs": true,
     "alwaysStrict": true,
     "allowSyntheticDefaultImports": true,
-    "checkJs": true,
     "declaration": true,
     "declarationMap": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "incremental": true,
-    "jsx": "react-jsxdev",
-    "lib": ["DOM", "DOM.Iterable", "ESNext"],
     "strict": true,
     "outDir": "dist",
-    "module": "ESNext",
-    "moduleResolution": "Node",
     "skipLibCheck": true,
-    "sourceMap": true,
-    "target": "ES2017",
-    "types": ["vite/client"]
+    "sourceMap": true
   },
-  "include": ["src/**/*", "types/*", "server.ts", "node_modules/vite/types/*"],
+  "include": [
+    "src/**/*",
+    "types/*",
+    "server.ts",
+    "node_modules/vite/types/*"
+  ],
   "ts-node": {
     "transpileOnly": true,
     "compilerOptions": {

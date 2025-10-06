@@ -15,7 +15,6 @@ import AnalyticsSnippet from "./components/AnalyticsScript";
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./data/customCSS.scss";
-import RouteSpinner from "./components/UI/RouteSpinner";
 
 import NotFound from "./components/NotFound/NotFound";
 
@@ -32,6 +31,7 @@ import EditStrings from "./components/AdminArea/EditStrings/EditStrings";
 import adminRoutes from "./components/AdminArea/ShardsDesign/adminRoutes.config";
 import DefaultLayout from "./components/AdminArea/ShardsDesign/layouts";
 import { CartProvider } from "./components/context/CartProvider";
+import PageLoader from "./components/UI/PageLoader";
 
 function isBrowser() {
   return typeof window !== "undefined" && typeof document !== "undefined";
@@ -51,7 +51,7 @@ const App: React.FC = () => {
         <AuthProvider>
           <CartProvider>
           <AnalyticsSnippet />
-          <Suspense fallback={<RouteSpinner />}>
+          <Suspense fallback={<PageLoader />}>
             <Routes>
               <Route element={<RequireAuth />}>
                 <Route path="/admin" element={<Dashboard />}>
