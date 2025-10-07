@@ -1,7 +1,5 @@
-@import "./../../main.module.scss";
-
 .title {
-  color: #17183B;
+  color: #17183b;
   text-align: center;
   font-family: "Open Sans";
   font-size: 2rem;
@@ -18,7 +16,7 @@
 }
 
 .mainDescription {
-  color: #17183B;
+  color: #17183b;
   text-align: center;
   font-family: "Open Sans";
   font-size: 1.2rem;
@@ -109,15 +107,14 @@ p {
   }
 }
 
-
-.DinMunte{
-  color: #058A46;
+.DinMunte {
+  color: #058a46;
   font-family: "Open Sans";
   font-style: normal;
   font-weight: 600;
 }
 
-.verificati_title{
+.verificati_title {
   color: #000;
   text-align: center;
   font-family: "Open Sans";
@@ -126,7 +123,7 @@ p {
   font-weight: 700;
 }
 
-.verificati_subtitle{
+.verificati_subtitle {
   color: #000;
   font-family: "Open Sans";
   font-size: 1.25rem;
@@ -136,8 +133,8 @@ p {
   text-align: center;
 }
 
-.tickIcon{
-  color: #058A46;
+.tickIcon {
+  color: #058a46;
   font-size: 40px;
   font-weight: 900;
   margin-bottom: 50px;
@@ -145,12 +142,12 @@ p {
   justify-content: center;
 }
 
-.tick{
+.tick {
   width: 80%;
 }
 
-.emailText{
-  color: #01A455;
+.emailText {
+  color: #01a455;
   font-family: "Open Sans";
   font-size: 1.25rem;
   font-style: normal;
@@ -164,30 +161,30 @@ p {
 }
 
 @media screen and (max-width: 992px) {
-  .confirmContainer{
+  .confirmContainer {
     width: 80%;
   }
 }
 
 @media screen and (max-width: 576px) {
-  .confirmContainer{
+  .confirmContainer {
     width: 95%;
     margin-top: 15%;
   }
   .title {
     font-size: 1.6rem;
   }
-  
-  .verificati_title{
+
+  .verificati_title {
     font-size: 1.6rem;
   }
-  .verificati_subtitle{
+  .verificati_subtitle {
     font-weight: 500;
   }
-  .tick{
+  .tick {
     width: 60%;
   }
-  .mainDescription{
+  .mainDescription {
     font-weight: 500;
   }
 }

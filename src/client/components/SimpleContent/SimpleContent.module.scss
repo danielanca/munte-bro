@@ -1,7 +1,3 @@
-@import "../../main.module.scss";
-@import "../../data//themes.scss";
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap');
-
 .content {
   max-width: 1992px;
   width: 100%;
@@ -23,13 +19,13 @@
 // }
 
 .headTitle {
-  color: #3A5A40;
-  font-family: 'Montserrat', sans-serif;
+  color: #3a5a40;
+  font-family: "Montserrat", sans-serif;
   font-size: 32px;
   text-align: center;
   font-style: normal;
   font-weight: 600;
-  line-height: 41px; 
+  line-height: 41px;
 }
 .plainData {
   width: 100%;

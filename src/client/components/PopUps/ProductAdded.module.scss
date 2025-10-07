@@ -1,8 +1,5 @@
-@import "./../../main.module.scss";
-@import "./../../data/themes.scss";
-
-@import url('https://fonts.googleapis.com/css2?family=Red+Rose:wght@300;400;500;600;700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Red+Rose:wght@300;400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap");
 
 @keyframes fadeIn {
   0% {
@@ -48,17 +45,17 @@
   width: 100%;
 }
 
-.finishButtonContainer{
+.finishButtonContainer {
   width: 40%;
-  background-color: #3A5A40;
+  background-color: #3a5a40;
   height: 50px;
   box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
-  color: #FFF;
+  color: #fff;
 }
 
 .finishButton {
   background-color: transparent;
-  color: #FFF;
+  color: #fff;
   text-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
   outline: none;
   border: none;
@@ -68,11 +65,11 @@
   text-transform: uppercase;
 }
 
-.veziCosulButton{
+.veziCosulButton {
   height: 69px;
   flex-shrink: 0;
-  border: 3px solid #3A5A40;
-  background: rgba(255, 255, 255, 0.00);
+  border: 3px solid #3a5a40;
+  background: rgba(255, 255, 255, 0);
 }
 
 .cartCardboard {
@@ -85,7 +82,7 @@
   position: fixed;
   right: 0;
   top: 20%;
-  background: #FFF;
+  background: #fff;
   box-shadow: 0px 4px 22px 0px rgba(0, 0, 0, 0.25);
   z-index: 100;
 
@@ -108,9 +105,9 @@
   }
 }
 
-.cosulTextContainer{
-  h4{
-    color: #3A5A40;
+.cosulTextContainer {
+  h4 {
+    color: #3a5a40;
     font-family: "Montserrat", sans-serif;
     font-size: 1rem;
     font-style: normal;
@@ -119,7 +116,7 @@
   }
 }
 
-.firstRowContainer{
+.firstRowContainer {
   display: flex;
   justify-content: space-around;
   // margin-bottom: 30px;
@@ -150,7 +147,7 @@
 }
 .productTitle {
   h2 {
-    color: #3A5A40;
+    color: #3a5a40;
     font-family: "Red Rose", sans-serif;
     font-size: 2.25rem;
     font-style: normal;
@@ -160,8 +157,8 @@
 }
 
 .titleProduct {
-  h3{
-    color: #3A5A40;
+  h3 {
+    color: #3a5a40;
     font-family: Red Rose;
     font-size: 2rem;
     font-style: normal;
@@ -211,8 +208,7 @@
   }
 }
 
-
-.buttonsContainer{
+.buttonsContainer {
   width: 100%;
   display: flex;
   flex-direction: row;
@@ -220,40 +216,40 @@
   align-items: center;
 }
 
-.veziCosulContainer{
+.veziCosulContainer {
   height: 50px;
   width: 47%;
   flex-shrink: 0;
-  border: 3px solid #3A5A40;
-  background: rgba(255, 255, 255, 0.00);
+  border: 3px solid #3a5a40;
+  background: rgba(255, 255, 255, 0);
   display: flex;
   justify-content: center;
   align-items: center;
   cursor: pointer;
 }
 
-.finalizeazaComandaContainer{
+.finalizeazaComandaContainer {
   height: 50px;
   width: 47%;
   flex-shrink: 0;
-  border: 3px solid #3A5A40;
-  background-color: #3A5A40;
+  border: 3px solid #3a5a40;
+  background-color: #3a5a40;
   display: flex;
   justify-content: center;
   align-items: center;
   cursor: pointer;
 }
 
-.finalizeazaComandaButton{
+.finalizeazaComandaButton {
   border: none;
   width: 100%;
   font-size: 1rem;
-  background-color: #3A5A40;
-  color: #FFF;
+  background-color: #3a5a40;
+  color: #fff;
   cursor: pointer;
 }
 
-.veziCosulButton{
+.veziCosulButton {
   border: none;
   width: 100%;
   background-color: transparent;
@@ -261,9 +257,8 @@
   cursor: pointer;
 }
 
-.closeContainer{
+.closeContainer {
   display: flex;
   justify-self: flex-end;
   align-self: flex-end;
-
 }

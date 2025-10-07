@@ -1,6 +1,3 @@
-@import "../../../../main.module.scss";
-@import "../../data//themes.scss";
-
 @import url("https://fonts.googleapis.com/css2?family=DM+Sans&display=swap");
 
 .fluidHandler {
@@ -20,45 +17,45 @@
   padding-right: 3%;
 }
 
-.footerCopyrightText{
-    padding-top: 20px;
+.footerCopyrightText {
+  padding-top: 20px;
 }
 
 .footerSecondCol {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .footerThirdCol {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
-.footerIconsCol{
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    // align-items: end;
+.footerIconsCol {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  // align-items: end;
 }
 
-.BackToTopIconParent{
-    display: flex;
-    align-items: end;
-    justify-content: end;
+.BackToTopIconParent {
+  display: flex;
+  align-items: end;
+  justify-content: end;
 }
 
-.BackToTopIcon{
+.BackToTopIcon {
   cursor: pointer;
 }
 
-.footerPageLink{
-    cursor: pointer;
+.footerPageLink {
+  cursor: pointer;
 }
-  
-.footerPageLinkText{
-  color: #FFF;
+
+.footerPageLinkText {
+  color: #fff;
   text-decoration: none;
 }
 
@@ -67,69 +64,66 @@
   text-decoration: underline;
 }
 
-.footerRowContainer{
-    height: 250px;
-    width: 1920px;
-    font-size: 15px;
-    font-family: "DM Sans", sans-serif;
-    color: #ffffff;
-    line-height: 20px;
-    letter-spacing: 0.6px;
-    margin: 0;
-    height: 337px;
-    padding-top: 50px;
-    padding-bottom: 50px;
-    display: flex;
-    justify-content: space-evenly;
+.footerRowContainer {
+  height: 250px;
+  width: 1920px;
+  font-size: 15px;
+  font-family: "DM Sans", sans-serif;
+  color: #ffffff;
+  line-height: 20px;
+  letter-spacing: 0.6px;
+  margin: 0;
+  height: 337px;
+  padding-top: 50px;
+  padding-bottom: 50px;
+  display: flex;
+  justify-content: space-evenly;
 }
 
-.footerSocialMediaIcons{
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    justify-content: end;
-    align-items: end;
+.footerSocialMediaIcons {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: end;
+  align-items: end;
 }
 
 @media screen and (max-width: 992px) {
-  .footerLogoContainer{
+  .footerLogoContainer {
     display: none;
   }
-  .footerSecondCol{
+  .footerSecondCol {
     display: none;
   }
-  .footerSocialMediaIcons{
+  .footerSocialMediaIcons {
     display: none;
   }
-  .footerIconsCol{
+  .footerIconsCol {
     display: flex;
     justify-content: start;
     // justify-content: start;
   }
-  .footerThirdCol{
+  .footerThirdCol {
     display: flex;
     justify-content: space-between;
   }
   .footerSocialMediaIconsMobile {
-    background-color: #31493C;
+    background-color: #31493c;
     height: 48px;
     display: flex;
     justify-content: center;
     align-items: center;
   }
-  
 }
 
 @media screen and (min-width: 992px) {
-  .politicaMobileFooter{
+  .politicaMobileFooter {
     display: none;
   }
-  .footerSocialMediaIconsMobile{
+  .footerSocialMediaIconsMobile {
     display: none;
   }
 }
-
-
 
 // .footerSocialMediaIcons{
 //     display: flex;
@@ -137,7 +131,6 @@
 //     justify-content: space-evenly;
 //     align-items: center;
 // }
-
 
 // .footerArea {
 //   @extend .container-fluid;

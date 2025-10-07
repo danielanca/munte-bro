@@ -1,5 +1,7 @@
+// vite.config.ts
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
+import path from "node:path";
 import type { UserConfig } from "vitest/config";
 
 const test = {
@@ -16,6 +18,11 @@ const hmrProtocol = isHttps ? "wss" : "ws";
 
 export default defineConfig({
   plugins: [react()],
+  resolve: {
+    alias: {
+      "@": path.resolve(__dirname, "src"),
+    },
+  },
   esbuild: {
     jsx: "automatic",
   },
@@ -31,5 +38,16 @@ export default defineConfig({
   },
   build: { minify: isProd, sourcemap: !isProd },
   test,
-  css: { preprocessorOptions: { scss: {} } },
+  css: {
+    preprocessorOptions: {
+      scss: {
+        // Injectat în TOATE fișierele .scss (inclusiv .module.scss)
+        additionalData: `
+          @use "sass:map";
+          @use "@/styles/variables" as *;   // aici definești $colors, etc.
+          @use "include-media" as *;        // npm i -D include-media
+        `,
+      },
+    },
+  },
 });

@@ -1,18 +1,21 @@
+// PublicLayout.tsx
 /* eslint-disable react/react-in-jsx-scope */
-import loadable from "@loadable/component";
+// import loadable from "@loadable/component";
 
-const Footer = loadable(() => import("../../components/Footer/FooterMontanNew"), { ssr: true });
-const Navbar = loadable(() => import("../../components/Navbar/NavbarNew"), { ssr: true });
+// ⬇️ use static imports for now (no lazy, no loadable)
+import Footer from "../../components/Footer/FooterMontanNew";
+import Navbar from "../../components/Navbar/NavbarNew";
 
-interface Lay {
-  children: any | null;
-  noNavbar: any | null;
-  noFooter: any | null;
-  clearNotif: any | null;
-}
+type Lay = {
+  children: React.ReactNode;
+  noNavbar?: boolean;
+  noFooter?: boolean;
+  clearNotif?: number | null;
+};
+
 const PublicLayout = ({ children, noNavbar, noFooter, clearNotif }: Lay) => (
   <>
-    {!noNavbar && <Navbar clearNotif={clearNotif} />}
+    {!noNavbar && <Navbar clearNotif={Number(clearNotif ?? 0)} />}
     {children}
     {!noFooter && <Footer />}
   </>

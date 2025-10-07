@@ -1,8 +1,5 @@
-@import "./../../main.module.scss";
-@import "./../../data//themes.scss";
-
 .HashLinkStyle {
-  @extend .col-md-3;
+  @extend .col-md-3 !optional;
   color: map-get($map: $colors, $key: mainlyBlack);
   text-decoration: none !important;
   width: fit-content;

@@ -1,9 +1,5 @@
-@import "./../../main.module.scss";
-@import "./../../data//themes.scss";
-
-@import url('https://fonts.googleapis.com/css2?family=Red+Rose:wght@300;400;500;600;700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap');
-
+@import url("https://fonts.googleapis.com/css2?family=Red+Rose:wght@300;400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap");
 
 .commentsArea {
   margin-top: 20px;
@@ -46,7 +42,7 @@
 .innerDescription {
   // min-height: 600px;
   width: 100%;
-  color: #3A5A40;
+  color: #3a5a40;
   font-family: "Montserrat", sans-serif;
   font-size: 1rem;
   font-style: normal;
@@ -55,8 +51,8 @@
   white-space: pre-line;
 }
 
-.title {  
-  color: #3A5A40;
+.title {
+  color: #3a5a40;
   font-family: "Red Rose", sans-serif;
   font-size: 2.25rem;
   font-style: normal;
@@ -65,27 +61,26 @@
   cursor: default;
 }
 
-.parentContainer{
+.parentContainer {
   width: 60%;
   margin: auto !important;
   margin-top: 8% !important;
 }
 
-
 @media screen and (max-width: 992px) {
-  .parentContainer{
+  .parentContainer {
     width: 75%;
     margin: auto !important;
   }
 }
 
 @media screen and (max-width: 576px) {
-  .parentContainer{
+  .parentContainer {
     width: 80%;
     margin: auto !important;
   }
 
-  .title{
+  .title {
     font-size: 1.5rem;
     font-weight: 400;
   }

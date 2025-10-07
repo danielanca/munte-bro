@@ -1,5 +1,3 @@
-@import "./../../main.module.scss";
-
 .containerRadio {
   position: relative;
   width: auto;
@@ -10,7 +8,7 @@
   font-size: 12px;
   -webkit-user-select: none;
   user-select: none;
-  @extend .col-4;
+  @extend .col-4 !optional;
 
   .checkmark {
     height: 24px;
@@ -63,7 +61,7 @@
   user-select: none;
   padding: 0;
 
-  @extend .col-4;
+  @extend .col-4 !optional;
   .checkmark {
     height: 24px;
     width: 24px;

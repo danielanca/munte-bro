@@ -1,7 +1,7 @@
 @import "../../../styles/main.scss";
 
 .blogItemRelated {
-  @extend .col-4;
+  @extend .col-4 !optional;
   width: 100%;
   max-width: 258px;
   box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 15px 0px;

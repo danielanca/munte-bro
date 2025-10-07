@@ -1,6 +1,3 @@
-@import "../../main.module.scss";
-@import "../../data/themes.scss";
-
 /* Parent bar */
 .bigBlanaBannerParentContainer {
   position: relative;
@@ -18,13 +15,13 @@
   gap: 12px;
 
   height: 45px;
-  max-width: 1400px;     /* responsive cap */
-  width: 100%;           /* remove fixed 1920px */
+  max-width: 1400px; /* responsive cap */
+  width: 100%; /* remove fixed 1920px */
   margin: 0 auto;
   padding: 0 4%;
 
-  overflow: hidden;      /* keep text inside the bar */
-  line-height: 45px;     /* vertical align */
+  overflow: hidden; /* keep text inside the bar */
+  line-height: 45px; /* vertical align */
 
   @include media("<tablet") {
     grid-template-columns: 1fr;
@@ -37,7 +34,7 @@
 
 /* Left: email */
 .emailTop {
-  @extend .col-md-3;
+  @extend .col-md-3 !optional;
   font-family: "Roboto", system-ui, sans-serif;
   color: #eee6d3;
   font-weight: 900;
@@ -64,7 +61,7 @@
   text-transform: uppercase;
   font-family: "Roboto", system-ui, sans-serif;
   font-weight: 600;
-  font-size: 24px !important;      
+  font-size: 24px !important;
   letter-spacing: 0.06em;
   margin: 0;
   line-height: 1;
@@ -82,7 +79,7 @@
 
 /* Right: socials */
 .socialsTop {
-  @extend .col-md-3;
+  @extend .col-md-3 !optional;
   display: flex;
   justify-self: end;
   align-items: center;
