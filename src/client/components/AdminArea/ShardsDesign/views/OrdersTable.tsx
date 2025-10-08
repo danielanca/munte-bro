@@ -79,7 +79,7 @@ const OrdersTable: React.FC = () => {
         setLoading(true);
         setErrorMsg(null);
         const raw = await listOrders();
-        const normalized = raw.map(normalize);
+        const normalized = raw.map(normalize); 
         setOrdersLocal(normalized);
         setOrdersList(normalized);
       } catch (e: any) {
