@@ -1,6 +1,6 @@
 import React, { useRef } from "react";
 import { useOutsideClicker } from "./../../hooks/onScreen";
-import styles from "./PopModal.module.scss";
+import styles from "./PopModal.module.css";
 
 interface ModalPopProps {
   title: string;
@@ -25,13 +25,13 @@ const PopModal = ({ title, eventHandler }: ModalPopProps) => {
     <div ref={backdropRef} className={styles.popUpBackdrop}>
       <div className={styles.boxModal}>
         <div className={styles.centerQuestion}>
-          <h2>{title}</h2>
+          <h2 className={styles.title}>{title}</h2>
         </div>
         <div className={styles.centerControls}>
-          <button onClick={confirmAnswer} className={styles.greenButton}>
+          <button onClick={confirmAnswer} className={`${styles.button} ${styles.greenButton}`}>
             {"Confirm"}
           </button>
-          <button onClick={cancelAnswer} className={styles.redButton}>
+          <button onClick={cancelAnswer} className={`${styles.button} ${styles.redButton}`}>
             {"Renunta"}
           </button>
         </div>

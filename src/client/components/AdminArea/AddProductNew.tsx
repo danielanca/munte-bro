@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams, useNavigate, useLocation } from "react-router-dom"; // ⬅️ add useLocation
+import { useParams, useNavigate, useLocation } from "react-router-dom";
 import ProductPreview from "../Product/ProductPreview";
 import { ProductModel } from "../../utils/OrderInterfaces";
 import { getProductWithID as getProductByID, upsertProduct } from "../../services/products";
@@ -39,12 +39,13 @@ const EditProduct: React.FC = () => {
   const [uploading, setUploading] = useState({ main: false, ambiance: false, description: false });
 
   const [editproductModel, setEditProductModel] = useState<ProductModel>(EMPTY_PRODUCT);
+  const [reviewInput, setReviewInput] = useState<string>("");
 
   const navigate = useNavigate();
   const params = useParams();
   const location = useLocation();
-  const qID = new URLSearchParams(location.search).get("id") ?? ""; // ⬅️ pick from query
-  const ID = ((params.id as string) || qID) ?? "";                 // ⬅️ prefer route, else query
+  const qID = new URLSearchParams(location.search).get("id") ?? "";
+  const ID = ((params.id as string) || qID) ?? "";
 
   const resetForm = () => {
     setEditProductModel(EMPTY_PRODUCT);
@@ -53,6 +54,7 @@ const EditProduct: React.FC = () => {
     setDescriptionUrls([]);
     setOpenPreviewArea(false);
     setProducts(undefined);
+    setReviewInput("");
   };
 
   const inputHandler = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -68,6 +70,35 @@ const EditProduct: React.FC = () => {
       ...prev,
       ULbeneficii: value.split(",").map((s) => s.trim()).filter(Boolean) as any,
     }));
+  };
+
+  const addReview = () => {
+    if (!reviewInput.trim()) return;
+    
+    const newReview = {
+      rating: 5, // Default 5 stars
+      comment: reviewInput.trim(),
+      date: new Date().toISOString(),
+      reviewer: "Admin" // Or you can add an input for reviewer name
+    };
+
+    setEditProductModel((prev) => ({
+      ...prev,
+      reviews: {
+        ...prev.reviews,
+        [Date.now().toString()]: newReview
+      }
+    }));
+    
+    setReviewInput("");
+  };
+
+  const removeReview = (reviewId: string) => {
+    setEditProductModel((prev) => {
+      const newReviews = { ...prev.reviews };
+      delete newReviews[reviewId];
+      return { ...prev, reviews: newReviews };
+    });
   };
 
   const folderBase = toSlug(editproductModel.ID || editproductModel.title || "produs");
@@ -143,7 +174,7 @@ const EditProduct: React.FC = () => {
     try {
       await upsertProduct(payload);
       setEditSent(true);
-      if (!ID) resetForm(); // ⬅️ clear only when creating (no id present)
+      if (!ID) resetForm();
     } catch (err) {
       console.error(err);
       alert("A apărut o eroare la salvare.");
@@ -156,7 +187,6 @@ const EditProduct: React.FC = () => {
     return () => clearTimeout(t);
   }, [editSent]);
 
-  // ⬇️ Prefill when editing: works with either /:id or ?id=
   useEffect(() => {
     const load = async () => {
       const targetId = ID?.trim();
@@ -299,8 +329,16 @@ const EditProduct: React.FC = () => {
                     <Form.Label htmlFor="discountedPrice">Discount Price (RON)</Form.Label>
                     <Form.Control onChange={inputHandler} name="discountedPrice" value={String(editproductModel.discountedPrice ?? "")} />
                   </div>
-
-                
+                  <div className={styles.inputFielder}>
+                    <Form.Label htmlFor="realStock">Stock Quantity</Form.Label>
+                    <Form.Control 
+                      type="number" 
+                      onChange={inputHandler} 
+                      name="realStock" 
+                      value={String(editproductModel.realStock ?? "")} 
+                      placeholder="Enter stock quantity"
+                    />
+                  </div>
                 </div>
 
                 <div className={styles.rowSpacerTextArea}>
@@ -308,7 +346,6 @@ const EditProduct: React.FC = () => {
                     <Form.Label htmlFor="shortDescription">Short Description</Form.Label>
                     <Form.Control as="textarea" spellCheck={false} onChange={inputHandler} name="shortDescription" value={editproductModel.shortDescription ?? ""} />
                   </div>
-                  
                 </div>
 
                 <div className={styles.inputFielder}>
@@ -320,6 +357,51 @@ const EditProduct: React.FC = () => {
                     name="ULbeneficii"
                     value={(editproductModel.ULbeneficii ?? []).join(", ")}
                   />
+                </div>
+
+                {/* Reviews Section */}
+                <div className={styles.inputFielder}>
+                  <Form.Label htmlFor="reviews">Add Review (5 stars)</Form.Label>
+                  <div className={styles.reviewInputContainer}>
+                    <Form.Control
+                      as="textarea"
+                      rows={3}
+                      placeholder="Enter review comment..."
+                      value={reviewInput}
+                      onChange={(e) => setReviewInput(e.target.value)}
+                    />
+                    <Button 
+                      className={styles.addReviewButton} 
+                      onClick={addReview}
+                      disabled={!reviewInput.trim()}
+                    >
+                      Add 5-Star Review
+                    </Button>
+                  </div>
+                  
+                  {/* Display existing reviews */}
+                  {editproductModel.reviews && Object.keys(editproductModel.reviews).length > 0 && (
+                    <div className={styles.reviewsList}>
+                      <h6>Current Reviews:</h6>
+                      {Object.entries(editproductModel.reviews).map(([reviewId, review]: [string, any]) => (
+                        <div key={reviewId} className={styles.reviewItem}>
+                          <div className={styles.reviewHeader}>
+                            <span className={styles.stars}>★★★★★</span>
+                            <span className={styles.reviewer}>{review.reviewer || "Anonymous"}</span>
+                            <Button 
+                              variant="outline-danger" 
+                              size="sm" 
+                              onClick={() => removeReview(reviewId)}
+                              className={styles.removeReviewBtn}
+                            >
+                              ×
+                            </Button>
+                          </div>
+                          <p className={styles.reviewComment}>{review.comment}</p>
+                        </div>
+                      ))}
+                    </div>
+                  )}
                 </div>
 
                 <div className={styles.editorElement}>

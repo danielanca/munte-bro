@@ -3,7 +3,7 @@ import { HashLink, NavHashLink } from "react-router-hash-link";
 import ReactGA from "react-ga4";
 import { useLocation } from "react-router-dom";
 import TopBanner from "./TopBanner";
-import styles from "./NavbarNew.module.scss";
+import styles from "./NavbarNew.module.css";
 import images from "../../data/images1";
 import strings from "../../data/strings.json";
 import { FiSearch } from "react-icons/fi";

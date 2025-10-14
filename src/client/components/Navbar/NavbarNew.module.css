@@ -1,0 +1,298 @@
+@import url("https://fonts.googleapis.com/css2?family=Nunito+Sans&display=swap");
+
+/* ===================================================================
+   DESKTOP (default)
+   =================================================================== */
+
+.navbarParentContainer {
+  font-family: "Nunito Sans", sans-serif;
+  color: #3a5a40;
+  font-size: 18px;
+  width: 100%;                 /* was 100vw -> prevents horizontal scrollbars */
+  display: flex;
+  justify-content: center;
+}
+
+/* Outer holder for the 70px bar */
+.headerParentContainer {
+  color: #3a5a40;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  height: 70px;
+  width: 100%;
+}
+
+/* Core desktop bar: grid = logo | nav | actions */
+.navbarnewContainer {
+  width: 100%;
+  max-width: 1280px;           /* tune as needed (1140–1440px typical) */
+  margin-inline: auto;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  column-gap: clamp(12px, 4vw, 32px);
+  padding-inline: clamp(16px, 4vw, 32px);
+  height: 70px;
+}
+
+/* Brand */
+.logoHover { cursor: pointer; text-decoration: none; }
+
+.updatedLogo {                 /* desktop logo image */
+  font-weight: 500;
+  font-size: 36px;
+  height: 20px;
+  cursor: pointer;
+}
+
+/* Middle nav (kept shrinkable to protect right edge) */
+.navbarLaptopPagesConatiner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 18px;
+  min-width: 0;               /* allows column to shrink without forcing wrap */
+  flex-wrap: nowrap;
+}
+
+/* Right side: Search | Cart | Contact — always single line */
+.rightActions {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  white-space: nowrap;
+}
+
+/* Links in the right block */
+.searchIconParent,
+.hashTransparent,
+.HashLinkStyle {
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+}
+
+/* Icons */
+.searchIcon {
+  font-weight: 500;
+  font-size: 36px;
+  height: 40px;
+  cursor: pointer;
+  display: block;
+}
+
+.shopIcon {
+  width: 30px;
+  cursor: pointer;
+  display: block;
+}
+.shopIcon:hover { opacity: 0.7; }
+
+/* Cart anchor must be positioning context for the badge */
+.hashTransparent { position: relative; padding-right: 15px; }
+.searchIconParent { padding-right: 15px; }
+.searchIconParent:hover,
+.hashTransparent:hover { text-decoration: none; }
+
+/* Cart badge */
+.jewel {
+  position: absolute;
+  top: -6px;
+  right: -8px;
+  width: 20px;
+  height: 20px;
+  background-color: #00ac10;
+  color: #fff;
+  border-radius: 50%;
+  font-size: 12px;
+  line-height: 20px;
+  text-align: center;
+  box-shadow: 2px 10px 17px -3px rgba(0, 0, 0, 0.1);
+  margin: 0; /* remove previous margin hack */
+}
+
+/* Middle nav links */
+.headerPages {
+  font-size: 20px;
+  color: #3a5a40;
+  cursor: pointer;
+  text-decoration: none;
+  padding-right: 15px;
+}
+.headerPages:hover { color: #3a5a40; text-decoration: underline; }
+
+/* Contact link */
+.HashLinkStyle {
+  padding-right: 15px;
+  font-size: 20px;
+  color: #3a5a40;
+  text-decoration: underline;
+}
+.HashLinkStyle:hover { color: #3a5a40; text-decoration: none; }
+
+/* ===================================================================
+   TABLET & MOBILE STRUCTURE
+   =================================================================== */
+
+.navbarTabletMobile { display: none; } /* default hidden on desktop */
+.open { /* optional flag if you ever need it */ }
+
+.tabletNavbarParent {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 70px;
+  padding-left: 4%;
+  padding-right: 4%;
+}
+
+.tabletIconsParent { display: flex; }
+
+.DinMunteLogo {
+  font-weight: 500;
+  font-size: 36px;
+  height: 34px;
+  cursor: pointer;
+}
+
+/* Icon wrappers on tablet header */
+.searchIconTabletParent,
+.bagIconTabletParent,
+.toggleIconTabletParent { padding-right: 15px; }
+
+.toggleButton {
+  background: transparent;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+}
+
+/* Fullscreen overlay menu (opened) */
+.toggleOpenPagesLinks {
+  z-index: 100;
+  padding-left: 4%;
+  padding-right: 4%;
+  background: #31493c;
+  color: #ffffff !important;
+  position: fixed;
+  inset: 0;                    /* shorthand for top/right/bottom/left: 0 */
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.headerPagesTablet {
+  display: block;
+  margin-bottom: 10px;
+  font-size: 20px;
+  color: #ffffff;
+  font-weight: 600;
+  text-decoration: none;
+}
+.headerPagesTablet:hover { color: #ffffff; text-decoration: underline; }
+
+.bagToggleContainer {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  color: #ffffff;
+  padding-top: 20px;
+}
+
+.closeIcon { color: white; }
+
+.openTogglePagesHeroMobile {
+  padding-top: 20px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.tabletPagesContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
+
+.heroSectionInOpenedToggleMobile {
+  background-color: white;
+  position: relative;
+  left: 30%;
+  padding-top: 10px;
+  padding-bottom: 20px;
+  height: 70vh;
+}
+
+.despre_contact_TabletContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding-left: 40px;
+}
+
+.tabletIconsContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  padding-bottom: 5%;
+}
+
+.homePageIcon { display: none; }
+
+/* ===================================================================
+   SHARED HOVERS / GLOBALS
+   =================================================================== */
+
+.logoHover { cursor: pointer; text-decoration: none; }
+
+/* ===================================================================
+   MEDIA QUERIES
+   =================================================================== */
+
+/* Tablet & below: use the mobile header; hide desktop bar */
+@media screen and (max-width: 992px) {
+  .headerParentContainer { display: none; }
+  .navbarTabletMobile { display: block; }
+  .toggleOpenPagesLinks { display: block; }
+}
+
+/* Desktop only: ensure mobile overlay is off */
+@media screen and (min-width: 992px) {
+  .navbarTabletMobile { display: none; }
+  .toggleOpenPagesLinks { display: none; }
+}
+
+/* Tablet range */
+@media screen and (min-width: 576px) and (max-width: 992px) {
+  .DinMunteLogo { font-size: 36px; height: 34px; }
+  .searchIconTabletParent { display: block; }
+  .homePageIcon { display: none; }
+  .heroSectionInOpenedToggleMobile { display: none; }
+  .openTogglePagesHeroMobile { padding-left: 40%; }
+  .despre_contact_TabletContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .tabletIconsContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    padding-bottom: 5%;
+  }
+}
+
+/* Phones */
+@media screen and (max-width: 576px) {
+  .DinMunteLogo { font-size: 36px; height: 17px; }
+  .searchIconTabletParent { display: none; }
+  .tabletIconsContainer { display: none; }
+  .despre_contact_TabletContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding-left: 40px;
+  }
+}

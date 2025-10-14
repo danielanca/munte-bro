@@ -13,3 +13,53 @@ code {
 body > iframe {
   display: none !important;
 }
+:root{
+  /* Layout tokens */
+  --content-max: 72rem;                 /* ~1152px */
+  --gutter: clamp(16px, 4vw, 32px);
+
+  /* Fluid type scale */
+  --step-0: clamp(0.95rem, 0.45vw + 0.8rem, 1.05rem); /* base */
+  --step-1: clamp(1.10rem, 0.7vw + 0.9rem, 1.25rem);
+  --step-2: clamp(1.35rem, 1.1vw + 1rem, 1.5rem);
+  --step-3: clamp(1.7rem, 2vw + 1rem, 2rem);
+  --step-4: clamp(2.1rem, 3vw + 1rem, 2.6rem);
+  --step-5: clamp(2.6rem, 4vw + 1rem, 3.2rem);
+}
+
+/* Box sizing + overflow guards */
+*, *::before, *::after { box-sizing: border-box; }
+*:where(:not(html)) { min-width: 0; }
+
+/* Base document */
+html { -webkit-text-size-adjust: 100%; }
+body{
+  margin: 0;
+  min-height: 100dvh;                  /* mobile-safe viewport */
+  display: grid;                       /* sticky footer pattern if you use header/main/footer */
+  grid-template-rows: auto 1fr auto;
+  line-height: 1.5;
+  font-size: var(--step-0);
+  overflow-x: hidden;
+  text-rendering: optimizeLegibility;
+}
+
+/* Clean margins on common flow elements */
+:where(h1,h2,h3,h4,h5,h6,p,figure,blockquote,dl,dd){ margin: 0; }
+
+/* Fluid headings */
+h1{ font-size: var(--step-5); line-height: 1.1; }
+h2{ font-size: var(--step-4); line-height: 1.15; }
+h3{ font-size: var(--step-3); line-height: 1.2; }
+h4{ font-size: var(--step-2); }
+h5,h6{ font-size: var(--step-1); }
+
+/* Make media responsive by default */
+:where(img,svg,video,canvas){ display:block; max-width:100%; height:auto; }
+
+/* Better text wrapping */
+:where(p){ max-width: 65ch; overflow-wrap: anywhere; }
+
+/* Sections get sensible vertical rhythm */
+:where(section,article){ padding-block: clamp(1.5rem, 5vw, 4rem); }
+
