@@ -1,185 +1,166 @@
-@import "./../../main.module.scss";
-@import "./../../data/themes.scss";
+/* src/client/components/.../CartToast.module.scss */
 
-@import url('https://fonts.googleapis.com/css2?family=Red+Rose:wght@300;400;500;600;700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap');
+/* ✅ keep modules isolated; use centralized mq mixin */
+@use "../../styles/mq" as *;
 
-@keyframes fadeIn {
-  0% {
-    opacity: 0;
-    right: -100vw;
-    @include media("<tablet") {
-      left: 100vw;
-    }
-  }
-  7% {
-    opacity: 1;
-    right: 0;
-    @include media("<tablet") {
-      left: 0vw;
-    }
-  }
-  93% {
-    opacity: 1;
-    right: 0;
-    @include media("<tablet") {
-      left: 0vw;
-    }
-  }
+/* ---------------- Animations (no media queries inside keyframes) ---------------- */
 
-  100% {
-    opacity: 0;
-    right: -100vw;
-    @include media("<tablet") {
-      left: 100vw;
-    }
-  }
+@keyframes slideInOutRight {
+  0%   { opacity: 0; transform: translateX(100vw); }
+  7%   { opacity: 1; transform: translateX(0); }
+  93%  { opacity: 1; transform: translateX(0); }
+  100% { opacity: 0; transform: translateX(100vw); }
 }
 
+@keyframes slideInOutLeft {
+  0%   { opacity: 0; transform: translateX(-100vw); }
+  7%   { opacity: 1; transform: translateX(0); }
+  93%  { opacity: 1; transform: translateX(0); }
+  100% { opacity: 0; transform: translateX(-100vw); }
+}
+
+/* ---------------- Layout ---------------- */
+
 .actionContainer {
-  white-space: nowrap;
-  font-size: 16px;
-  white-space: nowrap;
   position: absolute;
   right: 1px;
   bottom: 1px;
   margin-bottom: 5%;
-  // margin-right: 5%;
   width: 100%;
+  font-size: 16px;
+  white-space: nowrap;
 }
 
-.finishButtonContainer{
+.finishButtonContainer {
   width: 40%;
-  background-color: #3A5A40;
   height: 50px;
+  background-color: #3a5a40;
+  color: #fff;
   box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
-  color: #FFF;
 }
 
 .finishButton {
-  background-color: transparent;
-  color: #FFF;
-  text-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
-  outline: none;
+  width: 100%;
   border: none;
+  outline: none;
+  background: transparent;
+  color: #fff;
+  font-family: "Montserrat", sans-serif; /* load font globally in HTML */
   font-weight: 400;
-  font-family: "Montserrat", sans-serif;
   font-size: 1.5rem;
   text-transform: uppercase;
+  text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 }
 
-.veziCosulButton{
+.veziCosulButton {
   height: 69px;
   flex-shrink: 0;
-  border: 3px solid #3A5A40;
-  background: rgba(255, 255, 255, 0.00);
+  border: 3px solid #3a5a40;
+  background: rgba(255, 255, 255, 0);
 }
 
+/* The toast/card */
 .cartCardboard {
-  max-width: 1992px;
-  // margin: auto;
-  right: 20px;
-  // width: 400px;
-  // width: 30%;
-  height: auto;
   position: fixed;
-  right: 0;
   top: 20%;
-  background: #FFF;
-  box-shadow: 0px 4px 22px 0px rgba(0, 0, 0, 0.25);
+  right: 0;
   z-index: 100;
-
-  // display: none;
-  animation-name: fadeIn;
-  animation-duration: 6.2s;
   width: 500px;
+  max-width: 1992px;
+  height: auto;
 
-  /*debug only*/
-  // opacity: 1;
-  // animation-name: none;
-  // animation-duration: unset;
-  // right: 0;
-  @include media("<desktop") {
+  background: #fff;
+  box-shadow: 0px 4px 22px rgba(0, 0, 0, 0.25);
+
+  /* default animation for desktop: from the right */
+  animation-name: slideInOutRight;
+  animation-duration: 6.2s;
+
+  /* mobile overrides */
+  @include mq("<desktop") {
     width: 500px;
   }
-  @include media("<tablet") {
-    width: 100vw;
+  @include mq("<tablet") {
     left: 0;
+    right: auto;
+    width: 100vw;
+
+    /* use the left-variant animation on small screens */
+    animation-name: slideInOutLeft;
   }
 }
 
-.cosulTextContainer{
-  h4{
-    color: #3A5A40;
+.cosulTextContainer {
+  h4 {
+    color: #3a5a40;
     font-family: "Montserrat", sans-serif;
     font-size: 1rem;
-    font-style: normal;
     font-weight: 300;
     line-height: 21px;
   }
 }
 
-.firstRowContainer{
+.firstRowContainer {
   display: flex;
   justify-content: space-around;
-  // margin-bottom: 30px;
 }
 
 .innerContainer {
-  // background-color: #f6f6f6;
   margin: 3%;
   font-size: 20px;
 }
+
 .cartIcon {
   width: 60px;
   box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
 }
-.productBasket {
-  display: flex;
-  flex-direction: column;
-}
+
+.productBasket { display: flex; flex-direction: column; }
+
 .cartLogoStyle {
   display: flex;
   justify-content: center;
   align-items: center;
   width: 30%;
 }
+
 .starsContainerOuter {
   display: flex;
   justify-content: flex-start;
 }
+
 .productTitle {
   h2 {
-    color: #3A5A40;
-    font-family: "Red Rose", sans-serif;
+    color: #3a5a40;
+    font-family: "Red Rose", sans-serif; /* load font globally */
     font-size: 2.25rem;
-    font-style: normal;
     font-weight: 300;
     line-height: normal;
   }
 }
 
 .titleProduct {
-  h3{
-    color: #3A5A40;
-    font-family: Red Rose;
+  h3 {
+    color: #3a5a40;
+    font-family: "Red Rose", sans-serif;
     font-size: 2rem;
-    font-style: normal;
     font-weight: 300;
     line-height: normal;
   }
 }
 
 .outerProductTitle {
-  width: -webkit-fill-available;
+  width: -webkit-fill-available; /* ok for WebKit; optional */
   padding: 6% 4%;
-  @include media(">=tablet", "<desktop") {
+
+  @include mq(">=tablet", "<desktop") {
     padding: 2% 4% 14%;
   }
 }
+
 .confirmMessage {
   text-align: center;
-  font-family: "Open Sans Regular", Georgia, Times, "Times New Roman", serif;
+  font-family: "Open Sans", Georgia, Times, "Times New Roman", serif;
 }
 
 .actionCallOut {
@@ -188,31 +169,32 @@
   align-items: center;
   flex-direction: row;
 }
+
 .chillButton {
-  outline: none;
-  border: 1px solid black;
+  border: 1px solid #000;
   border-radius: 3px;
   padding: 0 26px;
   font-size: 1.3em;
   font-weight: 200;
+  background: transparent;
+  outline: none;
 }
+
 .takeActionButton {
   background-color: #00ae00;
-  color: white;
-  outline: none;
+  color: #fff;
   border: none;
+  outline: none;
   padding: 2px 16px;
   font-size: 1.3em;
 }
+
 .hashTransparent {
   text-decoration: none;
-  &:hover {
-    text-decoration: none;
-  }
+  &:hover { text-decoration: none; }
 }
 
-
-.buttonsContainer{
+.buttonsContainer {
   width: 100%;
   display: flex;
   flex-direction: row;
@@ -220,50 +202,41 @@
   align-items: center;
 }
 
-.veziCosulContainer{
-  height: 50px;
+.veziCosulContainer,
+.finalizeazaComandaContainer {
   width: 47%;
+  height: 50px;
   flex-shrink: 0;
-  border: 3px solid #3A5A40;
-  background: rgba(255, 255, 255, 0.00);
+  border: 3px solid #3a5a40;
   display: flex;
   justify-content: center;
   align-items: center;
   cursor: pointer;
 }
 
-.finalizeazaComandaContainer{
-  height: 50px;
-  width: 47%;
-  flex-shrink: 0;
-  border: 3px solid #3A5A40;
-  background-color: #3A5A40;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
-}
+.veziCosulContainer { background: rgba(255, 255, 255, 0); }
+.finalizeazaComandaContainer { background-color: #3a5a40; }
 
-.finalizeazaComandaButton{
-  border: none;
+.finalizeazaComandaButton {
   width: 100%;
+  border: none;
   font-size: 1rem;
-  background-color: #3A5A40;
-  color: #FFF;
+  background-color: #3a5a40;
+  color: #fff;
   cursor: pointer;
 }
 
-.veziCosulButton{
-  border: none;
+.veziCosulButton {
   width: 100%;
-  background-color: transparent;
+  border: none;
+  background: transparent;
   font-size: 1.2rem;
   cursor: pointer;
 }
 
-.closeContainer{
+.closeContainer {
   display: flex;
   justify-self: flex-end;
   align-self: flex-end;
-
 }
+

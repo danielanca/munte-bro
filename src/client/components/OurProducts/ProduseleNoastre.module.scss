@@ -1,23 +1,25 @@
-@import "../../../../main.module.scss";
-@import "../../data/themes.scss";
+/* src/client/components/.../ProductBlock.module.scss */
 
-@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap");
+/* ✅ keep modules isolated */
+@use "../../styles/mq" as *;
 
+/* Grid row from main.module.scss — use CSS Modules composition, not @extend */
 .blockContainer {
-  @extend .row;
+  composes: row from "../../../../main.module.scss"; /* adjust path if needed */
   width: 100%;
   height: auto;
-  background-color: map-get($map: $colors, $key: whitePure);
+  background-color: #fff; /* or var(--whitePure) if you have a CSS variable */
   display: flex;
   margin: 0;
   padding: 0;
-  @include media("<tablet") {
+
+  @include mq("<tablet") {
     margin: 0;
   }
 }
 
 .productList {
-  padding: 35px 0px;
+  padding: 35px 0;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -26,9 +28,10 @@
 
   max-width: 1000px;
   margin: auto;
-  @include media("<tablet") {
+
+  @include mq("<tablet") {
     flex-direction: column;
   }
 }
 
-// Product Banner
+/* // Product Banner (add styles here as needed) */

@@ -141,7 +141,7 @@
     "postcss": "8.4.31",
     "prettier": "^3.2.4",
     "rimraf": "^5.0.5",
-    "sass": "^1.82.0",
+    "sass": "^1.78.0",
     "sass-loader": "^16.0.4",
     "typescript": "5.2.2",
     "vite": "^4.5.14",

@@ -1,21 +1,45 @@
-@import "../../../main.module.scss";
-@import "../../../data//themes.scss";
+/* src/client/components/.../EditStrings.module.scss */
+
+/* No module/vendor imports here */
+@use "../../../styles/mq" as *; /* only if you want the responsive tweaks below */
+
+/* If you need a utility class from main.module.scss, COMPOSE it instead of importing:
+.editStringsPage {
+  composes: textSpaceMargins from "../../../main.module.scss";
+}
+*/
 
 .editStringsPage {
   width: 100%;
   outline: 2px solid black;
 }
+
 .editStringsContainer {
   outline: 2px solid red;
   width: 1200px;
+  max-width: 100%;
+  margin: 0 auto;
+
+  /* Optional: better small-screen behavior */
+  @include mq("<desktop") {
+    width: 100%;
+    padding-inline: 16px;
+  }
 }
+
 .excerpt {
   display: block;
   width: 25%;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+
+  /* Don’t crush on phones */
+  @include mq("<tablet") {
+    width: 100%;
+  }
 }
+
 .saveButton {
   width: 130px;
   border: none;
@@ -26,16 +50,28 @@
   padding: 1% 2%;
   border-radius: 5px;
   cursor: pointer;
+
   &:hover {
     background-color: rgb(0, 182, 0);
   }
 }
+
+/* Same-file @extend is fine */
 .returnButton {
   @extend .saveButton;
   background-color: rgb(187, 0, 0);
+
+  &:hover {
+    background-color: rgb(220, 0, 0);
+  }
 }
+
 .controls {
   display: flex;
   justify-content: center;
   column-gap: 10px;
+
+  /* Wrap nicely on smaller screens */
+  flex-wrap: wrap;
+  row-gap: 8px;
 }

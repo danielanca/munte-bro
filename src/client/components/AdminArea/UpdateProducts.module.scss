@@ -1,5 +1,13 @@
-@import "./../../main.module.scss";
-@import "./../../data/themes.scss";
+/* src/client/components/.../YourModule.module.scss */
+
+/* Don’t import other modules/vendors here */
+@use "../../styles/mq" as *;
+
+/* If you want spacing utilities from main.module.scss:
+.productPanel {
+  composes: textSpaceMargins from "../../main.module.scss";
+}
+*/
 
 .productPanel {
   width: 100%;
@@ -13,29 +21,35 @@
     padding: 0 20px;
   }
 }
+
+/* Keep table styles scoped to this module */
 .tableStyle {
   max-width: 800px;
+  width: 100%;
   border: 2px solid black;
-  @include media("<tablet") {
+
+  @include mq("<tablet") {
     width: 100%;
   }
-}
-table {
-  font-family: arial, sans-serif;
-  border-collapse: collapse;
-  width: 100%;
+
+  table {
+    font-family: Arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+  }
+
+  td,
+  th {
+    border: 1px solid #ddd;
+    text-align: left;
+    padding: 8px;
+  }
+
+  tr:nth-child(even) {
+    background-color: #ddd;
+  }
 }
 
-td,
-th {
-  border: 1px solid #dddddd;
-  text-align: left;
-  padding: 8px;
-}
-
-tr:nth-child(even) {
-  background-color: #dddddd;
-}
 .actionButton {
   width: 130px;
   height: 50px;
@@ -45,21 +59,23 @@ tr:nth-child(even) {
   display: flex;
   justify-content: center;
   align-items: center;
-}
-.actionButton:hover {
-  background-color: #39c948;
-  color: black;
+
+  &:hover {
+    background-color: #39c948;
+    color: black;
+  }
 }
 
 .textInside {
   font-family: "Bebas Neue Regular", cursive;
   font-size: 20px;
   white-space: nowrap;
+
+  &:hover {
+    color: white;
+  }
 }
 
-.textInside:hover {
-  color: white;
-}
 .controlArea {
   display: flex;
   justify-content: space-between;
@@ -67,6 +83,7 @@ tr:nth-child(even) {
   max-width: 765px;
   width: 100%;
 }
+
 .otherActions {
   a {
     text-decoration: none !important;

@@ -31,5 +31,5 @@ export default defineConfig({
   },
   build: { minify: isProd, sourcemap: !isProd },
   test,
-  css: { preprocessorOptions: { scss: {} } },
+  css: { preprocessorOptions: { scss: { quietDeps: true } } },
 });

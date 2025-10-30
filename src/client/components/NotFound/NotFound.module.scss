@@ -1,14 +1,27 @@
-@import "../../main.module.scss";
-@import "../../data//themes.scss";
+/* src/client/components/NotFound/NotFound.module.scss */
+
+/* 1) Do NOT import other modules or vendors here.
+   If you need variables, you can @use a vars file.
+   If you need a utility class from another module, use `composes:` (see note below). */
+
+@use "../../styles/mq" as *;  /* gives you @include mq("<tablet") */
+
+/* If you have SCSS variables in a theme file (no CSS classes), you MAY do:
+   @use "../../styles/_themes.scss" as *;   // adjust path/name if you actually have this
+*/
 
 .NotFoundContainer {
+  /* If you want to reuse a class from main.module.scss, uncomment this: */
+  /* composes: textSpaceMargins from "../../main.module.scss"; */
   display: flex;
   justify-content: center;
   align-items: center;
 }
+
 .titleNoFound {
   font-size: 30px;
 }
+
 .coalCartoon {
   width: auto;
   height: 200px;
@@ -25,22 +38,27 @@
 
   .messageWrap {
     max-width: 500px;
-    @include media("<tablet") {
+
+    @include mq("<tablet") {
       max-width: 300px;
     }
+
     .title {
       text-align: center;
       margin-top: 10px;
       font-size: 24px;
-      @include media("<tablet") {
+
+      @include mq("<tablet") {
         font-size: 16px;
       }
     }
+
     h2 {
       font-family: "Roboto";
       text-align: center;
       font-size: 24px;
-      @include media("<tablet") {
+
+      @include mq("<tablet") {
         font-size: 16px;
       }
     }

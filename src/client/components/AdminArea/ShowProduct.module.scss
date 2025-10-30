@@ -1,19 +1,28 @@
-@import "./../../main.module.scss";
-@import "./../../data//themes.scss";
+/* src/client/components/AdminArea/ShowProduct.module.scss */
+
+/* ✅ module-safe imports */
+@use "../../styles/mq" as *;           /* gives @include mq(...) */
+@use "sass:map";
+
+// If your theme file is VARIABLES-ONLY (no CSS rules), it's safe to @use it.
+// Ensure it exports $colors with keys like 'mainlyBlack'.
+@use "../../data/themes.scss" as theme;
 
 .HashLinkStyle {
-  @extend .col-md-3;
-  color: map-get($map: $colors, $key: mainlyBlack);
+  /* replaces: @extend .col-md-3 */
+  color: map.get(theme.$colors, mainlyBlack);
   text-decoration: none !important;
   width: fit-content;
+
   &:hover {
-    color: map-get($map: $colors, $key: mainlyBlack);
+    color: map.get(theme.$colors, mainlyBlack);
   }
 }
 
 .productRow {
   height: 60px;
 }
+
 .productItem {
   display: flex;
   flex-direction: row;
@@ -25,28 +34,40 @@
   position: relative;
   padding: 0 17px;
   margin: auto;
-  @include media(">=tablet", "<desktop") {
+
+  @include mq(">=tablet", "<desktop") {
     max-width: 250px;
     width: calc(130px + 10vw);
   }
-  @include media("<tablet") {
+
+  @include mq("<tablet") {
     width: calc(232px + 8.8vw);
     height: calc(369px + 7vw);
   }
+
+  /* scope link styles; don't leak globally */
+  a {
+    text-decoration: none;
+    color: inherit;
+    text-align: center;
+  }
 }
+
+/* same-file @extend is okay */
 .productItemSmall {
   @extend .productItem;
   width: 210px;
   height: 335px;
 }
+
 .productImage {
   max-width: 64px;
   cursor: pointer;
   height: 100%;
+
+  &:hover { opacity: 0.8; }
 }
-.productImage:hover {
-  opacity: 0.8;
-}
+
 .productTitle {
   font-family: "Bebas Neue Regular", cursive;
   font-size: 1.8em;
@@ -55,18 +76,20 @@
   line-height: 27px;
   margin-top: 10px;
   cursor: pointer;
-  @include media("<tablet") {
+
+  @include mq("<tablet") {
     font-size: 4vw;
     line-height: clamp(10px, 4vw, 19px);
   }
 }
+
 .productPrice {
   font-family: "Bebas Neue Regular", cursive;
   font-size: 50px;
-  @include media("<tablet") {
-    font-size: 3em;
-  }
+
+  @include mq("<tablet") { font-size: 3em; }
 }
+
 .actionButton {
   width: 130px;
   height: 50px;
@@ -77,40 +100,32 @@
   justify-content: center;
   align-items: center;
 
-  @include media("<tablet") {
-    width: min(5em, 17vw);
+  @include mq("<tablet") { width: min(5em, 17vw); }
+
+  &:hover {
+    background-color: #39c948;
+    color: black;
   }
 }
-.actionButton:hover {
-  background-color: #39c948;
-  color: black;
-}
+
 .actionButtonAlert {
   @extend .actionButton;
   width: 100px;
   background-color: #ac2200;
-  &:hover {
-    background-color: #c94839;
-  }
 
-  @include media("<tablet") {
-    width: min(5em, 17vw);
-  }
+  &:hover { background-color: #c94839; }
+
+  @include mq("<tablet") { width: min(5em, 17vw); }
 }
+
 .textInside {
   font-family: "Bebas Neue Regular", cursive;
   font-size: 20px;
   white-space: nowrap;
+
+  &:hover { color: white; }
 }
 
-.textInside:hover {
-  color: white;
-}
-a {
-  text-decoration: none;
-  color: initial;
-  text-align: center;
-}
 .titleWrap {
   position: relative;
   width: 100%;
@@ -120,18 +135,16 @@ a {
   justify-content: flex-start;
   align-items: center;
 }
+
 .imageWrap {
   height: 45%;
   position: relative;
   min-width: 50px;
 }
-.priceWrap {
-  position: relative;
-}
-.addCartWrap {
-  height: 30%;
-  position: relative;
-}
+
+.priceWrap { position: relative; }
+.addCartWrap { height: 30%; position: relative; }
+
 .actionAreaAdmin {
   display: flex;
   flex-direction: row;

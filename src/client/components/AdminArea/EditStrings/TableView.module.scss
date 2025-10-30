@@ -1,35 +1,49 @@
-@import "./../../../main.module.scss";
-@import "./../../../data//themes.scss";
+/* src/client/components/.../Actions.module.scss */
+
+/* ✅ No cross-module imports. If you need grid/util classes from main.module.scss,
+   use CSS Modules composition where you need them (see note below). */
 
 .saveButton {
   border: none;
   outline: none;
   background-color: green;
-  color: white;
+  color: #fff;
   font-size: 1em;
   padding: 1% 5%;
   border-radius: 5px;
   min-width: 110px;
-  &:hover {
-    cursor: pointer;
+  transition: filter 120ms ease;
+
+  &:hover { cursor: pointer; filter: brightness(0.95); }
+  &:active { transform: translateY(0.5px); }
+
+  /* If this is a <button> element, cover the disabled state too */
+  &:disabled,
+  &[aria-disabled="true"] {
+    cursor: not-allowed;
+    filter: none;
+    opacity: 0.7;
   }
 }
+
+/* same-file @extend is safe */
 .saveButtonInactive {
   @extend .saveButton;
   background-color: grey;
-  &:hover {
-    cursor: auto;
-  }
+
+  &:hover { cursor: default; filter: none; }
+  &:active { transform: none; }
 }
+
 .refreshButton {
   @extend .saveButton;
   background-color: red;
 }
 
 .actionWrap {
-  margin: 2% 0px;
+  margin: 2% 0;
   width: fit-content;
-  outline: 2px solid black;
+  outline: 2px solid #000;
   display: flex;
   justify-content: flex-start;
   column-gap: 5%;

@@ -3,12 +3,11 @@ import { NavHashLink } from "react-router-hash-link";
 import { productConstants } from "../../data/componentStrings";
 import ItemCartList from "./ItemCartList";
 import strings from "../../data/strings.json";
-import styles from "./CartPage1.module.scss";
+import styles from "./CartPage1.module.css";
 import { AiOutlinePercentage } from "react-icons/ai";
 import { MdOutlineLocalOffer } from "react-icons/md";
 import { getCuponData, Cupon } from "../../data/CuponFetch";
 import { useCart } from "../context/CartProvider";
-// CartPage.tsx
 
 
 // ✅ unified key + fetch fallback

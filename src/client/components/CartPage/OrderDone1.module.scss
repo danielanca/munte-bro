@@ -1,7 +1,10 @@
-@import "./../../main.module.scss";
+/* src/client/components/.../ConfirmPage.module.scss */
+
+/* No module/vendor imports here */
+@use "../../styles/mq" as *;
 
 .title {
-  color: #17183B;
+  color: #17183b;
   text-align: center;
   font-family: "Open Sans";
   font-size: 2rem;
@@ -18,7 +21,7 @@
 }
 
 .mainDescription {
-  color: #17183B;
+  color: #17183b;
   text-align: center;
   font-family: "Open Sans";
   font-size: 1.2rem;
@@ -34,9 +37,8 @@
   white-space: nowrap;
   border: none;
 }
-.boldText {
-  font-weight: bolder;
-}
+
+.boldText { font-weight: bolder; }
 
 .confirmContainer {
   width: 30%;
@@ -47,77 +49,82 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+
+  /* keep element selectors scoped inside the module */
+  p {
+    font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  }
 }
 
 .titleConfirm {
   text-align: center;
   margin-top: 70px;
 }
+
 .bottomConfirm {
   text-align: center;
   font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
   font-size: 20px;
 }
+
 .orderDetailsBox {
   width: 100%;
   height: 360px;
-  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
   margin: auto;
   margin-bottom: 40px;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
 
-  p {
-    margin: 0;
-    text-align: center;
-  }
+  p { margin: 0; text-align: center; }
 
-  @include media(">tablet") {
-    max-width: 830px;
-  }
+  /* was @include media(">tablet") */
+  @include mq(">tablet") { max-width: 830px; }
 }
+
 .padder {
-  row-gap: 20px;
-  column-gap: 20px;
   display: flex;
   flex-direction: column;
+  row-gap: 20px;
+  column-gap: 20px;
   padding: initial;
 }
-p {
-  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
-}
+
 .subtableStyle {
   width: 300px;
   display: flex;
   flex-direction: row;
   column-gap: 60px;
 }
+
 .productList {
   display: flex;
   justify-content: center;
+
+  /* keep table styles scoped */
+  table > tr > th {
+    font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif !important;
+  }
 }
-.productList > table > tr > th {
-  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif !important;
-}
+
 .bottomAdvices {
   display: flex;
   flex-direction: column;
 }
+
 .tableStyle {
   border: 1px solid black;
   max-width: 320px;
-  @include media("<tablet") {
-    width: 100%;
-  }
+
+  @include mq("<tablet") { width: 100%; }
 }
 
-
-.DinMunte{
-  color: #058A46;
+.DinMunte {
+  color: #058a46;
   font-family: "Open Sans";
   font-style: normal;
   font-weight: 600;
 }
 
-.verificati_title{
+.verificati_title {
   color: #000;
   text-align: center;
   font-family: "Open Sans";
@@ -126,7 +133,7 @@ p {
   font-weight: 700;
 }
 
-.verificati_subtitle{
+.verificati_subtitle {
   color: #000;
   font-family: "Open Sans";
   font-size: 1.25rem;
@@ -136,8 +143,8 @@ p {
   text-align: center;
 }
 
-.tickIcon{
-  color: #058A46;
+.tickIcon {
+  color: #058a46;
   font-size: 40px;
   font-weight: 900;
   margin-bottom: 50px;
@@ -145,49 +152,33 @@ p {
   justify-content: center;
 }
 
-.tick{
-  width: 80%;
-}
+.tick { width: 80%; }
 
-.emailText{
-  color: #01A455;
+.emailText {
+  color: #01a455;
   font-family: "Open Sans";
   font-size: 1.25rem;
   font-style: normal;
   font-weight: 600;
 }
 
+/* Keep your explicit breakpoints */
 @media screen and (max-width: 1300px) {
-  .confirmContainer {
-    width: 60%;
-  }
+  .confirmContainer { width: 60%; }
 }
 
 @media screen and (max-width: 992px) {
-  .confirmContainer{
-    width: 80%;
-  }
+  .confirmContainer { width: 80%; }
 }
 
 @media screen and (max-width: 576px) {
-  .confirmContainer{
+  .confirmContainer {
     width: 95%;
     margin-top: 15%;
   }
-  .title {
-    font-size: 1.6rem;
-  }
-  
-  .verificati_title{
-    font-size: 1.6rem;
-  }
-  .verificati_subtitle{
-    font-weight: 500;
-  }
-  .tick{
-    width: 60%;
-  }
-  .mainDescription{
-    font-weight: 500;
-  }
+  .title { font-size: 1.6rem; }
+  .verificati_title { font-size: 1.6rem; }
+  .verificati_subtitle { font-weight: 500; }
+  .tick { width: 60%; }
+  .mainDescription { font-weight: 500; }
 }

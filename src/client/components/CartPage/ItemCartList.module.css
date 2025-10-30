@@ -14,38 +14,38 @@
 .productContainer {
   width: 100%;
   margin: 0 auto;
-  display: flex;
 }
 
 /* Row */
 .productItem {
   width: 100%;
-  display: flex;
-  align-items: center;
+  display: block; /* grid lives on the inner container */
   border-bottom: 1px solid #d1d1d8;
   padding: 16px 0;
-  gap: 16px;
-  background: #fff; /* consistent background */
+  background: #fff;
 }
 
-/* Left side (image + details) */
+/* --- Responsive grid layout (works with your existing markup) --- */
 .comProductContainer {
-  flex: 1 1 auto;
-  display: flex;
+  display: grid;
+  grid-template-columns: 96px 1fr auto;
+  grid-template-areas: "img details price";
   align-items: center;
-  gap: 16px;
-  min-width: 0; /* allow text to truncate properly */
+  column-gap: 16px;
+  row-gap: 8px;
+  width: 100%;
+  min-width: 0; /* allow truncation */
 }
 
+/* Let children of productBox participate in the grid */
 .productBox {
-  display: flex;
-  align-items: center;
-  gap: 16px;
+  display: contents; /* fallback: if unsupported, it simply behaves like block */
   min-height: 100px;
 }
 
 /* Image */
 .imageContainer {
+  grid-area: img;
   width: 96px;
   height: 96px;
   display: flex;
@@ -63,11 +63,12 @@
 
 /* Details */
 .productDetails {
+  grid-area: details;
   min-width: 0;
   display: flex;
   flex-direction: column;
   gap: 10px;
-  max-width: 520px;
+  max-width: 100%;
 }
 
 .titleInCart {
@@ -109,8 +110,8 @@
 /* + / - buttons */
 .productAdd,
 .productSubtract {
-  width: 32px;
-  height: 32px;
+  width: 36px;
+  height: 36px;
   border: 1px solid #a2a3b1;
   border-radius: 6px;
   background: #fff;
@@ -159,7 +160,7 @@
 
 /* Right side (price) */
 .priceContainer {
-  flex: 0 0 auto;
+  grid-area: price;
   min-width: 140px;
   display: flex;
   justify-content: flex-end;
@@ -173,18 +174,16 @@
   font: 700 1.2rem/1.2 "Open Sans", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
 }
 
-/* Responsive */
+/* --- Breakpoints --- */
 @media (max-width: 1024px) {
   .titleInCart { font-size: 1rem; }
   .priceInCart { font-size: 1.1rem; }
 }
 
 @media (max-width: 768px) {
-  .productItem {
-    padding: 14px 0;
-  }
   .comProductContainer {
-    gap: 12px;
+    grid-template-columns: 84px 1fr auto;
+    column-gap: 12px;
   }
   .imageContainer {
     width: 84px;
@@ -195,37 +194,65 @@
     height: 38px;
   }
   .productAdd, .productSubtract {
-    width: 30px;
-    height: 30px;
+    width: 34px;
+    height: 34px;
   }
   .priceContainer {
     min-width: 110px;
   }
 }
 
+/* Phone */
 @media (max-width: 576px) {
-  .productItem {
-    flex-wrap: wrap;
-    gap: 10px 12px;
+  .productItem { padding: 14px 0; }
+
+  .comProductContainer {
+    grid-template-columns: 76px 1fr;
+    grid-template-areas:
+      "img details"
+      "price price";
+    row-gap: 10px;
   }
+
+  .imageContainer {
+    width: 76px;
+    height: 76px;
+  }
+
+  /* Let the title use 2 lines on mobile */
+  .titleInCart {
+    font-size: 0.95rem;
+    white-space: normal;
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* clamp to 2 lines */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
   .priceContainer {
-    width: 100%;
-    justify-content: flex-start;
-    padding-left: 112px; /* aligns under image; tweak to taste */
+    justify-content: flex-start; /* no more padding-left hacks */
+    min-width: 0;
   }
   .priceInCart {
     font-size: 1rem;
     text-align: left;
   }
-  .imageContainer {
-    width: 76px;
-    height: 76px;
-  }
-  .titleInCart {
-    font-size: 0.95rem;
-  }
+
   .deleteProductCart {
     font-size: 0.85rem;
     padding: 6px 8px;
+  }
+
+  .productAdd, .productSubtract {
+    width: 36px; /* comfy touch target */
+    height: 36px;
+  }
+}
+
+/* Accessibility: reduce motion for users who prefer it */
+@media (prefers-reduced-motion: reduce) {
+  .productAdd:active,
+  .productSubtract:active {
+    transform: none;
   }
 }
