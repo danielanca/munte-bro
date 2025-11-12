@@ -5,6 +5,8 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import App from "./App";
 import "./index.css";
 
+// NOTE: App must NOT create its own <BrowserRouter />;
+// RouterProvider handles routing at the top level.
 const router = createBrowserRouter([{ path: "/*", element: <App /> }]);
 
 function Root() {
@@ -15,11 +17,12 @@ function Root() {
   );
 }
 
-const container = document.getElementById("app") as HTMLElement;
+const container = document.getElementById("root");
+if (!container) throw new Error('Missing <div id="root"> in index.html');
 
-// dev -> render; prod with SSR markup -> hydrate
-if (import.meta.env.DEV || !container.innerHTML) {
-  createRoot(container).render(<Root />);
-} else {
+// Hydrate when SSR markup exists; otherwise mount fresh.
+if (container.hasChildNodes()) {
   hydrateRoot(container, <Root />);
+} else {
+  createRoot(container).render(<Root />);
 }
