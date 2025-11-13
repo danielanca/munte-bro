@@ -1,28 +1,22 @@
-// src/client/entry-client.tsx
 import React from "react";
 import { createRoot, hydrateRoot } from "react-dom/client";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import App from "./App";
+import { BrowserRouter } from "react-router-dom";
 import "./index.css";
+import App from "./App";
 
-// NOTE: App must NOT create its own <BrowserRouter />;
-// RouterProvider handles routing at the top level.
-const router = createBrowserRouter([{ path: "/*", element: <App /> }]);
+const container = document.getElementById("app");
 
-function Root() {
-  return (
-    <React.StrictMode>
-      <RouterProvider router={router} />
-    </React.StrictMode>
-  );
-}
+const FullApp = () => (
+  <React.StrictMode>
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
+  </React.StrictMode>
+);
 
-const container = document.getElementById("root");
-if (!container) throw new Error('Missing <div id="root"> in index.html');
-
-// Hydrate when SSR markup exists; otherwise mount fresh.
-if (container.hasChildNodes()) {
-  hydrateRoot(container, <Root />);
+if (import.meta.hot || !container?.innerText) {
+  const root = createRoot(container!);
+  root.render(<FullApp />);
 } else {
-  createRoot(container).render(<Root />);
+  hydrateRoot(container!, <FullApp />);
 }
