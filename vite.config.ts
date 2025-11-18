@@ -27,7 +27,21 @@ export default defineConfig({
   server: {
     port: 5858,
     https: isHttps,
-    hmr: { protocol: hmrProtocol, host: "munte.ancavisuals.ro", port: 24678 },
+    host: true, // ascultă pe 0.0.0.0, nu doar localhost
+    allowedHosts: ["munte.ancavisuals.ro"],
+    // sau, dacă vrei să lași orice subdomeniu:
+    // allowedHosts: [".ancavisuals.ro"],
+    hmr: {
+      protocol: hmrProtocol,
+      host: "munte.ancavisuals.ro",
+      port: 24678,
+    },
+  },
+  preview: {
+    port: 5858,
+    https: isHttps,
+    host: true,
+    allowedHosts: ["munte.ancavisuals.ro"],
   },
   build: { minify: isProd, sourcemap: !isProd },
   test,
