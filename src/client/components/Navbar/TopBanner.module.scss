@@ -28,6 +28,8 @@
   overflow: hidden;    /* keep text inside the bar */
   line-height: 45px;   /* vertical align */
 
+  background: black;
+
   @include mq("<tablet") {
     grid-template-columns: 1fr;
     gap: 6px;
@@ -84,6 +86,24 @@
   }
 }
 
+.topbannerheadTitle {
+  color: #f5f5f5;
+  text-transform: uppercase;
+  font-family: "Roboto", system-ui, sans-serif;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  margin: 0;
+  line-height: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  @include mq("<tablet") {
+    text-align: center;
+    white-space: normal;
+    word-break: keep-all;
+  }
+}
 /* Right: socials */
 .socialsTop {
   /* replaces: @extend .col-md-3 */

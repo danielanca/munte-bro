@@ -45,7 +45,7 @@ const TopBanner: React.FC = () => {
         {/* Center: message (true center regardless of left/right width) */}
         <div id="topBannerCenter" className={styles.topBannerText}>
           <p
-            className={styles.headTitle}
+            className={styles.topbannerheadTitle}
             style={fontByTextAndWidth(TopBannerPromotional.text, width)}
           >
             {parse(TopBannerPromotional.text)}
