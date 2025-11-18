@@ -1,151 +1,133 @@
-import type { Request, Response, NextFunction } from "express";
-import fs from "fs";
-import fsPromises from "fs/promises";
-import path from "path";
-import express from "express";
-import compression from "compression";
-import cors from "cors";
-import serveStatic from "serve-static";
-import { createServer as createViteServer, ViteDevServer } from "vite";
-import { fileURLToPath, pathToFileURL } from "url";
-import https from "https";
-import dotenv from "dotenv";
-dotenv.config();
+import 'dotenv/config';
+import type { Request, Response, NextFunction } from 'express';
+import fs from 'fs/promises';
+import path, { dirname } from 'path';
+import express from 'express';
+import compression from 'compression';
+import serveStatic from 'serve-static';
+import { createServer as createViteServer } from 'vite';
+import { fileURLToPath, pathToFileURL } from 'url';
 
-const isTest = process.env.NODE_ENV === "test" || !!process.env.VITE_TEST_BUILD;
-const isProd = process.env.NODE_ENV === "production";
+const isTest = process.env.NODE_ENV === 'test' || !!process.env.VITE_TEST_BUILD;
 
 const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+const __dirname = dirname(__filename);
+const resolve = (p: string) => path.resolve(__dirname, p);
 
-// When built, this file sits at dist/server/server.js
-// So ROOT = project root in dev, and dist in prod
-const ROOT = isProd ? path.resolve(__dirname, "..") : path.resolve(__dirname);
-const CLIENT_DIR = isProd ? path.join(ROOT, "client") : path.join(ROOT, "client"); // only used in prod
-const SERVER_DIR = isProd ? path.join(ROOT, "server") : path.join(ROOT, "server"); // only used in prod
-const PUBLIC_DIR = isProd ? null : path.join(ROOT, "public");
-
-async function getStyleSheets(): Promise<string> {
+const getStyleSheets = async () => {
   try {
-    const dir = isProd ? path.join(CLIENT_DIR, "assets") : (PUBLIC_DIR as string);
-    const files = await fsPromises.readdir(dir);
-    const cssFiles = files.filter(f => f.endsWith(".css"));
-    const chunks: string[] = [];
-    for (const f of cssFiles) {
-      const content = await fsPromises.readFile(path.join(dir, f), "utf-8");
-      chunks.push(`<style type="text/css">${content}</style>`);
+    const assetpath = resolve('public');
+    const files = await fs.readdir(assetpath);
+    const cssAssets = files.filter(l => l.endsWith('.css'));
+    const allContent: string[] = [];
+    for (const asset of cssAssets) {
+      const content = await fs.readFile(path.join(assetpath, asset), 'utf-8');
+      allContent.push(`<style type="text/css">${content}</style>`);
     }
-    return chunks.join("\n");
+    return allContent.join('\n');
   } catch {
-    return "";
+    return '';
   }
-}
+};
 
-async function createServer() {
+async function createServer(isProd = process.env.NODE_ENV === 'production') {
   const app = express();
-  app.use(cors());
-  app.use(express.json());
-  app.use(express.urlencoded({ extended: true }));
 
-  // ---- API routes (dynamic import)
-  // dev: load TS directly; prod: load built JS from dist/server
-  const apiModuleUrl = isProd
-    ? pathToFileURL(path.join(SERVER_DIR, "routes/api.js")).href
-    : pathToFileURL(path.join(ROOT, "src/server/routes/api.ts")).href;
-  const apiModule = await import(apiModuleUrl);
-  const {
-    getApi,
-    sendEmail,
-    subscribeToNewsletter,
-    sendReviewToServer,
-    updateOrder,
-    triggerEvent,
-  } = apiModule;
+  // ✅ ESENȚIAL: proxy + parser JSON înainte de rute
+  app.set('trust proxy', true);
+  app.use(express.json({ limit: '1mb' }));
 
-  app.get("/api", getApi);
-  app.post("/subscribeToNewsletter", subscribeToNewsletter);
-  app.post("/sendEmail", sendEmail);
-  app.post("/sendReviewToServer", sendReviewToServer);
-  app.post("/updateOrder", updateOrder);
-  app.post("/triggerEvent", triggerEvent);
+  // ✅ Health pentru verificări rapide
+  app.get('/health', (_req, res) => res.json({ ok: true }));
 
-  let vite: ViteDevServer | undefined;
-  if (!isProd) {
-    // Dev: Vite middleware mode
-    vite = await createViteServer({
-      server: { middlewareMode: true },
-      appType: "custom",
-      logLevel: isTest ? "error" : "info",
-    });
-    app.use(vite.middlewares);
-    // Expose /public in dev
-    if (PUBLIC_DIR) {
-      app.use("/public", express.static(PUBLIC_DIR));
-    }
+  // ✅ Import robust al rutelor în funcție de mod (relativ la acest fișier)
+  const apiUrl = isProd
+    ? new URL('./src/server/routes/api.js', import.meta.url)
+    : new URL('./src/server/routes/api.ts', import.meta.url);
+
+  const apiModule = await import(apiUrl.href);
+  const { triggerEvent } = apiModule;
+  if (typeof triggerEvent === 'function') {
+    app.post('/triggerEvent', triggerEvent); // alias compat cu frontendul tău
   } else {
-    // Prod: serve built client
-    app.use(compression());
-    app.use(serveStatic(CLIENT_DIR, { index: false }));
+    console.error('[server] triggerEvent NU e o funcție exportată din routes/api.*');
   }
 
-  // Base template
-  const baseTemplate = await fsPromises.readFile(
-    isProd ? path.join(CLIENT_DIR, "index.html") : path.join(ROOT, "index.html"),
-    "utf-8"
-  );
+  // Vite middleware (dev) / static (prod)
+  const vite = await createViteServer({
+    server: { middlewareMode: true },
+    appType: 'custom',
+    logLevel: isTest ? 'error' : 'info',
+    root: isProd ? 'dist' : '',
+    optimizeDeps: { include: [] },
+  });
 
-  // SSR entries
-  const DEV_SSR_ENTRY = "/src/client/entry-server.tsx"; // URL path for vite.ssrLoadModule
-  const PROD_SSR_ENTRY = pathToFileURL(path.join(SERVER_DIR, "entry-server.js")).href;
-  // Preload prod renderer once
-  const prodRenderer = isProd ? await import(PROD_SSR_ENTRY) : null;
+  app.use(vite.middlewares);
 
-  app.use("*", async (req: Request, res: Response, next: NextFunction) => {
+  const assetsDir = resolve('public');
+  const requestHandler = express.static(assetsDir);
+  app.use(requestHandler);
+  app.use('/public', requestHandler);
+
+  if (isProd) {
+    app.use(compression());
+    app.use(
+      serveStatic(resolve('client'), {
+        index: false,
+      })
+    );
+  }
+
+  const stylesheets = getStyleSheets();
+
+  // 1. Read index.html
+  const baseTemplate = await fs.readFile(isProd ? resolve('client/index.html') : resolve('index.html'), 'utf-8');
+
+  const productionBuildPath = path.join(__dirname, './server/entry-server.js');
+  const devBuildPath = path.join(__dirname, './src/client/entry-server.tsx');
+  const buildModule = isProd ? productionBuildPath : devBuildPath;
+  const { render } = await vite.ssrLoadModule(buildModule);
+
+  app.post('/chat', async (req: Request, res: Response) => {
+    console.log('Server received in main:', req.body);
+    // const data = req.body;
+    // const response = await getChatResponse(data);
+    // res.json({ response });
+  });
+
+  // SSR catch-all
+  app.use('*', async (req: Request, res: Response, next: NextFunction) => {
     const url = req.originalUrl;
     try {
-      const template = vite
-        ? await vite.transformIndexHtml(url, baseTemplate) // dev injects HMR etc.
-        : baseTemplate;
-
-      const { render } = vite
-        ? await vite.ssrLoadModule(DEV_SSR_ENTRY) // dev: on every request
-        : (prodRenderer as { render: (u: string) => Promise<string> | string });
-
+      const template = await vite.transformIndexHtml(url, baseTemplate);
       const appHtml = await render(url);
-      const cssInline = await getStyleSheets();
+      const cssAssets = await stylesheets;
+      const html = template.replace(`<!--app-html-->`, appHtml).replace(`<!--head-->`, cssAssets);
 
-      const html = template
-        .replace("<!--app-html-->", appHtml)
-        .replace("<!--head-->", cssInline);
-
-      res.status(200).set({ "Content-Type": "text/html" }).end(html);
+      res.status(200).set({ 'Content-Type': 'text/html' }).end(html);
     } catch (e) {
-      if (e instanceof Error && vite) vite.ssrFixStacktrace(e);
-      next(e);
+      if (e instanceof Error) {
+        !isProd && vite.ssrFixStacktrace(e);
+        console.log(e.stack);
+        vite.ssrFixStacktrace(e);
+        next(e);
+      } else {
+        console.error('Caught an exception that is not an Error:', e);
+        next(e as any);
+      }
     }
   });
 
-  const port = Number(process.env.PORT || 7456);
+  // ✅ ESENȚIAL: error handler ca să vezi mesajul real în 500
+  app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
+    console.error('[express error]', err);
+    res.status(500).json({ error: 'internal', message: err?.message ?? 'unknown' });
+  });
 
-  if (process.env.USE_HTTPS === "true") {
-    const keyPath = isProd
-      ? path.join(ROOT, "certs/diniubire.ro.key")
-      : path.join(ROOT, "certs/diniubire.ro.key");
-    const crtPath = isProd
-      ? path.join(ROOT, "certs/diniubire.ro.crt")
-      : path.join(ROOT, "certs/diniubire.ro.crt");
-
-    const options = { key: fs.readFileSync(keyPath), cert: fs.readFileSync(crtPath) };
-    https.createServer(options, app).listen(port, () => {
-      console.log(`HTTPS Server https://localhost:${port}`);
-      console.log("ENV", process.env.NODE_ENV);
-    });
-  } else {
-    app.listen(port, () => {
-      console.log(`HTTP Server http://localhost:${port}`);
-      console.log("ENV", process.env.NODE_ENV);
-    });
-  }
+  const port = process.env.PORT || 1994;
+  app.listen(Number(port), '0.0.0.0', () => {
+    console.log(`App is listening on http://localhost:${port}`);
+  });
 }
 
 createServer();

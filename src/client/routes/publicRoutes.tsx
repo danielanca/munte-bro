@@ -1,6 +1,6 @@
 import loadable from "@loadable/component";
 
-const Mainpage         = loadable(() => import("../pages/Mainpage"),                           { ssr: true, fallback: <PageLoader/> });
+import Mainpage from "../pages/Mainpage"; 
 const PublicLayout     = loadable(() => import("../layouts/public/PublicLayout"),              { ssr: true, fallback: <PageLoader/> });
 const ProduseleNoastre = loadable(() => import("../components/OurProducts/ProduseleNoastre"),  { ssr: true, fallback: <PageLoader/> });
 const ProductView      = loadable(() => import("../components/Product/ProductView"),           { ssr: true, fallback: <PageLoader/> });
