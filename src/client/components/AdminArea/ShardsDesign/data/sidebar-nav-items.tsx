@@ -29,11 +29,6 @@ export default function getSidebarNavItems(): SidebarItem[] {
       htmlBefore: '<i class="material-icons">note_add</i>',
     },
     {
-      title: "Content Strings",
-      to: "/admin/content-list",
-      htmlBefore: '<i class="material-icons">table_chart</i>',
-    },
-    {
       title: "Cupon Reducere",
       to: "/admin/cupondiscount",
       htmlBefore: '<i class="material-icons">table_chart</i>',
