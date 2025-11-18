@@ -25,9 +25,9 @@ export default defineConfig({
     },
   },
   server: {
-    port: 8000,
+    port: 5858,
     https: isHttps,
-    hmr: { protocol: hmrProtocol, host: "diniubire.ro", port: 24678 },
+    hmr: { protocol: hmrProtocol, host: "munte.ancavisuals.ro", port: 24678 },
   },
   build: { minify: isProd, sourcemap: !isProd },
   test,
