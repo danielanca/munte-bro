@@ -11,39 +11,31 @@ const test = {
 } as UserConfig["test"];
 
 const isProd = process.env.NODE_ENV === "production";
+// Determine if HTTPS is being used
 const isHttps = process.env.USE_HTTPS === "true";
 const hmrProtocol = isHttps ? "wss" : "ws";
 
 export default defineConfig({
   plugins: [react()],
-  esbuild: {
-    jsx: "automatic",
-  },
-  optimizeDeps: {
-    esbuildOptions: {
-      loader: { ".js": "jsx" },
-    },
-  },
   server: {
-    port: 5858,
-    https: isHttps,
-    host: true, // ascultă pe 0.0.0.0, nu doar localhost
-    allowedHosts: ["munte.ancavisuals.ro"],
-    // sau, dacă vrei să lași orice subdomeniu:
-    // allowedHosts: [".ancavisuals.ro"],
+    port: parseInt("8000", 10),
+    https: isHttps, // Enable HTTPS if needed
     hmr: {
       protocol: hmrProtocol,
-      host: "munte.ancavisuals.ro",
+      host: "montanair.ro",
       port: 24678,
     },
   },
-  preview: {
-    port: 5858,
-    https: isHttps,
-    host: true,
-    allowedHosts: ["munte.ancavisuals.ro"],
+  build: {
+    minify: isProd,
+    sourcemap: !isProd, // Enable source maps in development
   },
-  build: { minify: isProd, sourcemap: !isProd },
   test,
-  css: { preprocessorOptions: { scss: { quietDeps: true } } },
+  css: {
+    preprocessorOptions: {
+      scss: {
+        additionalData: `@import "./src/client/styles/mixins.scss";\n`,
+      },
+    },
+  },
 });
