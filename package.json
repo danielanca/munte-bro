@@ -24,12 +24,12 @@
     "test:watch": "vitest --watch",
     "coverage": "vitest --coverage",
     "typecheck": "tsc --noEmit",
-    "serve": "npm run build && cross-env NODE_ENV=production node ./dist/server",
     "serve:local": "vite serve",
     "clean": "rimraf dist/",
     "copy-files": "copyfiles \"public/**/*\" dist && copyfiles -u 2 \"dist/client/**/*\" dist && copyfiles -u 2 \"dist/client/assets/**/*\" dist/public",
     "format": "prettier --write src types",
-    "start": "NODE_ENV=production node dist/server.js"
+     "serve": "cross-env NODE_ENV=production node ./dist/server",
+      "start": "cross-env NODE_ENV=production node ./dist/server"
   },
   "dependencies": {
     "@faker-js/faker": "^6.1.2",
