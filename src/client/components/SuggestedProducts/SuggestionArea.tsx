@@ -20,7 +20,7 @@ const SuggestionArea = ({ productID }: SuggestionProps) => {
   return (
     <div className={styles.relatedContainer}>
       <div className={styles.productHead}>
-        {/* <h3 className={styles.titleProducts}>{"RECOMANDAT"}</h3> */}
+        {<h3 className={styles.titleProducts}>{"RECOMANDAT"}</h3> }
       </div>
 
      

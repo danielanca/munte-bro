@@ -2,7 +2,6 @@
 import React, { useEffect, useReducer, useState, useRef } from "react";
 import { Card } from "react-bootstrap";
 import stringify from "json-stable-stringify";
-import { getStringsList, sendStringsList } from "../../../services/emails";
 import { TableProps, GetStringsResponse, DisState, JSONDict, TableState, TableAction } from "./TableTypes";
 import styles from "./TableView.module.scss";
 
@@ -65,16 +64,6 @@ const TableView: React.FC<TableProps> = ({ tableID }) => {
   };
 
   const refreshAction = () => window.location.reload();
-// TableView.tsx — replace the effect that loads data
-useEffect(() => {
-  (async () => {
-    const result: GetStringsResponse = await getStringsList(tableID);
-    const text = stringify(result?.resultSent ?? {}) ?? "{}";
-    const normalized: JSONDict = JSON.parse(text);
-    setObject(normalized);
-  })();
-}, [tableID]);
-
 
   useEffect(() => {
     if (theObject && listPopulated.current === 1) {

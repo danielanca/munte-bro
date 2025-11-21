@@ -11,8 +11,6 @@ import styles from "./FooterMontanNew.module.scss";
 import strings from "../../data/strings.json";
 import NewsletterBanner from "../MiniComponents/HeadLiners/NewsletterBanner";
 import allPathsURL from "../../data/allPathsURL.json";
-
-import { getStringsList } from "../../services/emails";
 import { getType } from "../../components/AdminArea/EditStrings/TableTypes";
 
 import LegalBanners from "../MiniComponents/LegalBanners";
@@ -21,15 +19,6 @@ const FooterMontanNew = () => {
   let { links, commercialData, ourShop, bottomMadeBy } = strings.footerText.headLines;
   const { pathname } = useLocation();
   const [footerFetch, setFooterFetch] = useState({});
-  useEffect(() => {
-  let alive = true;
-  (async () => {
-    const result = await getStringsList("legalInfo");
-    if (alive) setFooterFetch(result.resultSent.legalData);
-  })();
-  return () => { alive = false; };
-}, []);
-
 
 
   // GoToTop function

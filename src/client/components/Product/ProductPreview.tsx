@@ -215,7 +215,9 @@ const imagesArr: string[] = Array.isArray(imgList)
               </div>
             )}
           </div>
-
+        </div>
+      </div>
+      
           <div className={styles.detailsSection}>
             {descriptionBlocks.length > 0 && (
               <>
@@ -278,8 +280,6 @@ const imagesArr: string[] = Array.isArray(imgList)
               </>
             )}
           </div>
-        </div>
-      </div>
 
       {popProductInCart && <ProductAdded animFin={animEnded} id={ID} />}
     </div>

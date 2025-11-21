@@ -1,33 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { Row, Col } from "reactstrap";
 import styles from "./HelloAllNew.module.scss";
-// If HereInterface is the expected shape of `resultSent`, keep it.
-// Otherwise, widen to `Record<string, unknown>` or your own type.
-import type { HereInterface } from "../components/AdminArea/EditStrings/TableTypes";
-import { getStringsList } from "../services/emails";
+import type { HereInterface } from "../components/AdminArea/EditStrings/TableTypes"; 
 import images from "../data/images1";
 
 const HelloAllNew: React.FC = () => {
   const [theObject, setObject] = useState<HereInterface | null>(null);
 
-  useEffect(() => {
-    (async () => {
-      try {
-        const answer = await getStringsList("categoriesList"); // type: { resultSent?: unknown }
-        const payload = (answer as { resultSent?: unknown })?.resultSent;
-
-        // Only set when it’s an object; otherwise keep null
-        if (payload && typeof payload === "object") {
-          setObject(payload as HereInterface);
-        } else {
-          setObject(null);
-        }
-      } catch (e) {
-        console.error("Failed to fetch categoriesList", e);
-        setObject(null);
-      }
-    })();
-  }, []);
 
   return <MediaItems list={theObject} />;
 };
