@@ -74,10 +74,10 @@ const TableView: React.FC<TableProps> = ({ tableID }) => {
   }, [theObject]);
 
   const sendToDatabase = () => {
-    dispatch({ type: TableState.SEND_CLICKED });
-    sendStringsList(tableID, JSON.stringify(theObject ?? {})).then((result: GetStringsResponse) => {
-      if (result.resultSent) dispatch({ type: TableState.DATA_UPDATE });
-    });
+    // dispatch({ type: TableState.SEND_CLICKED });
+    // sendStringsList(tableID, JSON.stringify(theObject ?? {})).then((result: GetStringsResponse) => {
+    //   if (result.resultSent) dispatch({ type: TableState.DATA_UPDATE });
+    // });
   };
 
   return (
