@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { Row, Col } from "reactstrap";
 import styles from "./HelloAllNew.module.scss";
 import images from "../../data/images1";
-import { getStringsList } from "../../services/emails";
 import type { HereInterface } from "../../components/AdminArea/EditStrings/TableTypes";
 
 // Helpers
@@ -14,27 +13,6 @@ type GetStringsResponse<T> = { resultSent?: T };
 
 const HelloAllNew: React.FC = () => {
   const [theObject, setObject] = useState<HereInterface | null>(null);
-
-  useEffect(() => {
-    let mounted = true;
-    (async () => {
-      try {
-        const answer = (await getStringsList("categoriesList")) as GetStringsResponse<HereInterface>;
-        if (!mounted) return;
-        const raw = answer?.resultSent;
-        if (raw == null) return setObject(null);
-        setObject(deepClone(raw));
-        // console.log("Answer resultSent:", raw);
-      } catch (err) {
-        console.error("Failed to load categoriesList:", err);
-        if (mounted) setObject(null);
-      }
-    })();
-    return () => {
-      mounted = false;
-    };
-  }, []);
-
   return <MediaItems list={theObject} />;
 };
 

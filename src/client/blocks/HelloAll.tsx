@@ -1,8 +1,7 @@
 // HelloAll.tsx
 import React, { useEffect, useState } from "react";
 import styles from "./HelloAll.module.scss";
-import ElasticGallery from "./ElasticGallery";
-import { getStringsList } from "../services/emails";
+import ElasticGallery from "./ElasticGallery"; 
 import stringify from "json-stable-stringify";
 
 // Minimal shape that ElasticGallery needs
@@ -22,30 +21,6 @@ interface GetStringsResponse {
 const HelloAll: React.FC = () => {
   const [galleryMap, setGalleryMap] = useState<GalleryMap | null>(null);
 
-  useEffect(() => {
-    const fetchFrontCategories = async () => {
-      try {
-        const answer = (await getStringsList("categoriesList")) as GetStringsResponse;
-
-        // json-stable-stringify can return `string | undefined`
-        const serialized = stringify(answer?.resultSent);
-        if (typeof serialized === "string") {
-          const parsed = JSON.parse(serialized) as GalleryMap;
-          setGalleryMap(parsed);
-          console.log("Answer is", answer.resultSent);
-        } else {
-          // nothing to parse
-          setGalleryMap(null);
-          console.warn("No categoriesList returned (undefined).");
-        }
-      } catch (e) {
-        console.error("Failed to load categoriesList:", e);
-        setGalleryMap(null);
-      }
-    };
-
-    fetchFrontCategories();
-  }, []);
 
   return <MediaItems list={galleryMap} />;
 };

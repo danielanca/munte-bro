@@ -101,11 +101,8 @@ export const sendReviewToBack = (reviewObj: ReviewsInterface) =>
 export const addToNewsletter = (subscriberData: NewsProps) =>
   apiFetch<Response>("subscribeToNewsletter", { parseJson: false, body: subscriberData });
 
-export const getStringsList = (type: string): Promise<getType> =>
-  apiFetch<getType>("getStringsList", { body: { stringRequest: type ?? "" } });
-
-export const sendStringsList = (type: string, payload: string): Promise<getType> =>
-  apiFetch<getType>("sendStringsList", { body: { stringRequest: type ?? "", payload: payload ?? "" } });
+// export const sendStringsList = (type: string, payload: string): Promise<getType> =>
+//   apiFetch<getType>("sendStringsList", { body: { stringRequest: type ?? "", payload: payload ?? "" } });
 
 export const sendOrderConfirmation = (data: orderProps) =>
   apiFetch<Response>("sendEmail", {
