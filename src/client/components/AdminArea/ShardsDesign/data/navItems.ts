@@ -14,7 +14,6 @@ export default function getSidebarNavItems(): SidebarItem[] {
     { title: "Orders",          to: "/admin/orders",         Icon: MdTableChart },
     { title: "Add Blog Post",   to: "/admin/addpost",        Icon: MdNoteAdd },
     { title: "Products",        to: "/admin/manage-product", Icon: MdNoteAdd },
-    { title: "Content Strings", to: "/admin/content-list",   Icon: MdTableChart },
     { title: "Cupon Reducere",  to: "/admin/cupondiscount",  Icon: MdTableChart },
   ];
 }

@@ -25,11 +25,23 @@ export default defineConfig({
     },
   },
   server: {
-    port: 8000,
+    host: true,
+    port: 5858,
     https: isHttps,
-    hmr: { protocol: hmrProtocol, host: "diniubire.ro", port: 24678 },
+    allowedHosts: ["montanair.ro", "www.montanair.ro"],
+    hmr: {
+      protocol: hmrProtocol,
+      host: "montanair.ro",
+      port: 24678,
+    },
   },
-  build: { minify: isProd, sourcemap: !isProd },
+  build: {
+    minify: isProd,
+    sourcemap: !isProd,
+  },
+  // 🔥 AICI e fix-ul pentru eroarea cu chart.js
+  ssr: {
+    noExternal: ["chart.js", "react-chartjs-2"],
+  },
   test,
-  css: { preprocessorOptions: { scss: { quietDeps: true } } },
 });
