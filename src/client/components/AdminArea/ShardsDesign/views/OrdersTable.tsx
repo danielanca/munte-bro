@@ -300,7 +300,7 @@ const OrdersTable: React.FC = () => {
                           <td className="fw-semibold">{`${item.firstName} ${item.lastName}`.trim() || "—"}</td>
                           <td>{fmtRON(total)}</td>
                           <td>
-                            <Button size="sm" className="w-50" variant={paid ? "success" : "warning"}>
+                            <Button size="sm" className="w-100" variant={paid ? "success" : "warning"}>
                               {paid ? "PAID" : "UNPAID"}
                             </Button>
                           </td>
