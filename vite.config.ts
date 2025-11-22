@@ -35,13 +35,16 @@ export default defineConfig({
       port: 24678,
     },
   },
+ 
   build: {
     minify: isProd,
     sourcemap: !isProd,
+    cssCodeSplit: false,    
   },
-  // 🔥 AICI e fix-ul pentru eroarea cu chart.js
+
   ssr: {
     noExternal: ["chart.js", "react-chartjs-2"],
   },
+
   test,
 });
