@@ -25,25 +25,26 @@ export default defineConfig({
     },
   },
   server: {
+    host: true,
     port: 5858,
     https: isHttps,
-    host: true, // ascultă pe 0.0.0.0, nu doar localhost
-    allowedHosts: ["munte.ancavisuals.ro"],
-    // sau, dacă vrei să lași orice subdomeniu:
-    // allowedHosts: [".ancavisuals.ro"],
+    allowedHosts: ["montanair.ro", "www.montanair.ro"],
     hmr: {
       protocol: hmrProtocol,
-      host: "munte.ancavisuals.ro",
+      host: "montanair.ro",
       port: 24678,
     },
   },
-  preview: {
-    port: 5858,
-    https: isHttps,
-    host: true,
-    allowedHosts: ["munte.ancavisuals.ro"],
+ 
+  build: {
+    minify: isProd,
+    sourcemap: !isProd,
+    cssCodeSplit: false,    
   },
-  build: { minify: isProd, sourcemap: !isProd },
+
+  ssr: {
+    noExternal: ["chart.js", "react-chartjs-2"],
+  },
+
   test,
-  css: { preprocessorOptions: { scss: { quietDeps: true } } },
 });

@@ -1,7 +1,6 @@
-@import "../../../node_modules/include-media/dist/include-media";
-
-@import "../../../node_modules//bootstrap/scss//bootstrap.scss";
-@import "../data/themes.scss";
+@import "include-media/dist/include-media";
+@import "bootstrap/scss/bootstrap";
+@import "./themes.scss";
 
 /* responsive declarations*/
 $breakpoints: (
