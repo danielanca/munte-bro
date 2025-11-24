@@ -144,6 +144,7 @@ const CartPage: React.FC = () => {
             </div>
           </div>
 
+          {items.length > 0 ? ( 
           <div className={styles.rightContainer}>
             <div className={styles.rightChild}>
               <h1 className={styles.comandaTitle}>Comanda</h1>
@@ -204,6 +205,7 @@ const CartPage: React.FC = () => {
               {displayFinishOrderDialog()}
             </div>
           </div>
+          ) : (<div></div>) } 
         </div>
       </div>
     </div>
