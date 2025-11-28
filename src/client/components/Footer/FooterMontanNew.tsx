@@ -38,8 +38,8 @@ const FooterMontanNew = () => {
           <div className={styles.footerParentContainer}>
             <Row className={styles.footerRowContainer} style={{ margin: 0 }}>
               <Col lg={5} xl={5} className={styles.footerLogoContainer}>
-                <img src={images.FooterLogo} alt="" />
-                <p className={styles.footerCopyrightText}>Copyright © 2023. LogoIpsum. All rights reserved.</p>
+                <img src={images.updatedLogo} alt="" />
+                <p className={styles.footerCopyrightText}>Copyright © 2025. Montanair. All rights reserved.</p>
               </Col>
               <Col lg={2} xl={2} className={styles.footerSecondCol}>
                 <p className={styles.footerPageLink}>

@@ -6,6 +6,7 @@ import { ProductsFromSessionStorage } from "../../data/constants";
 import ProductsGallery from "../../components/SuggestedProducts/ProductsGallery";
 import FeaturedTextNew from "../../components/Products/FeaturedTextNew";
 import GrayBanner from "../../components/mini/HeadLiners/HeadLiners/GrayBanner";
+import Contactinfo from "../../components/mini/HeadLiners/HeadLiners/Contactinfo";
 import HelloAllNew from "../../components/HelloAll/HelloAllNew";
 
 // ⬇️ use Firestore service
@@ -46,6 +47,7 @@ const MainNavigation = () => {
       <FeaturedProductNew />
 <ProductsGallery productsToShow={products} limit={8} randomize />
       <FeaturedTextNew />
+      <Contactinfo />
       <GrayBanner text={GrayPromotion.text} />
     </>
   );

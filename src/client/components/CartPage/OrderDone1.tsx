@@ -41,9 +41,11 @@ const OrderDone = () => {
         <p className={styles.title}>
           {doneString.title}
         </p>
-        <p className={styles.mainDescription}>
-          {formatSubtitle(doneString.subtitle)}
-        </p>
+        <p
+          className={styles.mainDescription}
+          dangerouslySetInnerHTML={{ __html: doneString.subtitle }}
+        />
+
       </div>
 
       <div className={styles.tickIcon}>

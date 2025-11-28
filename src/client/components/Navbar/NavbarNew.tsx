@@ -88,7 +88,7 @@ const NavbarNew: React.FC<NavProps> = () => {
             <div className={styles.tabletNavbarParent}>
               <div className={styles.tabletLogo}>
                 <HashLink className={styles.logoHover} to="/" aria-label="Home">
-                  <img alt="logo" className={styles.DinMunteLogo} src={images.DinMunteLogo} />
+                  <img alt="logo" className={styles.DinMunteLogo} src={images.updatedLogo} />
                 </HashLink>
               </div>
 

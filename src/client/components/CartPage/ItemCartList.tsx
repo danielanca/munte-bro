@@ -71,11 +71,7 @@ const ItemCartList: React.FC<Props> = ({ productID }) => {
               </HashLink>
 
               <div className={styles.counterParentContainer}>
-                <div className={styles.counterContainer}>
-                  <button className={styles.productAdd} onClick={onPlus} aria-label="Adaugă" disabled={!product}>
-                    <IoIosAdd />
-                  </button>
-                  <div className={styles.productQuantity}>{qty}</div>
+                <div className={styles.counterContainer}>                
                   <button
                     className={styles.productSubtract}
                     onClick={onMinus}
@@ -83,6 +79,10 @@ const ItemCartList: React.FC<Props> = ({ productID }) => {
                     disabled={disabled}
                   >
                     <GrFormSubtract />
+                  </button>
+<div className={styles.productQuantity}>{qty}</div>
+                   <button className={styles.productAdd} onClick={onPlus} aria-label="Adaugă" disabled={!product}>
+                    <IoIosAdd />
                   </button>
                 </div>
 

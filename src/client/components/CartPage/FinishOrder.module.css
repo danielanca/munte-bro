@@ -265,7 +265,7 @@
 .radioOption {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 8px;
 }
 
 .radioOption input[type="radio"] {
@@ -280,6 +280,7 @@
   font-weight: 600;
   color: #17183B;
   cursor: pointer;
+  padding-left: 25px; 
 }
 
 .paymentError {
