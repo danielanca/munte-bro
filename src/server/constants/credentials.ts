@@ -21,3 +21,9 @@ export const emailAuth = {
   email: "diniubire.ro@gmail.com",
   password: "jrffukuelpyknzks",
 };
+
+
+export const dpdAuth = {
+  username : "200929835",
+  password : "9334936614"
+};

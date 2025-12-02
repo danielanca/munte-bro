@@ -7,6 +7,8 @@ import compression from "compression";
 import serveStatic from "serve-static";
 import { createServer as createViteServer } from "vite";
 import { fileURLToPath, pathToFileURL } from "url";
+import { dpdAuth } from "./src/server/constants/credentials";
+
 import { sendEmail } from "./src/server/routes/api";
 import axios from 'axios';
 const isTest = process.env.NODE_ENV === "test" || !!process.env.VITE_TEST_BUILD;
@@ -73,7 +75,6 @@ async function createServer() {
         userName: "200929835",
         password: "9334936614",
         language: "EN",
-  
         sender: {
           phone1: { number: "0700000000" },
           contactName: "Nume Expeditor",
@@ -81,10 +82,10 @@ async function createServer() {
         },
   
         recipient: {
-          phone1: { number: "0700000001" },
+          phone1: { number: myOrders.phoneNo },
           privatePerson: true,
-          clientName: "Daniel",
-          email: "Ibraheemakin201@gmail.com",
+          clientName: myOrders.firstName + " "+ myOrders.lastName,
+          email: myOrders.emailAddress,
           address: {
             countryId: 642,
             siteId: 642279132,
@@ -100,7 +101,7 @@ async function createServer() {
   
         content: {
           parcelsCount: 1,
-          contents: "MOBILE PHONE",
+          contents: myOrders.cartProducts[0].name || "Mobile Phone",
           package: "BOX",
           totalWeight: 1,
         },
@@ -138,8 +139,8 @@ async function createServer() {
       }
   
       const printBody = {
-        userName: "200929835",
-        password: "9334936614",
+        userName: dpdAuth.username,
+        password: dpdAuth.password,
         paperSize: "A6",
         parcels: [
           {
@@ -174,29 +175,6 @@ async function createServer() {
       });
     }
   });
-  
-  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
   const stylesheetsPromise = getStyleSheets();
 
