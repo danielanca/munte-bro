@@ -303,7 +303,10 @@ export const renderAdminTemplate = (cartProd: any, invoiceNumberID: any, data: a
                      <tr> 
                       <td align="left" style="padding:0;Margin:0;width:560px"> 
                        <table cellpadding="0" cellspacing="0" width="100%" role="presentation" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px"> 
-                         <tr> 
+                          <tr> 
+                              <td align="center" style="padding:0;Margin:0;padding-top:10px;padding-bottom:10px"><p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:21px;color:#333333;font-size:14px"><a href="${data.awb}" download>Download AWB</a></td> 
+                           </tr>  
+                       <tr> 
                           <td align="center" style="padding:0;Margin:0;padding-top:10px;padding-bottom:10px"><p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:21px;color:#333333;font-size:14px">Aveti intrebari? Nu ezitati sa ne contactati pe diniubire.ro/contact sau la numarul de telefon +40 745 469 907</p></td> 
                          </tr> 
                        </table></td> 

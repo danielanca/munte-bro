@@ -7,7 +7,8 @@ import compression from "compression";
 import serveStatic from "serve-static";
 import { createServer as createViteServer } from "vite";
 import { fileURLToPath, pathToFileURL } from "url";
-
+import { sendEmail } from "./src/server/routes/api";
+import axios from 'axios';
 const isTest = process.env.NODE_ENV === "test" || !!process.env.VITE_TEST_BUILD;
 const isProd = process.env.NODE_ENV === "production";
 
@@ -56,6 +57,146 @@ async function createServer() {
     console.log("Server received in main:", req.body);
     res.json({ ok: true });
   });
+
+
+  app.post("/sendEmail",sendEmail);
+
+
+  
+  app.post("/generate-awb", async (req: Request, res: Response) => {
+    try {
+      // 1. CREATE SHIPMENT BODY
+    
+      let myOrders = req.body;
+
+      const shipmentBody = {
+        userName: "200929835",
+        password: "9334936614",
+        language: "EN",
+  
+        sender: {
+          phone1: { number: "0700000000" },
+          contactName: "Nume Expeditor",
+          email: "expeditor@firma.ro",
+        },
+  
+        recipient: {
+          phone1: { number: "0700000001" },
+          privatePerson: true,
+          clientName: "Daniel",
+          email: "Ibraheemakin201@gmail.com",
+          address: {
+            countryId: 642,
+            siteId: 642279132,
+            streetId: 642077434,
+            streetNo: "1",
+          },
+        },
+  
+        service: {
+          serviceId: 2505,
+          autoAdjustPickupDate: true,
+        },
+  
+        content: {
+          parcelsCount: 1,
+          contents: "MOBILE PHONE",
+          package: "BOX",
+          totalWeight: 1,
+        },
+  
+        parcels: [
+          {
+            weight: 1,
+            reference: "P1",
+          },
+        ],
+  
+        payment: {
+          courierServicePayer: "SENDER",
+        },
+  
+        ref1: "ORDER 123456",
+      };
+  
+      // 2. SEND CREATE SHIPMENT REQUEST
+      const createRes = await axios.post(
+        "https://api.dpd.ro/v1/shipment",
+        shipmentBody,
+        { headers: { "Content-Type": "application/json" } }
+      );
+  
+      if (createRes.data.error) {
+        return res.status(400).json({ error: createRes.data.error });
+      }
+  
+      const shipment = createRes.data;
+      const parcelId = shipment?.parcels?.[0]?.id;
+  
+      if (!parcelId) {
+        return res.status(400).json({ error: "parcelId not returned by DPD" });
+      }
+  
+      const printBody = {
+        userName: "200929835",
+        password: "9334936614",
+        paperSize: "A6",
+        parcels: [
+          {
+            parcel: {
+              id: parcelId  // wrapped inside "parcel"
+            }
+          }
+        ]
+        
+      };
+      const printRes = await axios.post(
+        "https://api.dpd.ro/v1/print",
+        printBody,
+        { responseType: "arraybuffer" } // PDF bytes
+      );
+  
+      const pdfBase64 = Buffer.from(printRes.data).toString("base64");
+  
+      // 4. SEND FINAL COMBINED RESPONSE
+      res.json({
+        success: true,
+        shipmentId: shipment.shipmentId,
+        parcelId,
+        barcode: shipment?.parcels?.[0]?.barcode,
+        labelBase64: pdfBase64,
+        myorder :myOrders
+      });
+    } catch (err: any) {
+      console.log(err?.response?.data || err);
+      res.status(500).json({
+        error: err?.response?.data || "DPD API error",
+      });
+    }
+  });
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   const stylesheetsPromise = getStyleSheets();
 

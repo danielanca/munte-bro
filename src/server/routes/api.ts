@@ -33,6 +33,7 @@ export { sendReviewToServer };
 export { triggerEvent };
 export { updateOrder };
 export const sendEmail = async (request: Request, response: Response) => {
+
   applyCORSpolicy(response);
   console.log("We received something");
   const invoiceNumberID = generateInvoiceID();
@@ -59,7 +60,7 @@ export const sendEmail = async (request: Request, response: Response) => {
   console.log("The request body is here:", request.body);
   const data = request.body;
   console.log("DANUUUUUUUUUUUUUUUUUUT", data);
-  await postOrderToDB(invoiceNumberID, data, getDateAndHour());
+  //await postOrderToDB(invoiceNumberID, data, getDateAndHour());
   let cartProd = JSON.parse(data.cartProducts);
   let downloadURL = data.downloadURL; 
 

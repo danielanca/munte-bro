@@ -48,6 +48,7 @@
     "@u-wave/react-vimeo": "^0.9.11",
     "apexcharts": "^5.3.5",
     "autoprefixer": "^10.4.16",
+    "axios": "^1.13.2",
     "bootstrap": "^5.3.8",
     "canvas-confetti": "^1.9.3",
     "chart.js": "^3.7.1",
