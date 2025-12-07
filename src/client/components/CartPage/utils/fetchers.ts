@@ -63,6 +63,7 @@ export const handleSend = async (
     });
   
     const data = await res.json();
+    orderData.parcelId = data.parcelID;
     console.log(data);
   
     if (data.labelBase64) {
@@ -72,11 +73,13 @@ export const handleSend = async (
       await uploadBytes(storageRef, pdfBlob);
     
       const pdfUrl = await getDownloadURL(storageRef);
+
     
       // Save URL to orderData
       orderData.awb = pdfUrl;
-    }
     
+    }
+
     await saveOrderClientSide(orderID, orderData);
    
     await fetch("http://localhost:5858/sendEmail", {

@@ -28,6 +28,7 @@ type RowItem = {
   paymentStatus: "PAID" | "UNPAID" | string;
   routeId: string;      // always safe for /order/:id
   invoiceLabel: string; // displayed in the table (e.g., orderID)
+  parcelId: string;
 };
 
 const normalize = (o: OrderDoc): RowItem => {
@@ -42,12 +43,12 @@ const normalize = (o: OrderDoc): RowItem => {
   // prefer orderID, else invoiceID, else Firestore doc id
   const routeId = String((o as any).orderID || (o as any).invoiceID || (o as any).id || "");
   const invoiceLabel = routeId;
-
   return {
     timestamp: Number.isFinite(ts) ? ts : Date.now(),
     firstName: (o as any).firstName || "",
     lastName: (o as any).lastName || "",
     shippingTax,
+    parcelId : o.parcelId || "12345678",
     cartSum,
     paymentStatus: status === "PAID" ? "PAID" : "UNPAID",
     routeId,

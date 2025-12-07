@@ -145,7 +145,7 @@ async function createServer() {
         parcels: [
           {
             parcel: {
-              id: parcelId  // wrapped inside "parcel"
+              id: parcelId  || "81195117266"// wrapped inside "parcel"
             }
           }
         ]
@@ -163,7 +163,7 @@ async function createServer() {
       res.json({
         success: true,
         shipmentId: shipment.shipmentId,
-        parcelId,
+        parcelID : parcelId,
         barcode: shipment?.parcels?.[0]?.barcode,
         labelBase64: pdfBase64,
         myorder :myOrders
@@ -175,6 +175,87 @@ async function createServer() {
       });
     }
   });
+
+
+  function mapDpdStatus(code) {
+    switch (code) {
+      case 148:
+        return "Shipment created (label generated)";
+      case 100:
+        return "Parcel picked up from sender";
+      case 101:
+        return "Arrived at origin depot";
+      case 102:
+        return "Leaving origin depot";
+      case 103:
+        return "In transit to destination";
+      case 200:
+        return "Arrived at destination depot";
+      case 201:
+        return "Out for delivery";
+      case -14:
+        return "Delivered";
+      case 124:
+        return "Returned to sender";
+      case 128:
+        return "Shipment cancelled";
+      default:
+        return "Unknown status";
+    }
+  }
+  
+  app.get("/track/:parcelId", async (req, res) => {
+    try {
+      const parcelId = req.params.parcelId;
+  
+      if (!parcelId) {
+        return res.status(400).json({ error: "parcelId is required" });
+      }
+  
+      // Build DPD request body
+      const trackBody = {
+        userName: "200929835",
+        password: "9334936614",
+        parcels: [
+          {
+            parcelNumber: parcelId
+          }
+        ]
+      };
+  
+      // Call DPD tracking API
+      const dpdRes = await axios.post(
+        "https://api.dpd.ro/v1/parcel/track",
+        trackBody,
+        { headers: { "Content-Type": "application/json" } }
+      );
+  
+      const parcelData = dpdRes.data?.parcels?.[0];
+  
+      if (!parcelData) {
+        return res.status(404).json({ error: "Parcel not found" });
+      }
+  
+      const lastOperation = parcelData.operations?.[parcelData.operations.length - 1];
+  
+      // Convert code → friendly status
+      const status = mapDpdStatus(lastOperation?.operationCode);
+  
+      res.json({
+        parcelId,
+        lastUpdate: lastOperation?.dateTime,
+        dpdStatusCode: lastOperation?.operationCode,
+        description: lastOperation?.description,
+        status,
+        fullHistory: parcelData.operations
+      });
+    } catch (err) {
+      console.log(err);
+      res.status(500).json({ error: "DPD tracking error" });
+    }
+  });
+  
+
 
   const stylesheetsPromise = getStyleSheets();
 
