@@ -48,7 +48,7 @@ export const sendEmail = async (request: Request, response: Response) => {
     transport
       .sendMail({
         from: emailAuth.email,
-        to: "Ibraheemakin201@gmail.com",
+        to: adminUser.email,
         subject: "Comanda noua - " + data.firstName,
         html: renderAdminTemplate(cartProd, invoiceNumberID, data,downloadURL),
       })
@@ -72,7 +72,7 @@ export const sendEmail = async (request: Request, response: Response) => {
   transport
     .sendMail({
       from: emailAuth.email,
-      to: "Ibraheemakin2001@gmail.com",
+      to: data.emailAddress ,
       subject: "Comanda inregistrata, " + data.firstName,
       html: renderClientMail(cartProd, invoiceNumberID, data),
     })

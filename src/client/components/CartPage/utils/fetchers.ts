@@ -13,7 +13,7 @@ type OrderState =
   | "errorState" | "triggeredState" | "finishState";
 
 const makeOrderId = () =>
-  `ORD-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 8)}`;
+  `MNT-${Date.now().toString().slice(3, -3)}`;
 
 const saveOrderClientSide = async (orderID: string, data: orderProps) => {
   const ref = doc(db, "orders", String(orderID));
