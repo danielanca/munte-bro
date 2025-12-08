@@ -193,6 +193,17 @@ const OrdersTable: React.FC = () => {
 
 // inside OrdersTable component, use the exportToXML
 
+function formatToDayMonth(ts) {
+  const date = new Date(ts);
+
+  const day = date.getDate(); // 1–31
+
+  const months = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+  const month = months[date.getMonth()]; // 0–11
+
+  return `${day}${month}`;
+}
+
 const exportToSagaXML = () => {
   if (!viewRows || viewRows.length === 0) return;
 
@@ -329,7 +340,7 @@ ${xmlOrders}
   const url = URL.createObjectURL(blob);
   const a = document.createElement("a");
   a.href = url;
-  a.download = "saga_orders.xml";
+  a.download = "Saga-Invoices-"+formatToDayMonth(filterDates.startDate)+"-"+formatToDayMonth(filterDates.endDate)+".xml";
   a.click();
   URL.revokeObjectURL(url);
 };
