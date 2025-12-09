@@ -193,7 +193,7 @@ const OrdersTable: React.FC = () => {
 
 // inside OrdersTable component, use the exportToXML
 
-function formatToDayMonth(ts) {
+function formatToDayMonth(ts: number) {
   const date = new Date(ts);
 
   const day = date.getDate(); // 1–31

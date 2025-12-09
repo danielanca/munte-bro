@@ -6,7 +6,7 @@ import TopBanner from "./TopBanner";
 import styles from './NavbarNew.module.scss'
 import images from "../../data/images1";
 import strings from "../../data/strings.json";
-import { FiSearch } from "react-icons/fi";
+import { FiSearch,FiPhoneCall } from "react-icons/fi";
 import { BiShoppingBag } from "react-icons/bi";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { IoMdClose } from "react-icons/io";
@@ -70,6 +70,17 @@ const NavbarNew: React.FC<NavProps> = () => {
                 <img alt="search icon" className={styles.searchIcon} src={images.searchIcon} />
               </NavHashLink>
 
+              <a href="tel:+40752328965" className={styles.phoneIconWrapper}>
+                <FiPhoneCall size={26} />
+                <span className={styles.phoneBadge}>1</span>
+              </a>
+
+              <a href="tel:+40759791474" className={styles.phoneIconWrapper}>
+                <FiPhoneCall size={26} />
+                <span className={styles.phoneBadge}>2</span>
+              </a>
+
+
               <NavHashLink className={styles.hashTransparent} to={cart.link} aria-label="Cart">
                 <img alt="cart icon" className={styles.shopIcon} src={images.cartLogo} />
                 <span className={styles.jewel} aria-live="polite">{totalItems}</span>
@@ -96,6 +107,16 @@ const NavbarNew: React.FC<NavProps> = () => {
                 <NavHashLink className={styles.searchIconTabletParent} to={cart.link} aria-label="Search">
                   <FiSearch size={30} style={{ color: "#3A5A40" }} />
                 </NavHashLink>
+
+                <a href="tel:+40752328965" className={styles.phoneIconWrapper}>
+                  <FiPhoneCall size={30} style={{ color: "#3A5A40" }} />
+                  <span className={styles.phoneBadge}>1</span>
+                </a>
+
+                <a href="tel:+40759791474" className={styles.phoneIconWrapper}>
+                  <FiPhoneCall size={30} style={{ color: "#3A5A40" }} />
+                  <span className={styles.phoneBadge}>2</span>
+                </a>
 
                 <NavHashLink className={styles.bagIconTabletParent} to={cart.link} aria-label="Cart">
                   <BiShoppingBag size={30} style={{ color: "#3A5A40" }} />
