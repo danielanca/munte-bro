@@ -35,11 +35,13 @@ const SuggestionArea = ({ productID }: SuggestionProps) => {
   return (
     <div className={styles.suggestion__container}>
       <h3 className={styles.suggestion__title}>RECOMANDAT</h3>
-
+<div className={styles.suggestion__viewport}>
       <Swiper
         className={styles.suggestion__swiper}
         modules={[Navigation]}
         navigation
+         centeredSlides={true}
+  centeredSlidesBounds={true}
         spaceBetween={10}
         slidesPerView={3}
         breakpoints={{
@@ -73,6 +75,7 @@ const SuggestionArea = ({ productID }: SuggestionProps) => {
           );
         })}
       </Swiper>
+      </div>
     </div>
   );
 };
