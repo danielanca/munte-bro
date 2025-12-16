@@ -57,13 +57,13 @@ export const sendEmail = async (request: Request, response: Response) => {
         response.send(ResponseData);
       });
   };
-  console.log("The request body is here:", request.body);
+  console.log("The request body is here:", invoiceNumberID);
   const data = request.body;
   console.log("DANUUUUUUUUUUUUUUUUUUT", data);
   //await postOrderToDB(invoiceNumberID, data, getDateAndHour());
   let cartProd = JSON.parse(data.cartProducts);
   let downloadURL = data.downloadURL; 
-
+  
   if (!data.emailAddress) {
     console.error("No recipients defined");
     transmitToAdmin();

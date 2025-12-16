@@ -64,6 +64,7 @@ export const handleSend = async (
   
     const data = await res.json();
     orderData.parcelId = data.parcelID;
+  
     console.log(data);
   
     if (data.labelBase64) {
@@ -81,6 +82,8 @@ export const handleSend = async (
     }
 
     await saveOrderClientSide(orderID, orderData);
+    
+    orderData.mailOrderID = orderID;
    
     await fetch("http://localhost:5858/sendEmail", {
       method: "POST",

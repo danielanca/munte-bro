@@ -71,6 +71,7 @@ export interface orderProps {
   deliveryName?: string;
   paymentStatus?: string;
   parcelId?: string;
+  mailOrderID?: string;
 
   // Present in first file only
   deliveryMethod?: string;

@@ -114,7 +114,8 @@ export const getOrderByID = async (invoiceID: number) => {
   
   const LoadData = async() =>{
     const fireStoreModule = await import('firebase/firestore');
-    const productData = fireStoreModule.doc(db, "orders", invoiceID.toString());
+    const getOrderName = "MNT-"+invoiceID.toString();
+    const productData = fireStoreModule.doc(db, "orders",getOrderName );
     const snap = await fireStoreModule.getDoc(productData);
     let productsAreHere;
     if (snap.exists()) {
