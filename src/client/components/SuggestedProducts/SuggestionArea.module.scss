@@ -110,6 +110,9 @@
 }
 
 @media (max-width: 768px) {
+  .suggestion__container{
+  overflow-x: hidden;
+}
   .suggestion__swiper {
     & :global(.swiper-button-prev) {
       left: 8px !important;
