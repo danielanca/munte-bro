@@ -2,26 +2,31 @@ export const staticContent:any = {
   Terms: {
     title: "Termeni si conditii",
     jsonContent: `
-    <div class="spacerPadder50"> </div>
-    <div class="textSpaceMargins">
+    <div class="">
     
     <h4 class="middleSubtext"> Condiții generale </h4> 
-        <p>
-            Folosirea acestui site implica acceptarea termenilor si conditiilor de mai jos. Recomandam citirea cu atentie a acestora. <strong>ANCA DANIEL-EMANUEL PERSOANA FIZICA AUTORIZATA</strong> isi asuma dreptul de a modifica aceste prevederi fara o alta notificare. Cea mai recenta versiune poate fi accesata in aceasta pagina.
-            Accesul/vizitarea acestui website de catre dumneavoastra se supune <strong>Termenilor si conditiilor de utilizare</strong>, si implica acceptul explicit al dumneavoastra cu privire la acestea si reprezinta intelegerea dintre parti.
-        </p>
-
-
-        <p> <b>ANCA DANIEL-EMANUEL PERSOANA FIZICA AUTORIZATA </b>garanteaza utilizatorului acces limitat, in interes personal (efectuarea de comenzi online, informare), pe site-ul <b>www.diniubire.ro</b> si nu ii confera dreptul de a descarca sau de a modifica partial sau integral site-ul, de a reproduce partial sau integral site-ul, de a copia, de a vinde/revinde sau de a exploata site-ul in orice alta maniera, in scopuri comerciale sau fara acordul prealabil scris al acesteia.
-            Intregul continut al site-ului <b>www.diniubire.ro</b> - imagini, texte, grafice, simboluri, elemente de grafica web, email-uri, scripturi, programe si alte date - este proprietatea <b>ANCA DANIEL-EMANUEL PERSOANA FIZICA AUTORIZATA</b>  si a furnizorilor sai si este aparat de Legea pentru protectia drepturilor de autor (legea nr. 8/1996) si de legile privind proprietatea intelectuala si industriala. Folosirea fara acordul propietarului <b>ANCA DANIEL-EMANUEL PERSOANA FIZICA AUTORIZATA</b>  a oricaror elemente enumerate mai sus se pedepseste conform legislatiei in vigoare.
-            <p><br> Domeniul <b>www.diniubire.ro</b> este detinut de catre ANCA DANIEL-EMANUEL PERSOANA FIZICA AUTORIZATA Utilizarea acestei marci, a domeniului sau a numelor de comercializare, siglelor si emblemelor, in forma directa sau "ascunsa" (de tipul, dar nu limitat la, meta taguri sau alte tehnici de indexare, cautare web) fara permisiunea prealabila scrisa este interzisa si se pedepseste conform legii. </p>
-            <br>Produsele prezentate pe <b>www.diniubire.ro</b> sunt produse si comercializare de ANCA DANIEL-EMANUEL PERSOANA FIZICA AUTORIZATA Preturile produselor pot fi schimbate oricand. Verificati pretul final de vanzare inainte de a achizitiona un produs. </p>
-    
-         <div class="spacerPadder100"> </div>
-      
+    <div class="wrap-content">
+    <h6>Folosirea acestui site implica acceptarea termenilor si conditiilor de mai jos. Recomandam citirea cu atentie a acestora. montanair s.r.l isi asuma dreptul de a modifica aceste prevederi fara o alta notificare. Cea mai recenta versiune poate fi accesata in aceasta pagina.</h6>
+                <h6>Accesul/vizitarea acestui website de catre dumneavoastra se supune Termenilor si conditiilor de ultilizare, si implica acceptul explicit al dumneavoastra cu privire la acestea si reprezinta intelegerea dintre parti.</h6>
+                <h6>Relatia dintre parti este guvernata de urmatoarele acte normative:</h6>
+                <ul>
+                <li>OG nr. 21/1992 privind protectia consumatorilor</li>
+                <li>OUG nr. 34/2014 privind drepturile consumatorilor in cadrul contractelor incheiate cu profesionistii</li>
+                <li>Legea nr. 363/2007 privind combaterea practicilor incorecte ale comerciantilor in relatia cu consumatorii si armonizarea reglementarilor cu legislatia europeana privind protectia consumatorilor</li>
+                <li>Legea 365/2002 privind comertul electronic</li>
+                </ul>
+                <h6>ELYS MOMOANE s.r.l <br>garanteaza utilizatorului acces limitat, in interes personal (efectuarea de comenzi online, informare), pe site-ul <b> www.montanair.ro </b> si nu ii confera dreptul de a descarca sau de a modifica partial sau integral site-ul, de a reproduce partial sau integral site-ul, de a copia, de a vinde/revinde sau de a exploata site-ul in orice alta maniera, in scopuri comerciale sau fara acordul prealabil scris al acesteia.</h6>
+                <h6>Intregul continut al site-ului <b> www.montanair.ro </b> - imagini, texte, grafice, simboluri, elemente de grafica web, email-uri, scripturi, programe si alte date - este proprietatea ELYS MOMOANE s.r.l si a furnizorilor sai si este aparat de Legea pentru protectia drepturilor de autor (legea nr. 8/1996) si de legile privind</h6>
+                <h6>proprietatea intelectuala si industriala. Folosirea fara acordul propietaruluiELYS MOMOANE s.r.l a oricaror elemente enumerate mai sus se pedepseste conform legislatiei in vigoare.</h6>
+                <h6>Domeniul <b> www.montanair.ro  </b> este detinut de catre ELYS MOMOANE s.r.l Utilizarea acestei marci, a domeniului sau a numelor de comercializare, siglelor si emblemelor, in forma directa sau "ascunsa" (de tipul, dar nu limitat la, meta taguri sau alte tehnici de indexare, cautare web) fara permisiunea prealabila scrisa este interzisa si se pedepseste conform legii.</h6>
+                <h6>Produsele prezentate pe <b> www.montanair.ro </b> sunt si comercializare de ELYS MOMOANE s.r.l Preturile produselor pot fi schimbate oricand. Verificati pretul final de vanzare inainte de a achizitiona un produs.</h6>
+            
+   
+      </div>
       
       </div>
-        `
+
+      `
   },
 
   PaymentMethods: {
@@ -51,34 +56,45 @@ export const staticContent:any = {
     <div class="textSpaceMargins">
 
 
-    <h4 class="middleSubtext"> CONDITII PENTRU RETURNAREA PRODUSELOR </h4>
+    <h4 class="middleSubtext"> CONDITII PENTRU RETURNAREA PRODUSELOR</h4>
+    <h6>dinmunte.ro respecta prevederile Ordonantei de urgenta nr 34/2014 privind drepturile consumatorilor in cadrul contractelor la distanta, ce confera cumparatorului dreptul ca in termen de 14 zile de la primirea tuturor produselor cumparate, sa le returneze, fara penalitati si fara invocarea vreunui motiv. Conform prevederilor acestei ordonante, produsele pot fi returnate numai daca sunt in aceeasi stare in care au fost livrate, inclusiv ambalajul.</h6>
+    <h6>Nu se accepta pentru returnare produse care prezinta forme de consum sau uzura, cu ambalajul desfacut sau desigilat, care prezinta modificari fizice, lovituri, ciobiri, zgarieturi, socuri etc. Daca te gandesti sa returnezi un produs, te rugam iei aceasta decizie inainte de a-l deschide/desigila/utiliza. Dreptul de a face retur, prevazut la articolul 9 din Ordonanța de Urgență nr. 34 din 2014, exista pentru a iti permite sa examinezi produsul asa cum ai face-o intr-un magazin, nu pentru a-ti oferi 14 zile de utilizare gratuita. Conform articolului 16, litera E din OUG nr. 34/2014, produsele cosmetice sau pentru uz personal, folosite sau testate, nu pot fi returnate din motive de protectie a sanatatii si din motive de igiena.</h6>
+    <h6>Te rugam  sa ai in vedere ca nu se accepta returul daca produsele sunt testate/incercate. Desi o parte din produse nu sunt sigilate, ele sunt expediate asa cum vin de la producator, in cadrul procedurii de verificare se depisteaza daca ele au fost desfacute si probate,  iar returul nu este acceptat. Aceste produse iti  vor fi returnate prin curier, cu plata ramburs. PRODUSELE COMERCIALIZATE ONLINE NU SUNT TESTERE, de aceea te rugam sa ai in vedere ca iti alegi exact nuanta potrivita/produsul dorit.</h6>
+    <h6> Daca doresti sa returnezi un produs achizitionat de pe www.dinmunte.ro, te rugam sa urmezi umatorii pasi:</h6>
+    <h6> Pasul 1. Informeaza-ne cu privire la intentia de a returna produsul achizionat</h6>
+    <ul>
+    <li>Poti face acest lucru printr-un email la dinmunte@gmail.com cu subiectul "cerere de retur" prin care sa ne informezi cu privire la solicitarea de retragere din contract. Te rugam sa specifici numele complet si corect, adresa de e-mail folosita la inregistrarea contului, numarul comenzii, numarul facturii si data emiterii;</li>
+    <li>Telefonic, la numarul 0759791474, iar operatorii nostri iti vor oferi infomatii cu privire la pasii pe care trebuie sa ii urmezi;
+Te rugam sa ne informezi cu privire la optiunile de retur, si anume daca doresti sa inlocuiesti produsul cu un altul existent in stoc sau daca doresti sa iti returnam contravaloarea produsului. In cazul in care doresti sa primesti contravaloarea produsului, te rugam sa ne trimiti un cont IBAN in lei pentru returnarea sumei.</li>
+</ul>
+    <h6>IN CAZUL IN CARE CLIENTUL DORESTI RETUR DAR NU A RIDICAT COILEYUL , SI TOTUSI A FACUT PLATA PRIN BANCA, DACA CLIENTUL INDEPLINESTE CONDITIILE DE RETUR, I SE VARESTITUI CONTRAVALOAREA PRODESELOR MINUS TAXTA DE TUR RETUR A PRODUSELOR, PRECIZAM CA TAXA DE RETUR POATE SA CREASCA COMPARATIV CU CE AFISEAZA SITEUL DEOARECE PERCEPEM O TAXA GENERALA APROAPE EGALA CU JUMATATEA SAU CHEAR MAI PUTUN DIN TAXA REALA  PENTRU  A NU DESCURAJA CUMPARATORUL, DAT FIIND CINDITIILE DATE TAXA DE RETUR POATE SA FIE MAI MARE CHEAR SI CU 500% FAPT CE SE VA COMUNICA ULTERIOR DUPA PRIMIREA COLETULUI LA SEDIU. </h6>
+    <h6>In maxim 48 de ore te vom contacta prin e-mail sau telefonic pentru a confirma procedura de retur, in cazul in care cererea indeplineste conditiile obligatorii de aplicare pentru produsele achizitionate.</h6>
+    <h6>IN CAZUL IN CARE CLIENTUL NU RASPUNDE LA TELEFON SAU ESTE RAU INTENTIONAT NE VRAND SA COMUNICE CU NOI , PROCEDURA SE SUSPENDA PE TERMEN NELIMITA, PANA CAND CLIENTUL NE CONTACTEAZA TELEFONIC PRIN APEL VOCAL .</h6>
+    <h6>Pasul 2.  Pregateste coletul si contacteaza curierul</h6>
+    <h6>Daca ai ajuns la acest pas, te rugam sa soliciti curierului preluarea coletului. Conform Ordonantei de urgenta nr 34/2014 privind drepturile consumatorilor in cadrul contractelor la distanta, vei suporta costurile de transport.</h6>
+    <h6>ATENTIE: Coletele expediate cu plata transportului la www.dinmunte.ro vor fi refuzate!</h6>
+    <h6>Coletul va contine produsul pe care doresti sa il returnezi, ambalat corespunzator in bula protectoare, pentru a nu se deteriora pe parcursul transportului, intr-o cutie inchisa cu banda adeziva. De asemenea, te rugam sa returnezi produsul impreuna cu documentele insotitoare. Daca ai beneficiat de produse promo sau cadou, va trebui sa le  returnezi si pe acestea in stare intacta. Ataseaza in colet si cererea de retur completata si semnata.</h6>
+    <h6>Nu uita sa specifici ca plata transportului se face la expeditor, coletele cu plata transportului la destinatar vor fi refuzate.</h6>
+    <h6>Pasul 3. Ridicarea coletului</h6>
+    <h6>Dupa ce ai luat solicitat curierului ridicarea coletului, vei fi contactat in aceeasi zi sau in ziua imediat urmatoare pentru expedierea coletului. Va trebui sa achiti contravaloarea expedierii, si sa trimiti coletul la urmatoarea adresa:</h6>
+    <h6>
+    DIN MUNTE S.R.L. s.r.l <br>
+    Judet Cluj-Napoca,Localitatea Turda Strada Fragariste Nr 28 cod postal 401169 <br>
+    Numar contact: 0759791474
+    </h6>
 
-    <p><b>Conform Ordonantei nr. 130/2000 </b> privind regimul juridic al contractelor la distanta <b>"Consumatorul are dreptul sa notifice in scris comerciantului 
-    ca renunta la cumparare, fara penalitati si fara invocarea unui motiv, in termen de 10 zile lucratoare de la primirea produsului </b>. Notificarea se va da, semna si 
-    trimite de catre Dumneavoastra prin posta la adresa: <b>localitatea Turda, strada Plopilor, nr.3 bl.l1  Judet. Cluj. In situatia mentionata mai sus </b>, Dumneavoastra veti
-    returna, in termenul prevazut mai sus, produsul cumparat in ambalajul original, fara sa prezinte nici o urma de deteriorare sau uzura. Cheltuielile de expeditie vor fi suportate de Dumneavoastra.
-    Produsele trebuie returnate in ambalajul lor original. Prin deschiderea ambalajelor individuale in care au fost livrate produsele comandate inseamna ca sunteti de acord cu aceste conditii de utilizare 
-    si ca produsele sunt cele comandate si corespund cerintelor dumneavoastra. <b>ANCA DANIEL-EMANUEL PERSOANA FIZICA AUTORIZATA </b> se obliga sa restituie clientului sumele incasate pentru produsele returnate, 
-    in termen de maxim 30 de zile de la data denuntarii de catre Dvs a contractului. </p>
-    <p>Orice conflict aparut intre <b>ANCA DANIEL-EMANUEL PERSOANA FIZICA AUTORIZATA </b> si clienti se incearca a fi rezolvat pe cale amiabila prin intelegere intre cele doua parti. In cazul in care acest 
-    lucru nu este posibil se vor aplica prevederile legale romanesti din acest domeniu, iar solutionarea conflictelor este de competenta instantelor romanesti. </p>  <p>Daca oricare dintre clauzele de mai sus va fi
-    gasita nula sau nevalida, indiferent de cauza, aceasta clauza nu va afecta valabilitatea celorlalte clauze. Odata cu cumpararea si lansarea comenzii, clientul accepta fara obiectiuni conditiile si termenii de utilizare, 
-    valoarea acestora fiind aceeasi cu un contract valabil incheiat. </p>
-    
+    <h6>Pasul 4. Receptia cantitativa si calitativa a produselor returnate</h6>
+    <h6>Dupa ce coletul a ajuns la noi, el va fi repartizat departamentui responsabil de receptia cantitativa si calitativa a produselor returnate. Te asiguram ca acest pas este atent supravegheat si monitorizat. In cadrul aceste etape vom verifica daca produsul returnat indeplineste conditiile de retur. Daca produsul returnat nu indeplineste criteriile de mai sus, el iti va fi reexpediat, costul transportului fiind in sarcina clientului. 
+        <br> Te vom contacta telefonic sau prin email pentru a-ti aduce la cunostinta rezultatele finale constatate in maxim 48 de ore de la primirea produsului.</h6>
 
-    <h2>Garantie 100% retur pentru mulaje</h2>
-    <p>Cumparatorul beneficiaza de returnarea banilor integral, daca, incluzand deschiderea coletului si realizarea procesului de mulaj, acesta nu satisface multumirea cumparatorului. </p>
-    <p>Pentru ca cumparatorul se beneficieze de returul integral al banilor, acesta are obligatia de a <strong>returna toate produsele si accesoriile din kit</strong>, acestea fiind specificate in descrierea produsului, aici se include si mulajul nedorit de cumparator"
-    </p>
-    <p>In termen de 5 zile dupa ce produsul a fost returnat catre magazin, clientul primeste suma de bani inapoi in cont sau ramburs, cu modalitatea de plata initial realizata.</p>
-    Date de contact:
-    
-    <b>Daniel Anca
-        <br>
-    +40 745 469 907 </b>
+    <h6>Pasul 5. Iti restituim banii sau iti inlocuim produsul</h6>
+    <h6> Daca ai optat pentru rambursarea sumei iar produsul pe care l-ai returnat indeplineste conditiile de retur, iti vom vira banii in contul specificat de tine in formularul de retur. Banii vor fi vizibili in contul tau in maxim 14 zile calendaristice din momentul in care produsul ajunge fizic la noi.
+      <br> In cazul in care doresti inlocuirea produsului, iar acesta indeplineste coditiile de retur, te vom contacta in cel mai scurt timp in vederea inlocuirii si expedierii noului produs. Costul transportului pentru expedierea produsului dorit este in sarcina ta, daca comanda nu indeplineste conditiile de valoare pentru a beneficia de transportul gratuit.
+    </h6>
 
-    </p>
     </div>
+
+
     `
   },
 
@@ -90,9 +106,9 @@ export const staticContent:any = {
 
 
 
-    <p>Confidentialitatea datelor dumneavoastra cu caracter personal reprezinta una dintre preocuparile principale ale ANCA DANIEL-EMANUEL PERSOANA FIZICA AUTORIZATA , cu sediul in localitatea Turda, strada Liviu Rebreanu, nr.21 Judet. Cluj. in calitate de operator de date.
+    <h6>Confidentialitatea datelor dumneavoastra cu caracter personal reprezinta una dintre preocuparile principale ale ANCA DANIEL-EMANUEL PERSOANA FIZICA AUTORIZATA , cu sediul in localitatea Turda, strada Liviu Rebreanu, nr.21 Judet. Cluj. in calitate de operator de date.
 
-    Acest document are rolul de a va informa cu privire la prelucrarea datelor dumneavoastra cu caracter personal, in contextul utilizarii paginii de internet https://www.diniubire.ro, la care ne vom referi in continuare cu denumirea "site-ul". </p>
+    Acest document are rolul de a va informa cu privire la prelucrarea datelor dumneavoastra cu caracter personal, in contextul utilizarii paginii de internet https://www.diniubire.ro, la care ne vom referi in continuare cu denumirea "site-ul". </h6>
     <h4 class="lefter"> Cuprins </h4>
     <ul class="termsUl">
     <li>Categoriile de date cu caracter personal prelucrate </li>
@@ -127,38 +143,38 @@ export const staticContent:any = {
 
     <h4 class="middleSubtext">2. Scopurile si temeiurile de prelucrarii </h4>
     A. Daca sunteti client al site-ului, prelucreaza datele dumneavoastra cu caracter personal astfel:
-    <p> Pentru desfasurarea relatiei contractuale dintre dumneavoastra si , respectiv pentru preluarea, validarea, expedierea si facturarea comenzii plasate pe site, informarea dumneavoastra asupra starii comenzii, organizarea returului de produse comandate etc.  </p>
-    <p> <b>Temei:</b> Prelucrarea datelor dumneavoastra in acest scop are la baza contractul incheiat intre dumneavoastra si , definit in cuprinsul Termenelor si Conditiilor http://diniubire.ro/termeni-si-conditii. Furnizarea datelor dumneavoastra cu caracter personal este necesara pentru executarea acestui contract. Refuzul furnizarii datelor poate avea drept consecinta imposibilitatea derularii raporturilor contractuale dintre dumneavoastra si . </p>
-    <p> Pentru activitati de marketing, respectiv pentru transmiterea, prin intermediul mijloacelor de comunicare la distanta (e-mail, sms) de comunicari comerciale privind produsele si serviciile oferite de , prin intermediul site-ului. </p>
+    <h6> Pentru desfasurarea relatiei contractuale dintre dumneavoastra si , respectiv pentru preluarea, validarea, expedierea si facturarea comenzii plasate pe site, informarea dumneavoastra asupra starii comenzii, organizarea returului de produse comandate etc.  </h6>
+    <h6> <b>Temei:</b> Prelucrarea datelor dumneavoastra in acest scop are la baza contractul incheiat intre dumneavoastra si , definit in cuprinsul Termenelor si Conditiilor http://diniubire.ro/termeni-si-conditii. Furnizarea datelor dumneavoastra cu caracter personal este necesara pentru executarea acestui contract. Refuzul furnizarii datelor poate avea drept consecinta imposibilitatea derularii raporturilor contractuale dintre dumneavoastra si . </h6>
+    <h6> Pentru activitati de marketing, respectiv pentru transmiterea, prin intermediul mijloacelor de comunicare la distanta (e-mail, sms) de comunicari comerciale privind produsele si serviciile oferite de , prin intermediul site-ului. </h6>
     
     
 
     <h4 class="middleSubtext">3. Durata pentru care va prelucram datele </h4>
-    <p> <b>www.diniubire.ro</b> va prelucra datele dumneavoastra cu caracter personal atat cat este necesar pentru realizarea scopurilor de prelucrare mentionate mai sus.
+    <h6> <b>www.diniubire.ro</b> va prelucra datele dumneavoastra cu caracter personal atat cat este necesar pentru realizarea scopurilor de prelucrare mentionate mai sus.
 
     In cazul in care sunteti client, vom prelucra datele dumneavoastra pe intreaga durata a raporturilor contractuale si ulterior conform obligatiilor legale care revin in sarcina (de ex, in cazul documentelor justificative financiar-contabile pentru care termenul de pastrare prevazut de lege este de 10 ani de la data incheierii exercitiului financiar in cursul caruia au fost intocmite).
     
     In situatia in care sunteti client si va exercitati optiunea de stergere a contului de utilizator, prin apasarea butonul "stergere cont" din sectiunea "informatiile contului meu", va interpreta aceasta actiune ca optiunea dumneavoastra de a va dezabona de la primirea de comunicari comerciale prin care va tinem la curent despre produsele si serviciile oferite prin intermediul site-ului.
     
-    In acest sens, daca alegeti sa va stergeti contul de utilizator, nu va vom mai trimite e-mailuri si / sau sms-uri de acest gen.</p>
+    In acest sens, daca alegeti sa va stergeti contul de utilizator, nu va vom mai trimite e-mailuri si / sau sms-uri de acest gen.</h6>
     
-    <p>Totusi, dorim sa va informam ca stergerea contului nu va avea ca efect automat stergerea datelor dumneavoastra cu caracter personal.</p>
+    <h6>Totusi, dorim sa va informam ca stergerea contului nu va avea ca efect automat stergerea datelor dumneavoastra cu caracter personal.</h6>
     
-    <p>In cazul in care doriti sa nu va mai fie prelucrate datele cu caracter personal sau daca doriti stergerea datelor, va puteti exercita drepturile detaliate la punctul 6 de mai jos.
+    <h6>In cazul in care doriti sa nu va mai fie prelucrate datele cu caracter personal sau daca doriti stergerea datelor, va puteti exercita drepturile detaliate la punctul 6 de mai jos.
     
-    In cazul in care solicitati stergerea contului, insa pe acel cont exista cel putin o comanda activa, cererea de stergere a contului va putea fi inregistrata numai dupa livrarea produselor si finalizarea ultimei comenzi active.</p>
+    In cazul in care solicitati stergerea contului, insa pe acel cont exista cel putin o comanda activa, cererea de stergere a contului va putea fi inregistrata numai dupa livrarea produselor si finalizarea ultimei comenzi active.</h6>
     
-    <p>Daca va retrageti consimtamantul pentru prelucrarea datelor in scop de marketing, va inceta prelucrarea datelor dumneavoastra cu caracter personal in acest scop, fara insa a afecta prelucrarile desfasurate de pe baza consimtamantului exprimat de catre dumneavoastra inainte de retragerea acestuia. </p>
+    <h6>Daca va retrageti consimtamantul pentru prelucrarea datelor in scop de marketing, va inceta prelucrarea datelor dumneavoastra cu caracter personal in acest scop, fara insa a afecta prelucrarile desfasurate de pe baza consimtamantului exprimat de catre dumneavoastra inainte de retragerea acestuia. </h6>
    
     <h4 class="middleSubtext"> 4. Dezvaluirea datelor cu caracter personal </h4>
    
-    <p>Nu inchiriem / vindem datele dumneavoastra cu caracter personal catre terte parti. </p>
+    <h6>Nu inchiriem / vindem datele dumneavoastra cu caracter personal catre terte parti. </h6>
 
-    <p>Pe langa operator, in anumite situatii, datele pot fi accesibile pentru terte parti precum furnizori de servicii, operatori de transport, furnizori de hosting, companii IT, numite, daca este necesar, ca persoane imputernicite de Operator.</p>
+    <h6>Pe langa operator, in anumite situatii, datele pot fi accesibile pentru terte parti precum furnizori de servicii, operatori de transport, furnizori de hosting, companii IT, numite, daca este necesar, ca persoane imputernicite de Operator.</h6>
     
-    <p>Acestea sunt obligate prin contract sa mentina confidentialitatea datelor si sa le foloseasca exclusiv in scopul pentru care le-au fost furnizate.
+    <h6>Acestea sunt obligate prin contract sa mentina confidentialitatea datelor si sa le foloseasca exclusiv in scopul pentru care le-au fost furnizate.
     
-    De asemenea, am putea dezvalui datele dumneavoastra cu caracter personal catre autoritatile publice centrale / locale, in urmatoarele cazuri exemplificativ enumerate: </p>
+    De asemenea, am putea dezvalui datele dumneavoastra cu caracter personal catre autoritatile publice centrale / locale, in urmatoarele cazuri exemplificativ enumerate: </h6>
    
     <ul class="termsUl rightIndent">
       <li>pentru administrarea site-ului  </li>
@@ -172,9 +188,9 @@ export const staticContent:any = {
    
 
    <h4 class="middleSubtext">5. Modificari in politica de confidentialitate </h4>
-   <p>Ne rezervam dreptul de a modifica aceasta politica de confidentialitate. In cazul unor modificari majore pe viitor vei fi instiintat pe email (daca este posibil) sau prin afisarea unui mesaj specific pe site. </p>
+   <h6>Ne rezervam dreptul de a modifica aceasta politica de confidentialitate. In cazul unor modificari majore pe viitor vei fi instiintat pe email (daca este posibil) sau prin afisarea unui mesaj specific pe site. </h6>
 
-    <p>Aceasta pagina de internet foloseste fisiere de tip cookie. Pentru mai multe informatii cu privire la modul in care se folosesc aceste fisiere, va rugam sa accesati urmatorul link: <a href="/politica-de-cookies"> <p>http://diniubire.ro/politica-de-cookies </p></a>
+    <h6>Aceasta pagina de internet foloseste fisiere de tip cookie. Pentru mai multe informatii cu privire la modul in care se folosesc aceste fisiere, va rugam sa accesati urmatorul link: <a href="/politica-de-cookies"> <h6>http://diniubire.ro/politica-de-cookies </h6></a>
 
 
    

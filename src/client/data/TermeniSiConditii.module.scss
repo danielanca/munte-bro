@@ -1,0 +1,65 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
+
+.TermeniSiConditiiMainContainer{
+    max-width: 1992px;
+    margin: auto;
+}
+
+.TermeniSiConditii{
+    width: 70%;
+    margin: auto;
+    margin-top: 10%;
+    margin-bottom: 10%;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.TermeniSiConditiiMainHeading{
+    color: #3A5A40;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 32px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 41px;
+}
+
+.textContainer{
+    color: #010101;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 300;
+    line-height: 41px;
+}
+
+@media screen and (max-width: 992px) {
+    .TermeniSiConditiiMainHeading{
+        font-size: 28px;
+    }
+    .textContainer{
+        font-size: 18px;
+    }
+}
+
+@media screen and (max-width: 576px) {
+    .TermeniSiConditii{
+        width: 90%;
+    }
+
+    .TermeniSiConditiiMainHeading{
+        font-size: 25px;
+    }
+
+    .textContainer{
+        font-size: 14px;
+    }
+}
+
+// tablet: 576px,
+// desktop: 992px
+
+
+p {
+    margin: 0;
+    // padding: 0;
+}
