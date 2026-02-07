@@ -1,8 +1,9 @@
-@import "./../main.module.scss";
-@import "./../data//themes.scss";
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap');
+//@import "./../main.module.scss";
+//@import "./../data//themes.scss";
+//@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap');
 
 .content {
+    margin-top: 20px;
   max-width: 1992px;
   width: 100%;
   padding: 30px 8px;
@@ -13,6 +14,7 @@
   @include media(">=tablet", "<desktop") {
     padding: 30px 5%;
   }
+    
 }
 
 // .headTitle {
@@ -37,4 +39,7 @@
   word-wrap: break-word;
   flex-wrap: wrap;
   font-family: "Roboto";
+}
+.wrap-content{
+    margin:0 20%;
 }

@@ -64,6 +64,37 @@
   white-space: nowrap;
 }
 
+/* Links to the telephone call */
+
+.phoneIconWrapper {
+  position: relative;
+  margin-left: 12px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  color: black; // #3A5A40 match your theme
+
+  &:hover {
+    opacity: 0.8;
+  }
+}
+
+.phoneBadge {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  background-color:#00ac10;
+  color: white;
+  font-size: 10px;
+  width: 14px;
+  height: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+}
+
+
 /* Links in the right block */
 .searchIconParent,
 .hashTransparent,

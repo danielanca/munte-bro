@@ -3,18 +3,34 @@ import { orderProps } from "../../../utils/OrderInterfaces";
 import { sendOrderConfirmation } from "../../../services/emails";
 import { db } from "../../../firebase";
 import { doc, setDoc, serverTimestamp } from "firebase/firestore";
+import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
+
+const storage = getStorage();
+
 
 type OrderState =
   | "initState" | "requestState" | "validRequestState" | "pendingState"
   | "errorState" | "triggeredState" | "finishState";
 
 const makeOrderId = () =>
-  `ORD-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 8)}`;
+  `MNT-${Date.now().toString().slice(3, -3)}`;
 
 const saveOrderClientSide = async (orderID: string, data: orderProps) => {
   const ref = doc(db, "orders", String(orderID));
-  await setDoc(ref, { ...data, orderID, paymentStatus: "UNPAID", createdAt: serverTimestamp() }, { merge: true });
+  await setDoc(ref, { ...data, orderID, paymentStatus: "UNPAID", createdAt: serverTimestamp()}, { merge: true });
 };
+
+function base64ToBlob(base64: string) {
+  const byteCharacters = atob(base64);
+  const byteArrays = [];
+
+  for (let i = 0; i < byteCharacters.length; i++) {
+    byteArrays.push(byteCharacters.charCodeAt(i));
+  }
+
+  return new Blob([new Uint8Array(byteArrays)], { type: "application/pdf" });
+}
+
 
 export const handleSend = async (
   orderData: orderProps,
@@ -38,8 +54,55 @@ export const handleSend = async (
 
     // Fallback order id + persist to Firestore
     if (!orderID) orderID = makeOrderId();
-    await saveOrderClientSide(orderID, orderData);
+    const res = await fetch("http://localhost:5858/saga", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(orderData)
+    });
+  
+    const data = await res.json();
+    
 
+    /*
+
+    const res = await fetch("http://localhost:5858/generate-awb", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(orderData)
+    });
+  
+    const data = await res.json();
+    orderData.parcelId = data.parcelID;
+  
+    console.log(data);
+  
+    if (data.labelBase64) {
+      const pdfBlob = base64ToBlob(data.labelBase64);
+      const storageRef = ref(storage, `orders/${orderID}/awb.pdf`);
+    
+      await uploadBytes(storageRef, pdfBlob);
+    
+      const pdfUrl = await getDownloadURL(storageRef);
+
+    
+      // Save URL to orderData
+      orderData.awb = pdfUrl;
+    
+
+      
+    }
+*/
+    await saveOrderClientSide(orderID, orderData);
+    
+    orderData.mailOrderID = orderID;
+   
+    await fetch("http://localhost:5858/sendEmail", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(orderData),
+    });
+    
+  
     const method = (orderData.paymentMethod || "cash").toLowerCase();
 
     // >>> BYPASS: if not card, finish now

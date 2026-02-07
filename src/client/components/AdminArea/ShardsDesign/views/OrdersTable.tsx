@@ -3,7 +3,7 @@ import { Container, Row, Col, Card, Button, Table, Spinner } from "react-bootstr
 import { Link } from "react-router-dom";
 import RangeDatePicker from "../components/common/RangeDatePicker";
 import PageTitle from "../components/common/PageTitle";
-import { listOrders, OrderDoc } from "../../../../services/orders";
+import { listOrders, OrderDoc, OrderItem } from "../../../../services/orders";
 
 // helpers
 const DAY_OFFSET_MS = 86_400_000;
@@ -28,6 +28,12 @@ type RowItem = {
   paymentStatus: "PAID" | "UNPAID" | string;
   routeId: string;      // always safe for /order/:id
   invoiceLabel: string; // displayed in the table (e.g., orderID)
+  parcelId: string;
+  items: OrderItem[];
+
+  deliveryAddress?: string;
+  city?: string;
+  meta?: Record<string, any>;
 };
 
 const normalize = (o: OrderDoc): RowItem => {
@@ -42,16 +48,21 @@ const normalize = (o: OrderDoc): RowItem => {
   // prefer orderID, else invoiceID, else Firestore doc id
   const routeId = String((o as any).orderID || (o as any).invoiceID || (o as any).id || "");
   const invoiceLabel = routeId;
-
   return {
     timestamp: Number.isFinite(ts) ? ts : Date.now(),
     firstName: (o as any).firstName || "",
     lastName: (o as any).lastName || "",
     shippingTax,
+    parcelId : o.parcelId || "12345678",
     cartSum,
     paymentStatus: status === "PAID" ? "PAID" : "UNPAID",
     routeId,
     invoiceLabel,
+    items: o.items || [],
+
+    deliveryAddress: o.deliveryAddress,
+    city: o.city,
+    meta:o.meta,
   };
 };
 
@@ -119,7 +130,7 @@ const OrdersTable: React.FC = () => {
   // derived view with search/status/sort
   const viewRows = useMemo(() => {
     let data = rows;
-
+    
     // text search: name, invoice/order id
     const q = query.trim().toLowerCase();
     if (q) {
@@ -180,6 +191,161 @@ const OrdersTable: React.FC = () => {
     clearDates();
   };
 
+// inside OrdersTable component, use the exportToXML
+
+function formatToDayMonth(ts: number) {
+  const date = new Date(ts);
+
+  const day = date.getDate(); // 1–31
+
+  const months = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+  const month = months[date.getMonth()]; // 0–11
+
+  return `${day}${month}`;
+}
+
+const exportToSagaXML = () => {
+  if (!viewRows || viewRows.length === 0) return;
+
+  // Only export UNPAID orders (or adjust to PAID if needed)
+  const exportRows = viewRows.filter(r => r.paymentStatus === "UNPAID");
+  if (exportRows.length === 0) {
+    alert("No orders available for export.");
+    return;
+  }
+
+  const FURNIZOR = {
+    nume: "DIN MUNTI STRABUNI S.R.L.",
+    cif: "51976722",
+    nrRegCom: "j2025042564004",
+    adresa: "str. Fragariste nr.28, Turda, Cluj",
+    banca: "TRANSILVANIA",
+    iban: "RO30BTRLRONCRT0CY7486801",
+  };
+
+  const xmlOrders = exportRows.map(order => {
+    let lineNr = 1;
+    let totalValoare = 0;
+    let totalTVA = 0;
+
+    const itemLines = order.items.map(item => {
+      const pret = Number(item.price || 0);
+      const cantitate = Number(item.itemNumber || 1); // using itemNumber as quantity
+      const valoare = pret * cantitate / 1.21; // net value
+      const tva = pret * cantitate - valoare;
+
+      totalValoare += valoare;
+      totalTVA += tva;
+
+      return `
+        <Linie>
+          <LinieNrCrt>${lineNr++}</LinieNrCrt>
+          <Gestiune/>
+          <Descriere>${item.name}</Descriere>
+          <CodArticolFurnizor>${item.id}</CodArticolFurnizor>
+          <CodArticolClient>${item.id}</CodArticolClient>
+          <CodBare/>
+          <InformatiiSuplimentare/>
+          <UM>BUC</UM>
+          <Cantitate>${cantitate}</Cantitate>
+          <Pret>${pret.toFixed(2)}</Pret>
+          <Valoare>${valoare.toFixed(2)}</Valoare>
+          <ProcTVA>21</ProcTVA>
+          <TVA>${tva.toFixed(2)}</TVA>
+        </Linie>`;
+    });
+
+    if (order.shippingTax && order.shippingTax > 0) {
+      const pret = order.shippingTax;
+      const valoare = pret / 1.21;
+      const tva = pret - valoare;
+
+      totalValoare += valoare;
+      totalTVA += tva;
+
+      itemLines.push(`
+        <Linie>
+          <LinieNrCrt>${lineNr++}</LinieNrCrt>
+          <Gestiune/>
+          <Descriere>TAXA TRANSPORT</Descriere>
+          <CodArticolFurnizor/>
+          <CodArticolClient/>
+          <CodBare/>
+          <InformatiiSuplimentare/>
+          <UM>BUC</UM>
+          <Cantitate>1</Cantitate>
+          <Pret>${pret.toFixed(2)}</Pret>
+          <Valoare>${valoare.toFixed(2)}</Valoare>
+          <ProcTVA>21</ProcTVA>
+          <TVA>${tva.toFixed(2)}</TVA>
+        </Linie>`);
+    }
+
+    const totalFactura = totalValoare + totalTVA;
+
+    return `
+      <Factura>
+        <Antet>
+          <FurnizorNume>${FURNIZOR.nume}</FurnizorNume>
+          <FurnizorCIF>${FURNIZOR.cif}</FurnizorCIF>
+          <FurnizorNrRegCom>${FURNIZOR.nrRegCom}</FurnizorNrRegCom>
+          <FurnizorCapital/>
+          <FurnizorAdresa>${FURNIZOR.adresa}</FurnizorAdresa>
+          <FurnizorBanca>${FURNIZOR.banca}</FurnizorBanca>
+          <FurnizorIBAN>${FURNIZOR.iban}</FurnizorIBAN>
+          <FurnizorInformatiiSuplimentare/>
+          <ClientNume>${order.firstName} ${order.lastName}</ClientNume>
+          <ClientInformatiiSuplimentare/>
+          <ClientCIF>0000000000000</ClientCIF>
+          <ClientNrRegCom/>
+          <ClientAdresa>${order.deliveryAddress || ""}</ClientAdresa>
+          <ClientLocalitate>${order.city || ""}</ClientLocalitate>
+          <ClientJudet/>
+          <ClientBanca/>
+          <ClientIBAN/>
+          <FacturaNumar>${order.routeId}</FacturaNumar>
+          <FacturaData>${new Date(order.timestamp).toLocaleDateString("ro-RO")}</FacturaData>
+          <FacturaScadenta/>
+          <FacturaTaxareInversa>Nu</FacturaTaxareInversa>
+          <FacturaTVAIncasare>Nu</FacturaTVAIncasare>
+          <FacturaInformatiiSuplimentare/>
+          <FacturaMoneda>RON</FacturaMoneda>
+          <FacturaCotaTVA>21</FacturaCotaTVA>
+          <FacturaGreutate>0</FacturaGreutate>
+        </Antet>
+        <Detalii>
+          <Continut>
+            ${itemLines.join("")}
+          </Continut>
+        </Detalii>
+        <Sumar>
+          <TotalValoare>${totalValoare.toFixed(2)}</TotalValoare>
+          <TotalTVA>${totalTVA.toFixed(2)}</TotalTVA>
+          <Total>${totalFactura.toFixed(2)}</Total>
+        </Sumar>
+        <Observatii>
+          <txtObservatii>${order.meta?.orderNotes || ""}</txtObservatii>
+          <SoldClient/>
+        </Observatii>
+      </Factura>
+    `;
+  }).join("");
+
+  const finalXML = `<?xml version="1.0" encoding="UTF-8"?>
+<Facturi>
+${xmlOrders}
+</Facturi>`;
+
+  const blob = new Blob([finalXML], { type: "application/xml" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "Saga-Invoices-"+formatToDayMonth(filterDates.startDate)+"-"+formatToDayMonth(filterDates.endDate)+".xml";
+  a.click();
+  URL.revokeObjectURL(url);
+};
+
+
   return (
     <Container fluid className="px-4">
       <Row className="py-4">
@@ -195,6 +361,11 @@ const OrdersTable: React.FC = () => {
           <Button variant="outline-secondary" onClick={clearDates}>
             Șterge intervalul
           </Button>
+        </Col>
+         <Col md="auto" sm="auto">
+        <Button variant="success" onClick={exportToSagaXML}>
+           Download XML
+        </Button>
         </Col>
       </Row>
 
@@ -243,6 +414,7 @@ const OrdersTable: React.FC = () => {
         <Col md="auto" sm="auto">
           <Button variant="outline-dark" onClick={resetFilters}>Reset</Button>
         </Col>
+
       </Row>
 
       {/* Summary */}

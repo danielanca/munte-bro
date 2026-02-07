@@ -9,7 +9,7 @@ const Notifications: React.FC = () => {
       as={Nav.Item}
       align="end"
       show={show}
-      onToggle={(next) => setShow(!!next)}
+      onToggle={(next) => (setShow(!!next))}
       className="border-right notifications"
     >
       <Dropdown.Toggle
@@ -17,7 +17,7 @@ const Notifications: React.FC = () => {
         className="nav-link-icon text-center"
         onClick={(e: React.MouseEvent) => {
           e.preventDefault();
-          setShow((s) => !s);
+          //setShow((s) => !s);
         }}
       >
         <div className="nav-link-icon__wrapper position-relative">

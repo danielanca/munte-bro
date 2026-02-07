@@ -70,6 +70,8 @@ export interface orderProps {
   paymentMethod: string;
   deliveryName?: string;
   paymentStatus?: string;
+  parcelId?: string;
+  mailOrderID?: string;
 
   // Present in first file only
   deliveryMethod?: string;
@@ -230,6 +232,7 @@ export interface InvoiceOrderProps {
     cartProducts?: string;
     shippingTax?: number;
     cartSum?: number;
+    parcelId?: string;
     orderNotes?: string;
     deliveryName?: string;
     timestamp?: string;

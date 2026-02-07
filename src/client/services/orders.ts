@@ -43,7 +43,7 @@ export type OrderCreateInput = {
   deliveryMethod?: string;   // e.g. "NOT_SPECIFIED"
   lockerName?: string;       // optional locker/pickup point
   countyID?: string;         // optional county code/id
-
+  parcelId?: string;
   // cart
   cartSum: number;
   shippingTax: number;

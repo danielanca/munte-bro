@@ -94,7 +94,7 @@ export const renderClientMail = (cartProd: any, invoiceNumberID: any, data: any)
                           <td class="es-m-p0r" valign="top" align="center" style="padding:0;Margin:0;width:560px"> 
                            <table cellpadding="0" cellspacing="0" width="100%" role="presentation" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px"> 
                              <tr> 
-                              <td align="center" style="padding:0;Margin:0;padding-bottom:10px;font-size:0px"><img src="https://firebasestorage.googleapis.com/v0/b/diniubire-89ce0.appspot.com/o/emailTemplate%2FdinIubireLogoBro.png?alt=media&token=f9fe0cb8-7f70-4c1b-bd71-cc751f796d6e" alt="Logo" style="display:block;border:0;outline:none;text-decoration:none;-ms-interpolation-mode:bicubic;font-size:12px" width="200" title="Logo"></td> 
+                              <td align="center" style="padding:0;Margin:0;padding-bottom:10px;font-size:0px"><img src="https://firebasestorage.googleapis.com/v0/b/sapunmontan.appspot.com/o/updatedLogo.png?alt=media&token=9b15fd3b-3062-4ac2-b1ba-9a7bc3a326c1" alt="Logo" style="display:block;border:0;outline:none;text-decoration:none;-ms-interpolation-mode:bicubic;font-size:12px" width="200" title="Logo"></td> 
                              </tr> 
                            </table></td> 
                          </tr> 
@@ -274,8 +274,9 @@ export const renderClientMail = (cartProd: any, invoiceNumberID: any, data: any)
                          <tr> 
                           <td align="left" style="padding:0;Margin:0;width:560px"> 
                            <table cellpadding="0" cellspacing="0" width="100%" role="presentation" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px"> 
-                             <tr> 
-                              <td align="center" style="padding:0;Margin:0;padding-top:10px;padding-bottom:10px"><p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:21px;color:#333333;font-size:14px">Aveti intrebari? Nu ezitati sa ne contactati pe diniubire.ro/contact sau la numarul de telefon +40 745-469-907</p></td> 
+                           
+                           <tr> 
+                              <td align="center" style="padding:0;Margin:0;padding-top:10px;padding-bottom:10px"><p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:21px;color:#333333;font-size:14px">Aveti intrebari? Nu ezitati sa ne contactati la numarul de telefon +40 759 796 202</p></td> 
                              </tr> 
                            </table></td> 
                          </tr> 

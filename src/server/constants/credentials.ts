@@ -21,3 +21,15 @@ export const emailAuth = {
   email: "diniubire.ro@gmail.com",
   password: "jrffukuelpyknzks",
 };
+
+
+export const dpdAuth = {
+  username : "200929835",
+  password : "9334936614"
+};
+
+export const sagaAuth = {
+  Username :  "emilcristiann@gmail.com",
+  Password : "003|0ce94bc1d6cf0e72834b138bb9d49b4c",
+  companyVatCode : "51976722"
+};

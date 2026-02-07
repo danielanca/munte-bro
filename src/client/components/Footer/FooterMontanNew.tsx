@@ -43,13 +43,13 @@ const FooterMontanNew = () => {
               </Col>
               <Col lg={2} xl={2} className={styles.footerSecondCol}>
                 <p className={styles.footerPageLink}>
-                  <NavHashLink className={styles.footerPageLinkText} to={"politica-confidentialitate-new"}>
+                  <NavHashLink className={styles.footerPageLinkText} to={"politica-retur"}>
                     Politica de Return
                   </NavHashLink>
                 </p>
                 <p className={styles.footerPageLink}>Email</p>
                 <p className={styles.footerPageLink}>
-                  <NavHashLink className={styles.footerPageLinkText} to={"termeni-confidentialitate"}>
+                  <NavHashLink className={styles.footerPageLinkText} to={"politica-confidentialitate"}>
                     Politica de Confidentialitate
                   </NavHashLink>
                 </p>

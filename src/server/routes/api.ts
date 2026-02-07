@@ -33,6 +33,7 @@ export { sendReviewToServer };
 export { triggerEvent };
 export { updateOrder };
 export const sendEmail = async (request: Request, response: Response) => {
+
   applyCORSpolicy(response);
   console.log("We received something");
   const invoiceNumberID = generateInvoiceID();
@@ -47,7 +48,7 @@ export const sendEmail = async (request: Request, response: Response) => {
     transport
       .sendMail({
         from: emailAuth.email,
-        to: adminUser.email,
+        to: "Ibraheemakin2001@gmail.com",
         subject: "Comanda noua - " + data.firstName,
         html: renderAdminTemplate(cartProd, invoiceNumberID, data,downloadURL),
       })
@@ -56,13 +57,13 @@ export const sendEmail = async (request: Request, response: Response) => {
         response.send(ResponseData);
       });
   };
-  console.log("The request body is here:", request.body);
+  console.log("The request body is here:", invoiceNumberID);
   const data = request.body;
   console.log("DANUUUUUUUUUUUUUUUUUUT", data);
-  await postOrderToDB(invoiceNumberID, data, getDateAndHour());
+  //await postOrderToDB(invoiceNumberID, data, getDateAndHour());
   let cartProd = JSON.parse(data.cartProducts);
   let downloadURL = data.downloadURL; 
-
+  
   if (!data.emailAddress) {
     console.error("No recipients defined");
     transmitToAdmin();
@@ -71,7 +72,7 @@ export const sendEmail = async (request: Request, response: Response) => {
   transport
     .sendMail({
       from: emailAuth.email,
-      to: data.emailAddress,
+      to: data.emailAddress ,
       subject: "Comanda inregistrata, " + data.firstName,
       html: renderClientMail(cartProd, invoiceNumberID, data),
     })

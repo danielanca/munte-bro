@@ -7,7 +7,7 @@ function TermeniSiConditii() {
         <div className={styles.TermeniSiConditii}>
             <h1 className={styles.TermeniSiConditiiMainHeading}>Termeni si Conditii</h1>
             <span className={styles.textContainer}>
-                <p>Folosirea acestui site implica acceptarea termenilor si conditiilor de mai jos. Recomandam citirea cu atentie a acestora.ELYS MOMOANE s.r.l isi asuma dreptul de a modifica aceste prevederi fara o alta notificare. Cea mai recenta versiune poate fi accesata in aceasta pagina.</p>
+                <p>Folosirea acestui site implica acceptarea termenilor si conditiilor de mai jos. Recomandam citirea cu atentie a acestora. montanair s.r.l isi asuma dreptul de a modifica aceste prevederi fara o alta notificare. Cea mai recenta versiune poate fi accesata in aceasta pagina.</p>
                 <p>Accesul/vizitarea acestui website de catre dumneavoastra se supune Termenilor si conditiilor de ultilizare, si implica acceptul explicit al dumneavoastra cu privire la acestea si reprezinta intelegerea dintre parti.</p>
                 <p>Relatia dintre parti este guvernata de urmatoarele acte normative:</p>
                 <p>OG nr. 21/1992 privind protectia consumatorilor</p>
