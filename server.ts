@@ -7,7 +7,7 @@ import compression from "compression";
 import serveStatic from "serve-static";
 import { createServer as createViteServer } from "vite";
 import { fileURLToPath, pathToFileURL } from "url";
-import { dpdAuth } from "./src/server/constants/credentials";
+import { dpdAuth , sagaAuth } from "./src/server/constants/credentials";
 
 import { sendEmail } from "./src/server/routes/api";
 import axios from 'axios';
@@ -177,7 +177,7 @@ async function createServer() {
   });
 
 
-  function mapDpdStatus(code) {
+  function mapDpdStatus(code:number) {
     switch (code) {
       case 148:
         return "Shipment created (label generated)";
@@ -252,6 +252,122 @@ async function createServer() {
     } catch (err) {
       console.log(err);
       res.status(500).json({ error: "DPD tracking error" });
+    }
+  });
+  
+  app.post("/saga", async (req, res) => {
+    try {
+      const order = req.body;
+  
+      const invoiceBody = {
+        companyVatCode: sagaAuth.companyVatCode,
+        client: {
+          name: order.firstName + " "+ order.lastName,
+          vatCode: "RO12345678",
+          address: order.deliveryAddress,
+          isTaxPayer: true,
+          city: order.city,
+          county: order.county,
+          country: "Romania",
+          saveToDb: false
+        },
+        isDraft: false,
+        issueDate: order.timestamp,
+        seriesName: "1",
+        currency: "RON",
+        language: "RO",
+        precision: 2,
+        dueDate: "2026-01-31",
+        useEstimateDetails: false,
+        products: [
+          {
+            "name": "Mapa A4",
+            "code": "ccd1",
+            "productDescription": "produse de papetarie",
+            "isDiscount": false,
+            "measuringUnitName": "buc",
+            "currency": "RON",
+            "quantity": 2,
+            "price": 40,
+            "isTaxIncluded": true,
+            "taxName": "Normala",
+            "taxPercentage": 19,
+            "saveToDb": false,
+            "isService": false
+          },
+          {
+            "name": "Biblioraft Plastifiat",
+            "code": "ccd2",
+            "productDescription": "produse de papetarie",
+            "isDiscount": false,
+            "measuringUnitName": "buc",
+            "currency": "RON",
+            "quantity": 3,
+            "price": 60,
+            "isTaxIncluded": true,
+            "taxName": "Normala",
+            "taxPercentage": 19,
+            "saveToDb": false,
+            "isService": false
+          },
+          {
+            "name": "Discount valoric pe produsul 2",
+            "isDiscount": true,
+            "numberOfItems": 1,
+            "measuringUnitName": "buc",
+            "currency": "RON",
+            "isTaxIncluded": true,
+            "taxName": "Normala",
+            "taxPercentage": 19,
+            "discountType": 1,
+            "discountValue": -15
+          },
+          {
+            "name": "Discount procentual pe produsul 1 si 2",
+            "isDiscount": true,
+            "numberOfItems": 2,
+            "measuringUnitName": "buc",
+            "currency": "RON",
+            "isTaxIncluded": true,
+            "taxName": "Normala",
+            "taxPercentage": 19,
+            "discountType": 2,
+            "discountPercentage": 10
+          }
+        ],
+        payment: {
+          value: order.shippingTax + order.cartSum,
+          type: order.paymentMethod,
+          isCash: false
+        }
+      };
+  
+      const response = await axios.post(
+        "https://ws.smartbill.ro/SBORO/api/invoice",
+        invoiceBody,
+        {
+          auth: {
+            username: sagaAuth.Username,
+            password: sagaAuth.Password
+           },
+          headers: {
+            "Content-Type": "application/json"
+          }
+        }
+      );
+  
+      return res.json({
+        success: true,
+        smartbill: response.data
+      });
+  
+    } catch (error: any) {
+      console.error("SmartBill error:", error?.response?.data || error.message);
+  
+      return res.status(500).json({
+        success: false,
+        error: error?.response?.data || "SmartBill API error"
+      });
     }
   });
   

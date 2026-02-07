@@ -2,7 +2,7 @@ export const staticContent:any = {
   Terms: {
     title: "Termeni si conditii",
     jsonContent: `
-    <div class="">
+    <div id="wrap-container">
     
     <h4 class="middleSubtext"> Condiții generale </h4> 
     <div class="wrap-content">
