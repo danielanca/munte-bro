@@ -45,7 +45,7 @@ async function createServer() {
   // --- API routes (la fel ca la tine) ---
   const apiUrl = isProd
     ? new URL("./src/server/routes/api.js", import.meta.url) // în dist => dist/src/server/routes/api.js
-    : new URL("./src/server/routes/api.ts", import.meta.url);
+    : new URL("./src/server/routes/api.js", import.meta.url);
 
   const apiModule = await import(apiUrl.href);
   const { triggerEvent } = apiModule;
