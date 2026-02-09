@@ -7,10 +7,10 @@ import compression from "compression";
 import serveStatic from "serve-static";
 import { createServer as createViteServer } from "vite";
 import { fileURLToPath, pathToFileURL } from "url";
-import { dpdAuth , sagaAuth } from "./src/server/constants/credentials";
+import { dpdAuth , sagaAuth } from "./src/server/constants/credentials.js";
 
 import { sendEmail } from "./src/server/routes/api";
-import axios from 'axios';
+import axios from "axios";
 const isTest = process.env.NODE_ENV === "test" || !!process.env.VITE_TEST_BUILD;
 const isProd = process.env.NODE_ENV === "production";
 
