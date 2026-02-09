@@ -9,7 +9,7 @@ import { createServer as createViteServer } from "vite";
 import { fileURLToPath, pathToFileURL } from "url";
 import { dpdAuth , sagaAuth } from "./src/server/constants/credentials.js";
 
-import { sendEmail } from "./src/server/routes/api";
+import { sendEmail } from "./src/server/routes/api.js";
 import axios from "axios";
 const isTest = process.env.NODE_ENV === "test" || !!process.env.VITE_TEST_BUILD;
 const isProd = process.env.NODE_ENV === "production";
