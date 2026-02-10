@@ -417,11 +417,19 @@ async function createServer() {
     app.use(compression());
 
     // static din build
-    app.use(
+   /* app.use(
       serveStatic(resolve("client"), {
         index: false,
       }),
     );
+    */
+// Serve client build
+app.use(express.static(resolve("client"), { index: false }));
+
+// Serve Vite assets explicitly
+app.use("/assets", express.static(resolve("client/assets")));
+
+
     app.use("/public", express.static(resolve("public")));
 
     const baseTemplate = await fs.readFile(resolve("client/index.html"), "utf-8");
