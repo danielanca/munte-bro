@@ -28,7 +28,7 @@
     "clean": "rimraf dist/",
     "copy-files": "copyfiles \"public/**/*\" dist && copyfiles -u 2 \"dist/client/**/*\" dist && copyfiles -u 2 \"dist/client/assets/**/*\" dist/public",
     "format": "prettier --write src types",
-    "start": "SET NODE_ENV=production & node dist/server.js",
+    "start": "node dist/server.js",
     "serve": "cross-env NODE_ENV=production node ./dist/server.js"
   },
   "dependencies": {
