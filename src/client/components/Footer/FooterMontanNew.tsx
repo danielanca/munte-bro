@@ -43,25 +43,25 @@ const FooterMontanNew = () => {
               </Col>
               <Col lg={2} xl={2} className={styles.footerSecondCol}>
                 <p className={styles.footerPageLink}>
-                  <NavHashLink className={styles.footerPageLinkText} to={"politica-retur"}>
+                  <NavHashLink className={styles.footerPageLinkText} to={"/politica-retur"}>
                     Politica de Return
                   </NavHashLink>
                 </p>
                 <p className={styles.footerPageLink}>Email</p>
                 <p className={styles.footerPageLink}>
-                  <NavHashLink className={styles.footerPageLinkText} to={"politica-confidentialitate"}>
+                  <NavHashLink className={styles.footerPageLinkText} to={"/politica-confidentialitate"}>
                     Politica de Confidentialitate
                   </NavHashLink>
                 </p>
               </Col>
               <Col xs={6} lg={2} xl={2} className={styles.footerThirdCol}>
                 <p className={`${styles.footerPageLink} ${styles.politicaMobileFooter}`}>
-                  <NavHashLink className={styles.footerPageLinkText} to={"politica-confidentialitate-new"}>
+                  <NavHashLink className={styles.footerPageLinkText} to={"/politica-confidentialitate-new"}>
                     Politica de Return
                   </NavHashLink>
                 </p>
                 <p className={styles.footerPageLink}>
-                  <NavHashLink className={styles.footerPageLinkText} to={"termeni-si-conditii"}>
+                  <NavHashLink className={styles.footerPageLinkText} to={"/termeni-si-conditii"}>
                     Termeni si Conditii
                   </NavHashLink>
                 </p>
