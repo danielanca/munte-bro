@@ -12,7 +12,7 @@
   "scripts": {
     "clean-modules": "rimraf node_modules",
     "reinstall": "npm run clean-modules && npm install",
-    "killport": "fuser -k 5858/tcp",
+    "killport": "fuser -k 5858/tcp || true",
     "restart": "npm run killport && npm run start",
     "build-and-restart": "npm run build && npm run killport && npm run start",
     "dev:server": "tsx server.ts",
@@ -28,8 +28,8 @@
     "clean": "rimraf dist/",
     "copy-files": "copyfiles \"public/**/*\" dist && copyfiles -u 2 \"dist/client/**/*\" dist && copyfiles -u 2 \"dist/client/assets/**/*\" dist/public",
     "format": "prettier --write src types",
-    "start": "SET NODE_ENV=production & node dist/server.js",
-    "serve": "cross-env NODE_ENV=production node ./dist/server"
+    "start": "node dist/server.js",
+    "serve": "cross-env NODE_ENV=production node ./dist/server.js"
   },
   "dependencies": {
     "@faker-js/faker": "^6.1.2",
