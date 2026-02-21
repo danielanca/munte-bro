@@ -26,6 +26,7 @@ const EMPTY_PRODUCT: ProductModel = {
   reviews: {},
   shortDescription: "",
   title: "",
+  section: "",
 };
 
 const EditProduct: React.FC = () => {
@@ -210,6 +211,7 @@ const EditProduct: React.FC = () => {
         reviews: existing.reviews ?? {},
         shortDescription: existing.shortDescription ?? "",
         title: existing.title ?? "",
+        section : existing.section ?? ""
       });
 
       const imgs = existing.imageProduct ?? [];
