@@ -1,3 +1,4 @@
+
 /* src/client/components/.../ProductBlock.module.scss */
 
 /* ✅ keep modules isolated */
@@ -5,7 +6,7 @@
 
 /* Grid row from main.module.scss — use CSS Modules composition, not @extend */
 .blockContainer {
-  //composes: row from "../../../../main.module.scss"; /* adjust path if needed */
+ // composes: row from "../../../../main.module.scss"; /* adjust path if needed */
   width: 100%;
   height: auto;
   background-color: #fff; /* or var(--whitePure) if you have a CSS variable */

@@ -34,6 +34,7 @@ export const EMPTY_PRODUCT: EditableProduct = {
   jsonContent: "",
   reviews: {},
   shortDescription: "",
+  section : "",
   // New fields as strings
   productCode: "",
   category: "",
