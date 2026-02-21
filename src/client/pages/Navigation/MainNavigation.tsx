@@ -9,9 +9,22 @@ import GrayBanner from "../../components/mini/HeadLiners/HeadLiners/GrayBanner";
 import Contactinfo from "../../components/mini/HeadLiners/HeadLiners/Contactinfo";
 import HelloAllNew from "../../components/HelloAll/HelloAllNew";
 
+import ImageGrid from "../../components/Banner/ImageGrid";
+
 // ⬇️ use Firestore service
 import { listProducts } from "../../services/products";
 import type { ProductModel } from "../../utils/OrderInterfaces";
+
+const imagesTop = [
+  { src: 'https://gomagcdn.ro/domains2/dinmunte.ro/files/banner/sare-de-baie-jpg5234.png', alt: '', name: 'Sare De Baie' },
+  { src: 'https://gomagcdn.ro/domains2/dinmunte.ro/files/banner/sare-de-masa2935.png', alt: '', name: 'Sare Neoidata si fara Antaglomerant' },
+];
+
+const imagesBottom = [
+  { src: 'https://gomagcdn.ro/domains2/dinmunte.ro/files/banner/siropuri-c1-mbit-460x300-1mb-exact3933.jpg', alt: '', name: 'Siro Puri' },
+  { src: 'https://gomagcdn.ro/domains2/dinmunte.ro/files/banner/template-ai-sapun5287_1760595643.jpg', alt: '', name: 'Sapunuri' },
+  { src: 'https://gomagcdn.ro/domains2/dinmunte.ro/files/banner/template-ai-bath-bomb5962_1760595659.jpg', alt: '', name: 'Bombe de baie si Scrub' },
+];
 
 type ProductsDict = Record<string, ProductModel>;
 
@@ -43,6 +56,7 @@ const MainNavigation = () => {
 
   return (
     <>
+          <ImageGrid topRow={imagesTop} bottomRow={imagesBottom} />
       <HelloAllNew />
       <FeaturedProductNew />
 <ProductsGallery productsToShow={products} limit={8} randomize />

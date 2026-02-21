@@ -58,9 +58,9 @@ const NavbarNew: React.FC<NavProps> = () => {
             </HashLink>
 
             <nav className={styles.navbarLaptopPagesConatiner} aria-label="Primary">
-              <HashLink to="/produsele-noastre" className={styles.headerPages}>Sare</HashLink>
-              <HashLink to="/produsele-noastre" className={styles.headerPages}>Siropuri</HashLink>
-              <HashLink to="/sapunuri" className={styles.headerPages}>Sapunuri</HashLink>
+              <HashLink to="/produsele-noastre?section=sare" className={styles.headerPages}>Sare</HashLink>
+              <HashLink to="/produsele-noastre?section=sirop" className={styles.headerPages}>Siropuri</HashLink>
+              <HashLink to="/produsele-noastre?section=sapunuri" className={styles.headerPages}>Sapunuri</HashLink>
               <HashLink to="/bombe" className={styles.headerPages}>Bombe</HashLink>
               <HashLink to="/desprenoi" className={styles.headerPages}>Despre Noi</HashLink>
             </nav>

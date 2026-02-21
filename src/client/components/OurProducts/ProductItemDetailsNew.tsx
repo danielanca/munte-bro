@@ -1,4 +1,5 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { act, useEffect, useMemo, useState } from "react";
+import { useSearchParams } from 'react-router-dom';
 import { HashLink } from "react-router-hash-link";
 import ReactStarRatings from "react-star-ratings";
 import styles from "./ProductItemDetails.module.css";
@@ -13,14 +14,31 @@ interface ProductItemDetailsNewProps {
   productData: ProductDataIn;
 }
 
-const ProductItemDetailsNew: React.FC<ProductItemDetailsNewProps> = ({ productData }) => {
+
+const ProductItemDetailsNew: React.FC<ProductItemDetailsNewProps> = ({ productData}) => {
+  const [searchParams, setSearchParams] = useSearchParams();
   const { ProductItem: ProductItemStrings } = strings as any;
+  const activeSection = searchParams.get('section') || null;  // null = show all
 
   /** Normalize to flat array */
-  const items: ProductListItem[] = useMemo(() => {
+  const items = useMemo<ProductListItem[]>(() => {
     if (!productData) return [];
-    return Array.isArray(productData) ? productData : (Object.values(productData) as ProductListItem[]);
-  }, [productData]);
+
+    // Flatten regardless of input shape
+    let allItems: ProductListItem[] = Array.isArray(productData)
+      ? productData
+      : (Object.values(productData) as ProductListItem[]);
+
+    if (!activeSection) {
+      return allItems;
+    }
+
+    // Filter by section (case-insensitive)
+    return allItems.filter((item) => {
+      const section = (item as any).section?.trim()?.toLowerCase();
+      return section === activeSection;
+    });
+  }, [productData, activeSection]);   // ← important: depend on activeSection
 
   /** UI: back-to-top + responsive star size (unchanged) */
   const gotoElement = () => window.scrollTo({ top: 0, behavior: "smooth" });
@@ -272,6 +290,8 @@ const ProductItemDetailsNew: React.FC<ProductItemDetailsNewProps> = ({ productDa
 
         <div className={styles.productsGrid}>
           {sorted.map((item) => {
+            if((item as any).section == activeSection){
+            console.log(`${(item as any).section} : activeSection `);
             const img = (item as any).imageProduct?.[0];
             const isNew = isNewProduct((item as any).createdAt);
             const disc = hasDiscount((item as any).price, (item as any).discountedPrice);
@@ -338,10 +358,11 @@ const ProductItemDetailsNew: React.FC<ProductItemDetailsNewProps> = ({ productDa
                     console.log("Add to cart:", item.ID);
                   }}
                 >
-                  Adaugă în Coș
+                  Adaugă în Coșs {activeSection}
                 </button>
               </div>
             );
+          }
           })}
         </div>
       </section>
