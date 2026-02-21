@@ -121,7 +121,7 @@ export interface ProductBase {
   price: Numish;
   reviews: Record<string, unknown>;
   ULbeneficii: string[];
-  section : "";
+  section : string;
   
   // Timestamp fields
   createdAt?: AnyTimestamp;
