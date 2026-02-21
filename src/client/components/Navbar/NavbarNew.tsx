@@ -160,13 +160,13 @@ const NavbarNew: React.FC<NavProps> = () => {
                     <span>Home</span>
                   </HashLink>
 
-                  <HashLink to="/saredebai" className={styles.headerPagesTablet} style={{ display: "flex", alignItems: "center" }} onClick={toggleHandler}>
+                  <HashLink to="/produsele-noastre?section=sare" className={styles.headerPagesTablet} style={{ display: "flex", alignItems: "center" }} onClick={toggleHandler}>
                     <HiOutlineHome className={styles.homePageIcon} style={{ paddingRight: "4px", width: "40px", visibility: "hidden" }} />
                     <span>Sare</span>
                   </HashLink>
 
                   <HashLink
-                    to="/produsele-noastre"
+                    to="/produsele-noastre?section=sirop"
                     className={styles.headerPagesTablet}
                     style={{ display: "flex", alignItems: "center" }}
                     onClick={() => {
@@ -178,7 +178,7 @@ const NavbarNew: React.FC<NavProps> = () => {
                     <span>Siropuri</span>
                   </HashLink>
 
-                  <HashLink to="/sapunuri" className={styles.headerPagesTablet} style={{ display: "flex", alignItems: "center" }} onClick={toggleHandler}>
+                  <HashLink to="/produsele-noastre?section=sapunuri" className={styles.headerPagesTablet} style={{ display: "flex", alignItems: "center" }} onClick={toggleHandler}>
                     <HiOutlineHome className={styles.homePageIcon} style={{ paddingRight: "4px", width: "40px", visibility: "hidden" }} />
                     <span>Sapunuri</span>
                   </HashLink>
