@@ -34,7 +34,10 @@
       background: #111;
       aspect-ratio: 4 / 3; // you can adjust this
       transition: transform 0.25s ease;
-  
+      display: block;
+      text-decoration: none;
+      color: inherit;
+
       &:hover {
         transform: scale(1.04);
         box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
@@ -78,6 +81,9 @@
         padding: 1rem;
       }
     }
+  }
+  a.image-card {
+    cursor: pointer;
   }
   
   /* ────────────────────────────────────────────────
