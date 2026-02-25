@@ -3,7 +3,7 @@ import React, { useCallback } from "react";
 import { Navbar, Container } from "react-bootstrap";
 // If your project supports importing SVGs, keep this import.
 // Otherwise pass `logoSrc` via props or add a *.svg module declaration.
-import logoUrl from "../../../images/shards-dashboards-logo.svg";
+import logoUrl from "../../../images/dinmunte-logo.png";
 import { Dispatcher, Constants } from "../../../flux";
 
 export type SidebarMainNavbarProps = {
@@ -34,8 +34,8 @@ const SidebarMainNavbar: React.FC<SidebarMainNavbarProps> = ({
             <div className="d-table m-auto">
               <img
                 id="main-logo"
-                className="d-inline-block align-top mx-2"
-                style={{ maxWidth: 25 }}
+                className="d-inline-block align-top mx-2 my-2"
+                style={{ maxWidth: 100 }}
                 src={logoSrc}
                 alt="MontanAir Admin"
               />

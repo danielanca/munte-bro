@@ -30,6 +30,7 @@ type RowItem = {
   invoiceLabel: string; // displayed in the table (e.g., orderID)
   parcelId: string;
   items: OrderItem[];
+  awb:string;
 
   deliveryAddress?: string;
   city?: string;
@@ -59,6 +60,7 @@ const normalize = (o: OrderDoc): RowItem => {
     routeId,
     invoiceLabel,
     items: o.items || [],
+    awb:(o as any).awb,
 
     deliveryAddress: o.deliveryAddress,
     city: o.city,
@@ -481,7 +483,16 @@ ${xmlOrders}
                               <Button size="sm" variant="primary">VIZUALIZEAZA</Button>
                             </Link>
                           </td>
-                          <td>{`#${item.invoiceLabel}`}</td>
+                          <td>
+                            {
+                              item.awb !== "" && (
+                              <Link target="_blank" to={`${item.awb}`}>
+                              <Button size="sm" variant="primary">{`#${item.invoiceLabel}`}</Button>
+                            </Link>
+                              )
+
+                            }
+                          </td>
                         </tr>
                       );
                     })

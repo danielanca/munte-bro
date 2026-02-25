@@ -17,6 +17,7 @@ const EMPTY_PRODUCT: ProductModel = {
   discountedPrice: "",
   realStock: "",
   realStockCheck: "",
+  section: "",
   fakeStock: "",
   fakeStockCheck: "",
   ULbeneficii: [],
@@ -26,7 +27,6 @@ const EMPTY_PRODUCT: ProductModel = {
   reviews: {},
   shortDescription: "",
   title: "",
-  section: "",
 };
 
 const EditProduct: React.FC = () => {
@@ -58,7 +58,7 @@ const EditProduct: React.FC = () => {
     setReviewInput("");
   };
 
-  const inputHandler = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const inputHandler = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value, type } = e.target as HTMLInputElement;
     let v: string = value;
     if (type === "checkbox" && "checked" in e.target) v = e.target.checked ? "true" : "false";
@@ -341,6 +341,35 @@ const EditProduct: React.FC = () => {
                       placeholder="Enter stock quantity"
                     />
                   </div>
+
+                  <div className={styles.inputFielder}>
+  <Form.Label htmlFor="category">Product Category</Form.Label>
+  <Form.Select
+    id="category"
+    name="category"
+    value={String(editproductModel.section ?? "")}
+  >
+    <option value="">Select Product</option>
+    <option value="sare">sare</option>
+    <option value="sapunuri">sapunuri</option>
+    <option value="sirop">sirop</option>
+  </Form.Select>
+
+  {/* Optional: show number input when "custom" is selected */}
+  {editproductModel.section === "custom" && (
+    <Form.Control
+      type="number"
+      className="mt-2"
+      name="realStock"
+      value={String(editproductModel.section ?? "")}
+      onChange={inputHandler}
+      placeholder="Enter exact number"
+      min={0}
+      autoFocus
+    />
+  )}
+</div>
+
                 </div>
 
                 <div className={styles.rowSpacerTextArea}>
