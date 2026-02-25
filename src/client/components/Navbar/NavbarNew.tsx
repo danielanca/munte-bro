@@ -61,7 +61,6 @@ const NavbarNew: React.FC<NavProps> = () => {
               <HashLink to="/produsele-noastre?section=sare" className={styles.headerPages}>Sare</HashLink>
               <HashLink to="/produsele-noastre?section=sirop" className={styles.headerPages}>Siropuri</HashLink>
               <HashLink to="/produsele-noastre?section=sapunuri" className={styles.headerPages}>Sapunuri</HashLink>
-              <HashLink to="/bombe" className={styles.headerPages}>Bombe</HashLink>
               <HashLink to="/desprenoi" className={styles.headerPages}>Despre Noi</HashLink>
             </nav>
 
@@ -182,11 +181,7 @@ const NavbarNew: React.FC<NavProps> = () => {
                     <HiOutlineHome className={styles.homePageIcon} style={{ paddingRight: "4px", width: "40px", visibility: "hidden" }} />
                     <span>Sapunuri</span>
                   </HashLink>
-
-                  <HashLink to="/bombe" className={styles.headerPagesTablet} style={{ display: "flex", alignItems: "center" }} onClick={toggleHandler}>
-                    <HiOutlineHome className={styles.homePageIcon} style={{ paddingRight: "4px", width: "40px", visibility: "hidden" }} />
-                    <span>Bombe</span>
-                  </HashLink>
+                  
                 </div>
 
                 <div className={styles.heroSectionInOpenedToggleMobile}>
