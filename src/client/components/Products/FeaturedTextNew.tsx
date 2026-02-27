@@ -72,7 +72,7 @@ function FeaturedTextNew() {
                 <img className={styles.featuredSubContainer2TabletImage} src={images.FeaturedSubSubContainerTabletImage} alt="" />
             </div>
             <div className={styles.featuredSubSubContainer2TextContainer}>
-                <div className={styles.featuredSubSubContainerHeading}>Descopera sarea <span className={styles.colons}>''</span> <br />  noastra de baie </div>
+                <div className={styles.featuredSubSubContainerHeading}>Descopera sarea <br />  noastra de baie </div>
                 <div className={styles.featuredSubSubContainerDesc}>Bombele de baie sunt mici obiecte sferice care sunt utilizate pentru a transforma baia într-un spa relaxant. Ele sunt realizate din ingrediente naturale, cum ar fi sare de mare, bicarbonat de sodiu, uleiuri esențiale și coloranți alimentari. Când sunt plasate în apă, bombele de baie eliberează arome plăcute și culori vibrante, transformând baia într-o experiență spa personalizată. Acestea sunt perfecte pentru a-ți face timpul petrecut în baie mai relaxant și mai plăcut.</div>
                 <div className={styles.featuredSubSubContainerButton}>Afla mai mult</div>
                 <div className={styles.artificialFlowerEndContainer}><img className={styles.artificialFlowerEnd} src={images.artificialFlower} alt="" /></div>
