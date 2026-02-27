@@ -59,10 +59,19 @@ const EditProduct: React.FC = () => {
   };
 
   const inputHandler = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    const { name, value, type } = e.target as HTMLInputElement;
-    let v: string = value;
-    if (type === "checkbox" && "checked" in e.target) v = e.target.checked ? "true" : "false";
-    setEditProductModel((prev) => ({ ...prev, [name]: v }));
+    const target = e.target;
+    const name = target.name;
+    let value: string;
+  
+    if (target instanceof HTMLInputElement && target.type === "checkbox") {
+      value = target.checked ? "true" : "false";
+    } else {
+      // works correctly for <input type="text|number|email|...">, <textarea>, <select>
+      value = target.value;
+    }
+    console.log(`${name} : ${value}`);
+    console.log(editproductModel);
+    setEditProductModel((prev) => ({ ...prev, [name]: value }));
   };
 
   const benefitsHandler = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -343,31 +352,18 @@ const EditProduct: React.FC = () => {
                   </div>
 
                   <div className={styles.inputFielder}>
-  <Form.Label htmlFor="category">Product Category</Form.Label>
+  <Form.Label htmlFor="section">Product Category</Form.Label>
   <Form.Select
-    id="category"
-    name="category"
+    id="section"
+    name="section"
     value={String(editproductModel.section ?? "")}
+    onChange={inputHandler}
   >
     <option value="">Select Product</option>
     <option value="sare">sare</option>
     <option value="sapunuri">sapunuri</option>
     <option value="sirop">sirop</option>
   </Form.Select>
-
-  {/* Optional: show number input when "custom" is selected */}
-  {editproductModel.section === "custom" && (
-    <Form.Control
-      type="number"
-      className="mt-2"
-      name="realStock"
-      value={String(editproductModel.section ?? "")}
-      onChange={inputHandler}
-      placeholder="Enter exact number"
-      min={0}
-      autoFocus
-    />
-  )}
 </div>
 
                 </div>
