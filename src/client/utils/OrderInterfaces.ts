@@ -121,6 +121,7 @@ export interface ProductBase {
   price: Numish;
   reviews: Record<string, unknown>;
   ULbeneficii: string[];
+  section : string;
   
   // Timestamp fields
   createdAt?: AnyTimestamp;
@@ -182,6 +183,7 @@ export const authorInitialProduct: ProductModel = {
   reviews: {},
   shortDescription: "",
   title: "",
+  section: "",
 };
 
 // ----------------------------------

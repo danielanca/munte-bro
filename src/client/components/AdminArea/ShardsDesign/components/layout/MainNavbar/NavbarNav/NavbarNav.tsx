@@ -6,7 +6,7 @@ import UserActions from "./UserActions";
 const NavbarNav: React.FC = () => {
   return (
     <Nav navbar className="border-left flex-row ms-auto">
-      <Notifications />
+
       <UserActions />
     </Nav>
   );

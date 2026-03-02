@@ -9,7 +9,7 @@ interface HelmetProps {
 const HelmetHead = ({ title, description }: HelmetProps) => {
   return (
     <Helmet>
-      <title>{`${title} - MontanAir.Ro`}</title>
+      <title>{`${title} - MontanAir.Ros`}</title>
       <meta name="description" content={description} />
     </Helmet>
   );
