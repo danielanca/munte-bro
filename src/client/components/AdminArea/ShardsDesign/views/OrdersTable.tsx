@@ -1,9 +1,9 @@
-import React, { useEffect, useMemo, useState } from "react";
-import { Container, Row, Col, Card, Button, Table, Spinner } from "react-bootstrap";
+import React, {useRef, useEffect, useMemo, useState } from "react";
+import { Container, Row, Col, Card, Button, Table, Spinner,Form  } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import RangeDatePicker from "../components/common/RangeDatePicker";
 import PageTitle from "../components/common/PageTitle";
-import { listOrders, OrderDoc, OrderItem } from "../../../../services/orders";
+import { listOrders, OrderDoc, OrderItem,bulkUpdatePaymentStatus, bulkCancelOrders, bulkDeleteOrders, } from "../../../../services/orders";
 
 // helpers
 const DAY_OFFSET_MS = 86_400_000;
@@ -56,7 +56,7 @@ const normalize = (o: OrderDoc): RowItem => {
     shippingTax,
     parcelId : o.parcelId || "12345678",
     cartSum,
-    paymentStatus: status === "PAID" ? "PAID" : "UNPAID",
+    paymentStatus: status,
     routeId,
     invoiceLabel,
     items: o.items || [],
@@ -67,6 +67,7 @@ const normalize = (o: OrderDoc): RowItem => {
     meta:o.meta,
   };
 };
+
 
 type SortKey = "recent" | "oldest" | "name" | "amount";
 type SortDir = "asc" | "desc";
@@ -85,6 +86,113 @@ const OrdersTable: React.FC = () => {
   // ux state
   const [loading, setLoading] = useState<boolean>(true);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
+
+  // multiple action
+
+  const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
+
+  const masterCheckboxRef = useRef<HTMLInputElement>(null);
+
+// Master checkbox
+const allSelected = !!(
+  ordersList &&
+  selectedIds.size === ordersList.length &&
+  ordersList.length > 0
+);
+const someSelected = selectedIds.size > 0 && selectedIds.size < (ordersList?.length ?? 0);
+
+// Toggle one
+const toggleSelect = (routeId: string) => {
+  setSelectedIds(prev => {
+    const next = new Set(prev);
+    if (next.has(routeId)) {
+      next.delete(routeId);
+    } else {
+      next.add(routeId);
+    }
+    return next;
+  });
+};
+
+// Toggle all
+const toggleSelectAll = () => {
+  if (allSelected) {
+    setSelectedIds(new Set());
+  } else {
+    setSelectedIds(new Set(ordersList?.map(o => o.routeId) ?? []));
+  }
+};
+
+// ────────────────────────────────────────────────
+
+
+const handleBulkAction = async (action: "cancel" | "delete" | "paid" | "unpaid") => {
+  if (selectedIds.size === 0) return;
+
+  const count = selectedIds.size;
+  const idsArray = Array.from(selectedIds);
+
+  let message = "";
+  switch (action) {
+    case "paid":
+      message = `Marchezi ${count} comand${count === 1 ? 'ă' : 'e'} ca **PLĂTITĂ**?`;
+      break;
+    case "unpaid":
+      message = `Marchezi ${count} comand${count === 1 ? 'ă' : 'e'} ca **NEPLĂTITĂ**?`;
+      break;
+    case "cancel":
+      message = `Anulezi ${count} comand${count === 1 ? 'ă' : 'e'}? (ireversibil parțial)`;
+      break;
+    case "delete":
+      message = `Ștergi **definitiv** ${count} comand${count === 1 ? 'ă' : 'e'}?\nAceastă acțiune NU poate fi anulată!`;
+      break;
+  }
+
+
+  try {
+    setLoading(true);
+
+    switch (action) {
+      case "paid":
+        await bulkUpdatePaymentStatus(idsArray, "PAID");
+        break;
+
+      case "unpaid":
+        await bulkUpdatePaymentStatus(idsArray, "UNPAID");
+        break;
+
+      case "cancel":
+        await bulkUpdatePaymentStatus(idsArray, "CANCELLED");
+        break;
+
+      case "delete":
+        if (!window.confirm("Ești ABSOLUT sigur? Ștergere PERMANENTĂ!")) return;
+        await bulkDeleteOrders(idsArray);
+        break;
+    }
+
+    // Refresh the list
+    const raw = await listOrders();
+    const normalized = raw.map(normalize);
+    setOrdersLocal(normalized);
+    setOrdersList(normalized);
+
+    setSelectedIds(new Set());
+    alert("Acțiunea a fost realizată cu succes.");
+  } catch (err: any) {
+    console.error("Bulk action failed:", err);
+    alert("Eroare: " + (err.message || "acțiunea nu a putut fi executată"));
+  } finally {
+    setLoading(false);
+  }
+};
+
+
+useEffect(() => {
+  if (masterCheckboxRef.current) {
+    masterCheckboxRef.current.indeterminate = someSelected && !allSelected;
+  }
+}, [someSelected, allSelected]);
 
   useEffect(() => {
     (async () => {
@@ -446,18 +554,70 @@ ${xmlOrders}
               <strong>Orders</strong>
             </Card.Header>
             <Card.Body className="p-0">
+            {(
+  <div
+    className="bg-light border-top p-3 d-flex align-items-center gap-3 flex-wrap"
+    style={{
+      position: "sticky",
+      bottom: 0,
+      zIndex: 10,
+      background: "rgba(255,255,255,0.95)",
+      backdropFilter: "blur(6px)",
+    }}
+  >
+    <strong>{selectedIds.size} selectate</strong>
+
+    <Button
+      variant="outline-secondary"
+      size="sm"
+      onClick={() => setSelectedIds(new Set())}
+    >
+      Deselectează tot
+    </Button>
+
+    <div className="vr mx-2" />
+
+    <Button variant="success" size="sm" onClick={() => handleBulkAction("paid")}>
+      Marchează ca plătite
+    </Button>
+
+    <Button variant="warning" size="sm" onClick={() => handleBulkAction("unpaid")}>
+      Marchează ca neplătite
+    </Button>
+
+    <Button variant="secondary" size="sm" onClick={() => handleBulkAction("cancel")}>
+      Anulează comenzi
+    </Button>
+
+    <Button
+      variant="danger"
+      size="sm"
+      onClick={() => handleBulkAction("delete")}
+    >
+      Șterge definitiv
+    </Button>
+  </div>
+)}
               <Table responsive hover className="mb-0 align-middle">
                 <thead className="table-light">
                   <tr>
+                  <th className="mx-3 text-center"><Form.Check
+  ref={masterCheckboxRef}
+  type="checkbox"
+  checked={allSelected}
+  onChange={toggleSelectAll}
+/></th>
+
                     <th>Data</th>
                     <th>Nume Client</th>
                     <th>Valoare comanda</th>
                     <th>Status Plata</th>
                     <th>Actiuni</th>
                     <th>Factura</th>
+                  
                   </tr>
                 </thead>
-                <tbody>
+                <tbody className="px-4">
                   {!loading && viewRows.length === 0 ? (
                     <tr>
                       <td colSpan={6} className="text-center py-4">
@@ -468,14 +628,17 @@ ${xmlOrders}
                     viewRows.map((item) => {
                       const total = item.shippingTax + item.cartSum;
                       const paid = item.paymentStatus === "PAID";
+                      const isSelected = selectedIds.has(item.routeId);
                       return (
                         <tr key={`${item.routeId}-${item.timestamp}`}>
+                          <td className="text-center"> <Form.Check type="checkbox" checked={isSelected}
+              onChange={() => toggleSelect(item.routeId)} /> </td>
                           <td>{new Date(item.timestamp).toLocaleString("ro-RO")}</td>
                           <td className="fw-semibold">{`${item.firstName} ${item.lastName}`.trim() || "—"}</td>
                           <td>{fmtRON(total)}</td>
                           <td>
                             <Button size="sm" className="w-100" variant={paid ? "success" : "warning"}>
-                              {paid ? "PAID" : "UNPAID"}
+                              {item.paymentStatus}
                             </Button>
                           </td>
                           <td>
@@ -493,6 +656,7 @@ ${xmlOrders}
 
                             }
                           </td>
+                        
                         </tr>
                       );
                     })

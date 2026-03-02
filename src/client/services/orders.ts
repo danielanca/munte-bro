@@ -14,6 +14,19 @@ import {
 } from "firebase/firestore";
 import app from "../firebase";
 
+import { writeBatch } from "firebase/firestore";
+
+// ────────────────────────────────────────────────
+// Bulk operations using batches (atomic & efficient)
+// ────────────────────────────────────────────────
+
+/**
+ * Bulk update paymentStatus (or status) on multiple orders
+ * @param orderIds - array of Firestore document IDs (usually the same as routeId/orderID)
+ * @param paymentStatus - "PAID" | "UNPAID" | etc.
+ * @param extraFields - optional additional fields (e.g. { status: "canceled", cancelledAt: ... })
+ */
+
 const db = getFirestore(app);
 const ORDERS = "orders";
 
@@ -57,7 +70,7 @@ export type OrderCreateInput = {
   // legacy/compat (optional fields you already store)
   orderID?: string;                // friendly id like ORD-...
   invoiceID?: string | number;
-  paymentStatus?: "PAID" | "UNPAID" | string;
+  paymentStatus?: "PAID" | "UNPAID" | "CANCELLED" | string;
   cartProducts?: string | any[];   // sometimes saved as stringified JSON
   createdAt?: any;
   updatedAt?: any;
@@ -127,4 +140,61 @@ export async function saveOrderClientSide(orderID: string, raw: any) {
     orderID,
     paymentStatus: raw?.paymentStatus ?? "UNPAID",
   });
+}
+
+export async function bulkUpdatePaymentStatus(
+  orderIds: string[],
+  paymentStatus: "PAID" | "UNPAID" |"CANCELLED" | string,
+  extraFields: Record<string, any> = {}
+): Promise<void> {
+  if (orderIds.length === 0) return;
+
+  const batch = writeBatch(db);
+
+  for (const id of orderIds) {
+    const ref = doc(db, ORDERS, String(id));
+    batch.update(ref, {
+      paymentStatus: paymentStatus.toUpperCase(),
+      updatedAt: serverTimestamp(),
+      ...extraFields,
+    });
+  }
+
+  await batch.commit();
+}
+
+/**
+ * Bulk cancel orders (sets both paymentStatus and status)
+ */
+export async function bulkCancelOrders(orderIds: string[]): Promise<void> {
+  if (orderIds.length === 0) return;
+
+  const batch = writeBatch(db);
+
+  for (const id of orderIds) {
+    const ref = doc(db, ORDERS, String(id));
+    batch.update(ref, {
+      paymentStatus: "Cancelled", 
+      updatedAt: serverTimestamp(),
+    });
+  }
+
+  await batch.commit();
+}
+
+/**
+ * Bulk hard-delete multiple orders
+ * WARNING: irreversible!
+ */
+export async function bulkDeleteOrders(orderIds: string[]): Promise<void> {
+  if (orderIds.length === 0) return;
+
+  const batch = writeBatch(db);
+
+  for (const id of orderIds) {
+    const ref = doc(db, ORDERS, String(id));
+    batch.delete(ref);
+  }
+
+  await batch.commit();
 }
