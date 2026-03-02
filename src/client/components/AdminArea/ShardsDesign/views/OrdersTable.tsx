@@ -530,10 +530,10 @@ ${xmlOrders}
       {/* Summary */}
       <Row className="mb-2 g-2">
         <Col md="auto">
-          <span className="badge bg-light text-dark">Comenzi: {viewRows.length}</span>
+          <span className="badge bg-light text-dark fs-3">Comenzi: {viewRows.length}</span>
         </Col>
         <Col md="auto">
-          <span className="badge bg-success">Total vizibil: {fmtRON(viewTotal)}</span>
+          <span className="badge bg-success fs-3">Total vizibil: {fmtRON(viewTotal)}</span>
         </Col>
         {loading && (
           <Col md="auto">
