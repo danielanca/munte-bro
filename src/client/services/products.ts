@@ -31,7 +31,7 @@ export const upsertProduct = async (product: ProductModel) => {
   // 🔒 Do NOT persist ID inside the document body. Use it only as the doc key.
   const { ID, ...rest } = product;
 
-  const ref = doc(db, COL, ID);
+  const ref = doc(db, COL,  rest.title);
   const snap = await getDoc(ref);
 
   const basePayload = {

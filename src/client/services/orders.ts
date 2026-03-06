@@ -64,7 +64,7 @@ export type OrderCreateInput = {
   items: OrderItem[];
 
   // misc
-  status: "pending" | "awaiting_payment" | "paid" | "canceled";
+  status: "pending" | "awaiting_payment" | "paid" | "cancelled" | "returned";
   meta?: Record<string, any>;
 
   // legacy/compat (optional fields you already store)
@@ -141,6 +141,30 @@ export async function saveOrderClientSide(orderID: string, raw: any) {
     paymentStatus: raw?.paymentStatus ?? "UNPAID",
   });
 }
+
+
+export async function bulkUpdateOrderStatus(
+  orderIds: string[],
+  orderStatus: "PENDING" | "READY" |"COMPLETED" | "CANCELLED" |string,
+  extraFields: Record<string, any> = {}
+): Promise<void> {
+  if (orderIds.length === 0) return;
+
+  const batch = writeBatch(db);
+
+  for (const id of orderIds) {
+    const ref = doc(db, ORDERS, String(id));
+    batch.update(ref, {
+      orderStatus: orderStatus.toUpperCase(),
+      updatedAt: serverTimestamp(),
+      ...extraFields,
+    });
+  }
+
+  await batch.commit();
+}
+
+
 
 export async function bulkUpdatePaymentStatus(
   orderIds: string[],
