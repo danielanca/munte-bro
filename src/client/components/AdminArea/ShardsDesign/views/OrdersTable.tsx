@@ -3,7 +3,7 @@ import { Container, Row, Col, Card, Button, Table, Spinner,Form  } from "react-b
 import { Link } from "react-router-dom";
 import RangeDatePicker from "../components/common/RangeDatePicker";
 import PageTitle from "../components/common/PageTitle";
-import { listOrders, OrderDoc, OrderItem,bulkUpdatePaymentStatus, bulkUpdateOrderStatus, bulkCancelOrders, bulkDeleteOrders, } from "../../../../services/orders";
+import { listOrders, OrderDoc, OrderItem,bulkUpdatePaymentStatus, bulkUpdateOrderStatus,checkIfBlackList, bulkDeleteOrders, setBlackList, } from "../../../../services/orders";
 
 // helpers
 const DAY_OFFSET_MS = 86_400_000;
@@ -36,6 +36,11 @@ type RowItem = {
   deliveryAddress?: string;
   city?: string;
   meta?: Record<string, any>;
+
+  // Added for blacklisting
+  phoneNo?: string;
+  emailAddress?: string;
+
 };
 
 const normalize = (o: OrderDoc): RowItem => {
@@ -67,6 +72,11 @@ const normalize = (o: OrderDoc): RowItem => {
     deliveryAddress: o.deliveryAddress,
     city: o.city,
     meta:o.meta,
+
+    // Added
+    phoneNo: o.phoneNo || "",
+    emailAddress: o.emailAddress || "",
+
   };
 };
 
@@ -95,6 +105,7 @@ const OrdersTable: React.FC = () => {
 
   const masterCheckboxRef = useRef<HTMLInputElement>(null);
 
+  const [blacklistMap, setBlacklistMap] = useState<Map<string, boolean>>(new Map());
 // Master checkbox
 const allSelected = !!(
   ordersList &&
@@ -229,6 +240,8 @@ const handleOrder = async (action: "pending" | "ready" | "completed" | "cancelle
 
       case "cancelled":
         await  bulkUpdateOrderStatus(idsArray, "CANCELLED");
+        const selectedOrders = ordersList?.filter(o => selectedIds.has(o.routeId)) ?? [];
+        await setBlackList(selectedOrders);
         break;
         
     }
@@ -239,6 +252,17 @@ const handleOrder = async (action: "pending" | "ready" | "completed" | "cancelle
     setOrdersLocal(normalized);
     setOrdersList(normalized);
 
+    // Re-fetch blacklist map after refresh
+    const uniquePhones = [...new Set(normalized.map(o => o.phoneNo).filter(Boolean))];
+    const results = await Promise.all(
+      uniquePhones.map(async (phone) => {
+        const isBlacklisted = await checkIfBlackList(phone || "");
+        return [phone, isBlacklisted] as [string, boolean];
+      })
+    );
+    setBlacklistMap(new Map(results));
+
+
     setSelectedIds(new Set());
     alert("Acțiunea a fost realizată cu succes.");
   } catch (err: any) {
@@ -248,6 +272,7 @@ const handleOrder = async (action: "pending" | "ready" | "completed" | "cancelle
     setLoading(false);
   }
 };
+
 
 useEffect(() => {
   if (masterCheckboxRef.current) {
@@ -264,6 +289,17 @@ useEffect(() => {
         const normalized = raw.map(normalize); 
         setOrdersLocal(normalized);
         setOrdersList(normalized);
+
+
+        // Batch check blacklist for unique phones
+        const uniquePhones = [...new Set(normalized.map(o => o.phoneNo).filter(Boolean))]; // Filter out undefined/empty
+        const results = await Promise.all(
+          uniquePhones.map(async (phone) => {
+            const isBlacklisted = await checkIfBlackList(phone || "");
+            return [phone, isBlacklisted] as [string, boolean];
+          })
+        );
+        setBlacklistMap(new Map(results));
       } catch (e: any) {
         console.error("Failed to fetch orders:", e);
         setOrdersLocal([]);
@@ -627,7 +663,7 @@ ${xmlOrders}
       backdropFilter: "blur(6px)",
     }}
   >
-    <strong>{selectedIds.size} selectate</strong>
+    <strong>Payment Status: {selectedIds.size} selectate</strong>
 
     <Button
       variant="outline-secondary"
@@ -648,7 +684,7 @@ ${xmlOrders}
     </Button>
 
     <Button variant="secondary" size="sm" onClick={() => handlePayment("refund")}>
-     Refund
+      Rambursare
     </Button>
   </div>
 )}
@@ -665,7 +701,7 @@ ${xmlOrders}
       backdropFilter: "blur(6px)",
     }}
   >
-    <strong>{selectedIds.size} selectate</strong>
+    <strong>Order Status: {selectedIds.size} selectate</strong>
 
     <Button
       variant="outline-secondary"
@@ -678,19 +714,19 @@ ${xmlOrders}
     <div className="vr mx-2" />
 
     <Button variant="success" size="sm" onClick={() => handleOrder("pending")}>
-      Pending
+      In asteptare
     </Button>
 
     <Button variant="warning" size="sm" onClick={() => handleOrder("ready")}>
-      Ready
+      Gata
     </Button>
 
     <Button variant="secondary" size="sm" onClick={() => handleOrder("completed")}>
-     Completed
+     Finalizat
     </Button>
 
     <Button variant="danger" size="sm" onClick={() => handleOrder("cancelled")}>
-     Cancelled
+     Anulat
     </Button>
   </div>
 )}
@@ -707,8 +743,9 @@ ${xmlOrders}
                     <th>Data</th>
                     <th>Nume Client</th>
                     <th>Valoare comanda</th>
-                    <th>Order Status</th>
-                    <th>Payment Status</th>
+                    <th>Telefon</th>
+                    <th>Statutul Ordinului</th>
+                    <th>Starea plății</th>
                     <th>Actiuni</th>
                     <th>Factura</th>
                   
@@ -726,17 +763,36 @@ ${xmlOrders}
                       const total = item.shippingTax + item.cartSum;
                       const paid = item.paymentStatus === "PAID";
                       const isSelected = selectedIds.has(item.routeId);
+                      const isBlacklisted = blacklistMap.get(item.phoneNo || "") ?? false;
+                      const getPaymentVariant = (status: string) => {
+                        if (status === "PAID") {
+                          return "success"; // Green
+                        } else if (status === "UNPAID") {
+                          return "warning"; // Yellow
+                        } else if (status === "REFUNDED") {
+                          return "secondary"; // Gray
+                        } else if (status === "CANCELLED") {
+                          return "danger"; // Red
+                        } else {
+                          return "info"; // Blue fallback for unknowns
+                        }
+                      };
+
                       return (
                         <tr key={`${item.routeId}-${item.timestamp}`}>
                           <td className="text-center"> <Form.Check type="checkbox" checked={isSelected}
               onChange={() => toggleSelect(item.routeId)} /> </td>
                           <td>{new Date(item.timestamp).toLocaleString("ro-RO")}</td>
-                          <td className="fw-semibold">{`${item.firstName} ${item.lastName}`.trim() || "—"}</td>
+                          <td className="fw-semibold">
+                            {`${item.firstName} ${item.lastName}`.trim() || "—"}
+                            {isBlacklisted ? " 🚩" : ""}
+                            
+                              </td>
                           <td>{fmtRON(total)}</td>
-                          
+                          <td>{item.phoneNo}</td>
                           <td>{item.orderStatus}</td>
                           <td>
-                            <Button size="sm" className="w-100" variant={paid ? "success" : "warning"}>
+                            <Button size="sm" className="w-100" variant={getPaymentVariant(item.paymentStatus)}>
                               {item.paymentStatus}
                             </Button>
                           </td>

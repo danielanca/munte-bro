@@ -18,6 +18,7 @@ const EMPTY_PRODUCT: ProductModel = {
   realStock: "",
   realStockCheck: "",
   section: "",
+  weight: "",
   fakeStock: "",
   fakeStockCheck: "",
   ULbeneficii: [],
@@ -220,7 +221,8 @@ const EditProduct: React.FC = () => {
         reviews: existing.reviews ?? {},
         shortDescription: existing.shortDescription ?? "",
         title: existing.title ?? "",
-        section : existing.section ?? ""
+        section : existing.section ?? "",
+        weight : existing.weight ??  "",
       });
 
       const imgs = existing.imageProduct ?? [];
@@ -324,22 +326,32 @@ const EditProduct: React.FC = () => {
               {/* FIELDS */}
               <div className={styles.inputContainer}>
                 <div className={styles.rowSpacer}>
+                
                   <div className={styles.inputFielder}>
                     <Form.Label htmlFor="title">Product name</Form.Label>
                     <Form.Control onChange={inputHandler} name="title" value={editproductModel.title ?? ""} />
                   </div>
+                
                   <div className={styles.inputFielder}>
                     <Form.Label htmlFor="ID">Link ID Name</Form.Label>
                     <Form.Control onChange={inputHandler} name="ID" value={editproductModel.ID ?? ""} />
                   </div>
+                
                   <div className={styles.inputFielder}>
                     <Form.Label htmlFor="price">Price (RON)</Form.Label>
                     <Form.Control onChange={inputHandler} name="price" value={String(editproductModel.price ?? "")} />
                   </div>
+
                   <div className={styles.inputFielder}>
                     <Form.Label htmlFor="discountedPrice">Discount Price (RON)</Form.Label>
                     <Form.Control onChange={inputHandler} name="discountedPrice" value={String(editproductModel.discountedPrice ?? "")} />
                   </div>
+
+                  <div className={styles.inputFielder}>
+                    <Form.Label htmlFor="weight">Product Weight</Form.Label>
+                    <Form.Control type="number"  onChange={inputHandler}   name="weight" value={String(editproductModel.weight ?? "")} />
+                  </div>
+
                   <div className={styles.inputFielder}>
                     <Form.Label htmlFor="realStock">Stock Quantity</Form.Label>
                     <Form.Control 
