@@ -69,6 +69,7 @@ export interface orderProps {
   shippingTax?: number;
   paymentMethod: string;
   deliveryName?: string;
+  orderStatus?: string;
   paymentStatus?: string;
   parcelId?: string;
   mailOrderID?: string;
@@ -122,6 +123,7 @@ export interface ProductBase {
   reviews: Record<string, unknown>;
   ULbeneficii: string[];
   section : string;
+  weight: string;
   
   // Timestamp fields
   createdAt?: AnyTimestamp;
@@ -184,6 +186,7 @@ export const authorInitialProduct: ProductModel = {
   shortDescription: "",
   title: "",
   section: "",
+  weight: "",
 };
 
 // ----------------------------------

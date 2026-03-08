@@ -17,7 +17,7 @@ const makeOrderId = () =>
 
 const saveOrderClientSide = async (orderID: string, data: orderProps) => {
   const ref = doc(db, "orders", String(orderID));
-  await setDoc(ref, { ...data, orderID, paymentStatus: "UNPAID", createdAt: serverTimestamp()}, { merge: true });
+  await setDoc(ref, { ...data, orderID, orderStatus: "PENDING", paymentStatus: "UNPAID", createdAt: serverTimestamp()}, { merge: true });
 };
 
 function base64ToBlob(base64: string) {

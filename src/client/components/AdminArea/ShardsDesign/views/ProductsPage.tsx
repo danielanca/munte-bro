@@ -133,7 +133,7 @@ const ProductsPage: React.FC = () => {
                           <td>
                             <div className="d-flex gap-2">
                               {/* Edit on the same route using query param */}
-                              <Link to={`/admin/products/add?id=${encodeURIComponent(String(item.ID))}`}>
+                              <Link to={`/admin/products/add?id=${encodeURIComponent(String(item.title))}`}>
                                 <Button size="sm" variant="primary">EDITEAZA</Button>
                               </Link>
                               <Button size="sm" variant="danger" onClick={() => askDelete(item)}>
