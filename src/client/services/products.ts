@@ -81,3 +81,92 @@ export const updateOrderForValidation = async (model: any): Promise<void> => {
   const res = await updateOrderEmail(model);
   if (!res.ok) throw new Error(`updateOrder failed: ${res.status} ${res.statusText}`);
 };
+
+
+export default async function handleMerchant(req: any, res: any) {
+  try {
+    const products = await listProducts();
+
+    console.log(products);
+
+    const STORE_NAME = "Dinmunte";
+    const STORE_URL = "https://montanair.ro";
+    const CURRENCY = "RON";
+    const DEFAULT_BRAND = "Generic";
+
+    let xml = `<?xml version="1.0" encoding="UTF-8"?>
+<rss xmlns:g="http://base.google.com/ns/1.0" version="2.0">
+<channel>
+<title>${STORE_NAME}</title>
+<link>${STORE_URL}</link>
+<description>Your product catalog</description>`;
+
+    Object.values(products).forEach((p: any) => {
+
+      const id = p.ID || p.id || Math.random().toString(36).substring(7);
+
+      const title = escapeXML(p.title || "Untitled product");
+
+      const description = escapeXML(
+        p.description || "High quality product available in our store."
+      );
+
+      const link =
+        p.url ||
+        `${STORE_URL}/${encodeURIComponent(p.ID)}`;
+        const image =
+        Array.isArray(p.imageProduct)
+          ? escapeXML( p.imageProduct[0])
+          : escapeXML(p.imageProduct)
+          ? Array.from(p.imageProduct as Iterable<string>)[0]
+          : "";
+
+      const priceNumber =
+        typeof p.price === "number"
+          ? p.price
+          : parseFloat(p.price || "0");
+
+      const price = `${priceNumber.toFixed(2)}`;
+
+      const availability =
+        p.stock && p.stock > 0 ? "in stock" : "out of stock";
+
+      const brand = escapeXML(p.brand || DEFAULT_BRAND);
+
+      const condition = p.condition || "new";
+
+      xml += `
+<item>
+<g:id>${id}</g:id>
+<g:title>${title}</g:title>
+<g:description>${description}</g:description>
+<g:link>${link}</g:link>
+<g:image_link>${image}</g:image_link>
+<g:availability>${availability}</g:availability>
+<g:price>${price}</g:price>
+<g:brand>${brand}</g:brand>
+<g:condition>${condition}</g:condition>
+<g:identifier_exists>false</g:identifier_exists>
+</item>`;
+    });
+
+    xml += `
+</channel>
+</rss>`;
+
+    res.setHeader("Content-Type", "application/xml");
+    res.status(200).send(xml);
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Failed to generate feed");
+  }
+}
+
+function escapeXML(str: string) {
+  return str
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&apos;");
+}

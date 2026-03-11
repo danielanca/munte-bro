@@ -3,7 +3,7 @@ import { Container, Row, Col, Card, Button, Table, Spinner,Form  } from "react-b
 import { Link } from "react-router-dom";
 import RangeDatePicker from "../components/common/RangeDatePicker";
 import PageTitle from "../components/common/PageTitle";
-import { listOrders, OrderDoc, OrderItem,bulkUpdatePaymentStatus, bulkUpdateOrderStatus,checkIfBlackList, bulkDeleteOrders, setBlackList, } from "../../../../services/orders";
+import { listOrders, OrderDoc, OrderItem,bulkUpdatePaymentStatus, bulkUpdateOrderStatus,checkIfBlackList, setBlackList, } from "../../../../services/orders";
 
 // helpers
 const DAY_OFFSET_MS = 86_400_000;
@@ -175,12 +175,7 @@ const handlePayment = async (action: "refund" | "paid" | "unpaid") => {
       case "refund":
         await bulkUpdatePaymentStatus(idsArray, "REFUND");
         break;
-/*
-      case "delete":
-        if (!window.confirm("Ești ABSOLUT sigur? Ștergere PERMANENTĂ!")) return;
-        await bulkDeleteOrders(idsArray);
-        break;
-        */
+
     }
 
     // Refresh the list
@@ -188,6 +183,80 @@ const handlePayment = async (action: "refund" | "paid" | "unpaid") => {
     const normalized = raw.map(normalize);
     setOrdersLocal(normalized);
     setOrdersList(normalized);
+
+    setSelectedIds(new Set());
+    alert("Acțiunea a fost realizată cu succes.");
+  } catch (err: any) {
+    console.error("Bulk action failed:", err);
+    alert("Eroare: " + (err.message || "acțiunea nu a putut fi executată"));
+  } finally {
+    setLoading(false);
+  }
+};
+
+
+
+const handleOrder = async (action: "pending" | "ready" | "completed" | "cancelled") => {
+  if (selectedIds.size === 0) return;
+
+  const count = selectedIds.size;
+  const idsArray = Array.from(selectedIds);
+
+  let message = "";
+  switch (action) {
+    case "pending":
+      message = `Marchezi ${count} comand${count === 1 ? 'ă' : 'e'} ca **PLĂTITĂ**?`;
+      break;
+    case "ready":
+      message = `Marchezi ${count} comand${count === 1 ? 'ă' : 'e'} ca **NEPLĂTITĂ**?`;
+      break;
+   /* case "cancel":
+      message = `Anulezi ${count} comand${count === 1 ? 'ă' : 'e'}? (ireversibil parțial)`;
+      break;
+  */
+  }
+
+
+  try {
+    setLoading(true);
+
+    switch (action) {
+      case "pending":
+        await bulkUpdateOrderStatus(idsArray, "PENDING");
+        break;
+
+      case "ready":
+        await bulkUpdateOrderStatus(idsArray, "READY");
+        break;
+
+      case "completed":
+        await bulkUpdateOrderStatus(idsArray, "COMPLETED");
+        break;
+
+      case "cancelled":
+        await  bulkUpdateOrderStatus(idsArray, "CANCELLED");
+        const selectedOrders = ordersList?.filter(o => selectedIds.has(o.routeId)) ?? [];
+        await setBlackList(selectedOrders);
+        break;
+        
+    }
+
+    // Refresh the list
+    const raw = await listOrders();
+    const normalized = raw.map(normalize);
+    setOrdersLocal(normalized);
+    setOrdersList(normalized);
+
+    // Re-fetch blacklist map after refresh
+    const uniquePhones = [...new Set(normalized.map(o => o.phoneNo).filter(Boolean))];
+    const results = await Promise.all(
+      uniquePhones.map(async (phone) => {
+        const isBlacklisted = await checkIfBlackList(phone || "");
+        return [phone, isBlacklisted] as [string, boolean];
+      })
+    );
+    setBlacklistMap(new Map(results));
+
 
     setSelectedIds(new Set());
     alert("Acțiunea a fost realizată cu succes.");
