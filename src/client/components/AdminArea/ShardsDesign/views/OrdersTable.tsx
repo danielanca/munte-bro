@@ -3,7 +3,7 @@ import { Container, Row, Col, Card, Button, Table, Spinner,Form  } from "react-b
 import { Link } from "react-router-dom";
 import RangeDatePicker from "../components/common/RangeDatePicker";
 import PageTitle from "../components/common/PageTitle";
-import { listOrders, OrderDoc, OrderItem,bulkUpdatePaymentStatus, bulkCancelOrders, bulkDeleteOrders, } from "../../../../services/orders";
+import { listOrders, OrderDoc, OrderItem,bulkUpdatePaymentStatus, bulkUpdateOrderStatus,checkIfBlackList, setBlackList, } from "../../../../services/orders";
 
 // helpers
 const DAY_OFFSET_MS = 86_400_000;
@@ -25,7 +25,8 @@ type RowItem = {
   lastName: string;
   shippingTax: number;
   cartSum: number;
-  paymentStatus: "PAID" | "UNPAID" | string;
+  orderStatus : "PENDING" | "READY" | "COMPLETED" | "CANCELLED" | "CUSTOMER CANCELLED" | string;
+  paymentStatus: "PAID" | "UNPAID" | "REFUNDED" | string;
   routeId: string;      // always safe for /order/:id
   invoiceLabel: string; // displayed in the table (e.g., orderID)
   parcelId: string;
@@ -35,6 +36,11 @@ type RowItem = {
   deliveryAddress?: string;
   city?: string;
   meta?: Record<string, any>;
+
+  // Added for blacklisting
+  phoneNo?: string;
+  emailAddress?: string;
+
 };
 
 const normalize = (o: OrderDoc): RowItem => {
@@ -44,8 +50,8 @@ const normalize = (o: OrderDoc): RowItem => {
 
   const shippingTax = toNumberRON((o as any).shippingTax);
   const cartSum = toNumberRON((o as any).cartSum);
-  const status = String((o as any).paymentStatus || "").toUpperCase();
-
+  const paymentStatus = String((o as any).paymentStatus || "").toUpperCase();
+  const orderStatus =  String((o as any).orderStatus || "").toUpperCase();
   // prefer orderID, else invoiceID, else Firestore doc id
   const routeId = String((o as any).orderID || (o as any).invoiceID || (o as any).id || "");
   const invoiceLabel = routeId;
@@ -56,7 +62,8 @@ const normalize = (o: OrderDoc): RowItem => {
     shippingTax,
     parcelId : o.parcelId || "12345678",
     cartSum,
-    paymentStatus: status,
+    orderStatus : orderStatus,
+    paymentStatus: paymentStatus,
     routeId,
     invoiceLabel,
     items: o.items || [],
@@ -65,6 +72,11 @@ const normalize = (o: OrderDoc): RowItem => {
     deliveryAddress: o.deliveryAddress,
     city: o.city,
     meta:o.meta,
+
+    // Added
+    phoneNo: o.phoneNo || "",
+    emailAddress: o.emailAddress || "",
+
   };
 };
 
@@ -79,7 +91,7 @@ const OrdersTable: React.FC = () => {
 
   // toolbar state
   const [query, setQuery] = useState<string>("");
-  const [statusFilter, setStatusFilter] = useState<"ALL" | "PAID" | "UNPAID">("ALL");
+  const [statusFilter, setStatusFilter] = useState<"ALL" | "PAID" | "UNPAID" | "REFUND">("ALL");
   const [sortKey, setSortKey] = useState<SortKey>("recent");
   const [sortDir, setSortDir] = useState<SortDir>("desc");
 
@@ -93,6 +105,7 @@ const OrdersTable: React.FC = () => {
 
   const masterCheckboxRef = useRef<HTMLInputElement>(null);
 
+  const [blacklistMap, setBlacklistMap] = useState<Map<string, boolean>>(new Map());
 // Master checkbox
 const allSelected = !!(
   ordersList &&
@@ -126,7 +139,7 @@ const toggleSelectAll = () => {
 // ────────────────────────────────────────────────
 
 
-const handleBulkAction = async (action: "cancel" | "delete" | "paid" | "unpaid") => {
+const handlePayment = async (action: "refund" | "paid" | "unpaid") => {
   if (selectedIds.size === 0) return;
 
   const count = selectedIds.size;
@@ -140,12 +153,10 @@ const handleBulkAction = async (action: "cancel" | "delete" | "paid" | "unpaid")
     case "unpaid":
       message = `Marchezi ${count} comand${count === 1 ? 'ă' : 'e'} ca **NEPLĂTITĂ**?`;
       break;
-    case "cancel":
+   /* case "cancel":
       message = `Anulezi ${count} comand${count === 1 ? 'ă' : 'e'}? (ireversibil parțial)`;
       break;
-    case "delete":
-      message = `Ștergi **definitiv** ${count} comand${count === 1 ? 'ă' : 'e'}?\nAceastă acțiune NU poate fi anulată!`;
-      break;
+  */
   }
 
 
@@ -161,14 +172,10 @@ const handleBulkAction = async (action: "cancel" | "delete" | "paid" | "unpaid")
         await bulkUpdatePaymentStatus(idsArray, "UNPAID");
         break;
 
-      case "cancel":
-        await bulkUpdatePaymentStatus(idsArray, "CANCELLED");
+      case "refund":
+        await bulkUpdatePaymentStatus(idsArray, "REFUND");
         break;
 
-      case "delete":
-        if (!window.confirm("Ești ABSOLUT sigur? Ștergere PERMANENTĂ!")) return;
-        await bulkDeleteOrders(idsArray);
-        break;
     }
 
     // Refresh the list
@@ -176,6 +183,80 @@ const handleBulkAction = async (action: "cancel" | "delete" | "paid" | "unpaid")
     const normalized = raw.map(normalize);
     setOrdersLocal(normalized);
     setOrdersList(normalized);
+
+    setSelectedIds(new Set());
+    alert("Acțiunea a fost realizată cu succes.");
+  } catch (err: any) {
+    console.error("Bulk action failed:", err);
+    alert("Eroare: " + (err.message || "acțiunea nu a putut fi executată"));
+  } finally {
+    setLoading(false);
+  }
+};
+
+
+
+const handleOrder = async (action: "pending" | "ready" | "completed" | "cancelled") => {
+  if (selectedIds.size === 0) return;
+
+  const count = selectedIds.size;
+  const idsArray = Array.from(selectedIds);
+
+  let message = "";
+  switch (action) {
+    case "pending":
+      message = `Marchezi ${count} comand${count === 1 ? 'ă' : 'e'} ca **PLĂTITĂ**?`;
+      break;
+    case "ready":
+      message = `Marchezi ${count} comand${count === 1 ? 'ă' : 'e'} ca **NEPLĂTITĂ**?`;
+      break;
+   /* case "cancel":
+      message = `Anulezi ${count} comand${count === 1 ? 'ă' : 'e'}? (ireversibil parțial)`;
+      break;
+  */
+  }
+
+
+  try {
+    setLoading(true);
+
+    switch (action) {
+      case "pending":
+        await bulkUpdateOrderStatus(idsArray, "PENDING");
+        break;
+
+      case "ready":
+        await bulkUpdateOrderStatus(idsArray, "READY");
+        break;
+
+      case "completed":
+        await bulkUpdateOrderStatus(idsArray, "COMPLETED");
+        break;
+
+      case "cancelled":
+        await  bulkUpdateOrderStatus(idsArray, "CANCELLED");
+        const selectedOrders = ordersList?.filter(o => selectedIds.has(o.routeId)) ?? [];
+        await setBlackList(selectedOrders);
+        break;
+        
+    }
+
+    // Refresh the list
+    const raw = await listOrders();
+    const normalized = raw.map(normalize);
+    setOrdersLocal(normalized);
+    setOrdersList(normalized);
+
+    // Re-fetch blacklist map after refresh
+    const uniquePhones = [...new Set(normalized.map(o => o.phoneNo).filter(Boolean))];
+    const results = await Promise.all(
+      uniquePhones.map(async (phone) => {
+        const isBlacklisted = await checkIfBlackList(phone || "");
+        return [phone, isBlacklisted] as [string, boolean];
+      })
+    );
+    setBlacklistMap(new Map(results));
+
 
     setSelectedIds(new Set());
     alert("Acțiunea a fost realizată cu succes.");
@@ -203,6 +284,17 @@ useEffect(() => {
         const normalized = raw.map(normalize); 
         setOrdersLocal(normalized);
         setOrdersList(normalized);
+
+
+        // Batch check blacklist for unique phones
+        const uniquePhones = [...new Set(normalized.map(o => o.phoneNo).filter(Boolean))]; // Filter out undefined/empty
+        const results = await Promise.all(
+          uniquePhones.map(async (phone) => {
+            const isBlacklisted = await checkIfBlackList(phone || "");
+            return [phone, isBlacklisted] as [string, boolean];
+          })
+        );
+        setBlacklistMap(new Map(results));
       } catch (e: any) {
         console.error("Failed to fetch orders:", e);
         setOrdersLocal([]);
@@ -493,11 +585,12 @@ ${xmlOrders}
           <select
             className="form-select"
             value={statusFilter}
-            onChange={(e) => setStatusFilter(e.target.value as "ALL" | "PAID" | "UNPAID")}
+            onChange={(e) => setStatusFilter(e.target.value as "ALL" | "PAID" | "UNPAID" | "REFUND")}
           >
             <option value="ALL">Toate statusurile</option>
             <option value="PAID">PAID</option>
             <option value="UNPAID">UNPAID</option>
+            <option value="REFUND">REFUND</option>
           </select>
         </Col>
         <Col md={3} sm={6}>
@@ -530,10 +623,10 @@ ${xmlOrders}
       {/* Summary */}
       <Row className="mb-2 g-2">
         <Col md="auto">
-          <span className="badge bg-light text-dark">Comenzi: {viewRows.length}</span>
+          <span className="badge bg-light text-dark fs-3">Comenzi: {viewRows.length}</span>
         </Col>
         <Col md="auto">
-          <span className="badge bg-success">Total vizibil: {fmtRON(viewTotal)}</span>
+          <span className="badge bg-success fs-3">Total vizibil: {fmtRON(viewTotal)}</span>
         </Col>
         {loading && (
           <Col md="auto">
@@ -565,7 +658,7 @@ ${xmlOrders}
       backdropFilter: "blur(6px)",
     }}
   >
-    <strong>{selectedIds.size} selectate</strong>
+    <strong>Payment Status: {selectedIds.size} selectate</strong>
 
     <Button
       variant="outline-secondary"
@@ -577,24 +670,58 @@ ${xmlOrders}
 
     <div className="vr mx-2" />
 
-    <Button variant="success" size="sm" onClick={() => handleBulkAction("paid")}>
+    <Button variant="success" size="sm" onClick={() => handlePayment("paid")}>
       Marchează ca plătite
     </Button>
 
-    <Button variant="warning" size="sm" onClick={() => handleBulkAction("unpaid")}>
+    <Button variant="warning" size="sm" onClick={() => handlePayment("unpaid")}>
       Marchează ca neplătite
     </Button>
 
-    <Button variant="secondary" size="sm" onClick={() => handleBulkAction("cancel")}>
-      Anulează comenzi
+    <Button variant="secondary" size="sm" onClick={() => handlePayment("refund")}>
+      Rambursare
     </Button>
+  </div>
+)}
+
+
+{(
+  <div
+    className="bg-light border-top p-3 d-flex align-items-center gap-3 flex-wrap"
+    style={{
+      position: "sticky",
+      bottom: 0,
+      zIndex: 10,
+      background: "rgba(255,255,255,0.95)",
+      backdropFilter: "blur(6px)",
+    }}
+  >
+    <strong>Order Status: {selectedIds.size} selectate</strong>
 
     <Button
-      variant="danger"
+      variant="outline-secondary"
       size="sm"
-      onClick={() => handleBulkAction("delete")}
+      onClick={() => setSelectedIds(new Set())}
     >
-      Șterge definitiv
+      Deselectează tot
+    </Button>
+
+    <div className="vr mx-2" />
+
+    <Button variant="success" size="sm" onClick={() => handleOrder("pending")}>
+      In asteptare
+    </Button>
+
+    <Button variant="warning" size="sm" onClick={() => handleOrder("ready")}>
+      Gata
+    </Button>
+
+    <Button variant="secondary" size="sm" onClick={() => handleOrder("completed")}>
+     Finalizat
+    </Button>
+
+    <Button variant="danger" size="sm" onClick={() => handleOrder("cancelled")}>
+     Anulat
     </Button>
   </div>
 )}
@@ -611,7 +738,9 @@ ${xmlOrders}
                     <th>Data</th>
                     <th>Nume Client</th>
                     <th>Valoare comanda</th>
-                    <th>Status Plata</th>
+                    <th>Telefon</th>
+                    <th>Statutul Ordinului</th>
+                    <th>Starea plății</th>
                     <th>Actiuni</th>
                     <th>Factura</th>
                   
@@ -629,15 +758,36 @@ ${xmlOrders}
                       const total = item.shippingTax + item.cartSum;
                       const paid = item.paymentStatus === "PAID";
                       const isSelected = selectedIds.has(item.routeId);
+                      const isBlacklisted = blacklistMap.get(item.phoneNo || "") ?? false;
+                      const getPaymentVariant = (status: string) => {
+                        if (status === "PAID") {
+                          return "success"; // Green
+                        } else if (status === "UNPAID") {
+                          return "warning"; // Yellow
+                        } else if (status === "REFUNDED") {
+                          return "secondary"; // Gray
+                        } else if (status === "CANCELLED") {
+                          return "danger"; // Red
+                        } else {
+                          return "info"; // Blue fallback for unknowns
+                        }
+                      };
+
                       return (
                         <tr key={`${item.routeId}-${item.timestamp}`}>
                           <td className="text-center"> <Form.Check type="checkbox" checked={isSelected}
               onChange={() => toggleSelect(item.routeId)} /> </td>
                           <td>{new Date(item.timestamp).toLocaleString("ro-RO")}</td>
-                          <td className="fw-semibold">{`${item.firstName} ${item.lastName}`.trim() || "—"}</td>
+                          <td className="fw-semibold">
+                            {`${item.firstName} ${item.lastName}`.trim() || "—"}
+                            {isBlacklisted ? " 🚩" : ""}
+                            
+                              </td>
                           <td>{fmtRON(total)}</td>
+                          <td>{item.phoneNo}</td>
+                          <td>{item.orderStatus}</td>
                           <td>
-                            <Button size="sm" className="w-100" variant={paid ? "success" : "warning"}>
+                            <Button size="sm" className="w-100" variant={getPaymentVariant(item.paymentStatus)}>
                               {item.paymentStatus}
                             </Button>
                           </td>

@@ -29,6 +29,7 @@ import { writeBatch } from "firebase/firestore";
 
 const db = getFirestore(app);
 const ORDERS = "orders";
+const BLACKLIST = "blackList";
 
 // ---------- Types ----------
 
@@ -64,7 +65,7 @@ export type OrderCreateInput = {
   items: OrderItem[];
 
   // misc
-  status: "pending" | "awaiting_payment" | "paid" | "canceled";
+  status: "pending" | "awaiting_payment" | "paid" | "cancelled" | "returned";
   meta?: Record<string, any>;
 
   // legacy/compat (optional fields you already store)
@@ -80,7 +81,14 @@ export type OrderDoc = OrderCreateInput & {
   id?: string; // Firestore doc id
 };
 
+
+export type BlacklistEntry = {
+  phoneNo?: string;
+  emailAddress?: string;
+};
+
 // ---------- Create / Update ----------
+
 
 export async function createOrder(input: OrderCreateInput): Promise<{ id: string }> {
   const ref = await addDoc(collection(db, ORDERS), {
@@ -138,9 +146,34 @@ export async function saveOrderClientSide(orderID: string, raw: any) {
   await upsertOrderById(orderID, {
     ...raw,
     orderID,
+    orderStatus: raw?.orderStatus ?? "PENDING",
     paymentStatus: raw?.paymentStatus ?? "UNPAID",
   });
 }
+
+
+export async function bulkUpdateOrderStatus(
+  orderIds: string[],
+  orderStatus: "PENDING" | "READY" |"COMPLETED" | "CANCELLED" |string,
+  extraFields: Record<string, any> = {}
+): Promise<void> {
+  if (orderIds.length === 0) return;
+
+  const batch = writeBatch(db);
+
+  for (const id of orderIds) {
+    const ref = doc(db, ORDERS, String(id));
+    batch.update(ref, {
+      orderStatus: orderStatus.toUpperCase(),
+      updatedAt: serverTimestamp(),
+      ...extraFields,
+    });
+  }
+
+  await batch.commit();
+}
+
+
 
 export async function bulkUpdatePaymentStatus(
   orderIds: string[],
@@ -197,4 +230,41 @@ export async function bulkDeleteOrders(orderIds: string[]): Promise<void> {
   }
 
   await batch.commit();
+}
+
+export async function setBlackList(orders: BlacklistEntry[]): Promise<void>{
+
+  if (orders.length === 0) return;
+
+  const batch = writeBatch(db);
+
+  for (const item of orders) {
+   
+    const phoneNo = item.phoneNo;  // Local var: string | undefined
+    if (!phoneNo) continue;         // Skip if undefined or falsy
+   
+   
+    const ref = doc(db, BLACKLIST, phoneNo); // 'number' as the document ID (stringified implicitly)
+    batch.set(ref, {
+      email: item.emailAddress,
+      updatedAt: serverTimestamp(),
+    });
+  }
+
+  try {
+    await batch.commit();
+  } catch (error) {
+    console.error('Batch set failed:', error);
+    throw error; // Or handle as needed
+  }
+
+}
+
+
+export async function checkIfBlackList(phoneNum:string){
+
+  const ref = doc(db, BLACKLIST, String(phoneNum));
+  const snap = await getDoc(ref);
+  return snap.exists() ? true : false
+
 }

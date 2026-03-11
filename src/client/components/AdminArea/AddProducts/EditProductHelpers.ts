@@ -35,6 +35,7 @@ export const EMPTY_PRODUCT: EditableProduct = {
   reviews: {},
   shortDescription: "",
   section : "",
+  weight: "",
   // New fields as strings
   productCode: "",
   category: "",

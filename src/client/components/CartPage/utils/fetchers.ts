@@ -17,7 +17,7 @@ const makeOrderId = () =>
 
 const saveOrderClientSide = async (orderID: string, data: orderProps) => {
   const ref = doc(db, "orders", String(orderID));
-  await setDoc(ref, { ...data, orderID, paymentStatus: "UNPAID", createdAt: serverTimestamp()}, { merge: true });
+  await setDoc(ref, { ...data, orderID, orderStatus: "PENDING", paymentStatus: "UNPAID", createdAt: serverTimestamp()}, { merge: true });
 };
 
 function base64ToBlob(base64: string) {
@@ -54,7 +54,7 @@ export const handleSend = async (
 
     // Fallback order id + persist to Firestore
     if (!orderID) orderID = makeOrderId();
-    const res = await fetch("http://localhost:5858/saga", {
+    const res = await fetch("/saga", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(orderData)

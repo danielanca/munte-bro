@@ -23,6 +23,9 @@ const ProductsPage: React.FC = () => {
   const [productsOnline, setProductsOnline] = useState<Product[] | Record<string, Product> | null>(null);
   const [delPopUp, setDeletePopup] = useState<DeleteState>({ productInfo: null, productLink: null, popUp: false });
 
+
+  const [loading, setLoading] = useState(false);
+
   const location = useLocation();
   const search = new URLSearchParams(location.search);
   const editId = search.get("id");
@@ -59,6 +62,37 @@ const ProductsPage: React.FC = () => {
     }
   };
 
+  const downloadMerchant = async () => {
+    try {
+      setLoading(true); 
+
+      const response = await fetch("/setMerchant"); // your endpoint
+      if (!response.ok) throw new Error("Failed to fetch feed");
+  
+      // Convert response to Blob (file)
+      const blob = await response.blob();
+  
+      // Create a temporary link element
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "google-merchant-feed.xml"; // Suggested filename
+  
+      // Trigger download
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+  
+      // Release memory
+      window.URL.revokeObjectURL(url);
+    } catch (err) {
+      console.error(err);
+      alert("Failed to download feed");
+    }finally{
+      setLoading(false); 
+    }
+  };
+
   // ⬇️ If query indicates add/edit, show the form on this same URL
   if (isCreate || editId) {
     return <EditProduct />;
@@ -80,6 +114,20 @@ const ProductsPage: React.FC = () => {
             <Button size="sm" variant="primary">Add product</Button>
           </Link>
           <Button size="sm" variant="secondary" onClick={() => window.location.reload()}>Refresh</Button>
+        </Col>
+      </Row>
+
+      <Row className="mb-3">
+      <Col>
+        <Button  size="sm" variant="success" onClick={downloadMerchant} style={{ opacity: loading ? 0.6 : 1, cursor: loading ? "not-allowed" : "pointer" }}
+        >Download Merchant</Button>
+        {loading ? "Downloading..." : "Download Merchant Feed"}
+        {loading && (
+        <div style={{ marginTop: "10px" }}>
+          <span>⏳ Please wait, feed is being generated...</span>
+        </div>
+      )}
+
         </Col>
       </Row>
 
@@ -133,7 +181,7 @@ const ProductsPage: React.FC = () => {
                           <td>
                             <div className="d-flex gap-2">
                               {/* Edit on the same route using query param */}
-                              <Link to={`/admin/products/add?id=${encodeURIComponent(String(item.ID))}`}>
+                              <Link to={`/admin/products/add?id=${encodeURIComponent(String(item.title))}`}>
                                 <Button size="sm" variant="primary">EDITEAZA</Button>
                               </Link>
                               <Button size="sm" variant="danger" onClick={() => askDelete(item)}>
