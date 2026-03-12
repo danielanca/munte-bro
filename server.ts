@@ -11,7 +11,7 @@ import { dpdAuth , sagaAuth } from "./src/server/constants/credentials.js";
 
 import { sendEmail } from "./src/server/routes/api.js";
 import axios from "axios";
-//import handleMerchant from "./src/client/services/products.js";
+import handleMerchant from "./src/client/services/products.js";
 const isTest = process.env.NODE_ENV === "test" || !!process.env.VITE_TEST_BUILD;
 const isProd = process.env.NODE_ENV === "production";
 
