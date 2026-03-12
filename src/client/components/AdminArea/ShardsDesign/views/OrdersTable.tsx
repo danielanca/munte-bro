@@ -3,7 +3,7 @@ import { Container, Row, Col, Card, Button, Table, Spinner,Form  } from "react-b
 import { Link } from "react-router-dom";
 import RangeDatePicker from "../components/common/RangeDatePicker";
 import PageTitle from "../components/common/PageTitle";
-import { listOrders, OrderDoc, OrderItem,bulkUpdatePaymentStatus, bulkUpdateOrderStatus,checkIfBlackList, bulkDeleteOrders, setBlackList, } from "../../../../services/orders";
+import { listOrders, OrderDoc, OrderItem,bulkUpdatePaymentStatus, bulkUpdateOrderStatus,checkIfBlackList, setBlackList, } from "../../../../services/orders";
 
 // helpers
 const DAY_OFFSET_MS = 86_400_000;
@@ -175,12 +175,7 @@ const handlePayment = async (action: "refund" | "paid" | "unpaid") => {
       case "refund":
         await bulkUpdatePaymentStatus(idsArray, "REFUND");
         break;
-/*
-      case "delete":
-        if (!window.confirm("Ești ABSOLUT sigur? Ștergere PERMANENTĂ!")) return;
-        await bulkDeleteOrders(idsArray);
-        break;
-        */
+
     }
 
     // Refresh the list
