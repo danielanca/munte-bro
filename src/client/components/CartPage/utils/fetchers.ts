@@ -54,7 +54,7 @@ export const handleSend = async (
 
     // Fallback order id + persist to Firestore
     if (!orderID) orderID = makeOrderId();
-    const res = await fetch("http://localhost:5858/saga", {
+    const res = await fetch("/saga", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(orderData)
