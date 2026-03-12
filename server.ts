@@ -65,7 +65,7 @@ async function createServer() {
   app.post("/sendEmail",sendEmail);
 
 
-  //app.get("/setMerchant",handleMerchant);
+  app.get("/setMerchant",handleMerchant);
 
   
   app.post("/generate-awb", async (req: Request, res: Response) => {
