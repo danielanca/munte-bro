@@ -111,7 +111,7 @@ export default async function handleMerchant(): Promise<string> {
 
       const link =
         p.url ||
-        `${STORE_URL}/${encodeURIComponent(p.ID)}`;
+        `${STORE_URL}/produs/${encodeURIComponent(p.ID)}`;
         const image =
         Array.isArray(p.imageProduct)
           ? escapeXML( p.imageProduct[0])
