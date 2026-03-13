@@ -83,11 +83,9 @@ export const updateOrderForValidation = async (model: any): Promise<void> => {
 };
 
 
-export default async function handleMerchant(req: any, res: any) {
+export default async function handleMerchant(): Promise<string> {
   try {
     const products = await listProducts();
-
-    console.log(products);
 
     const STORE_NAME = "Dinmunte";
     const STORE_URL = "https://montanair.ro";
@@ -154,12 +152,14 @@ export default async function handleMerchant(req: any, res: any) {
 </channel>
 </rss>`;
 
-    res.setHeader("Content-Type", "application/xml");
-    res.status(200).send(xml);
+return xml;
+
   } catch (err) {
     console.error(err);
-    res.status(500).send("Failed to generate feed");
+    throw err; 
   }
+
+
 }
 
 function escapeXML(str: string) {
