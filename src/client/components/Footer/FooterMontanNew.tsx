@@ -78,37 +78,54 @@ const FooterMontanNew = () => {
                   />
                 </div>
                 <div className={styles.footerSocialMediaIcons}>
+                  
+                <NavHashLink to={"https://m.me/796424467060102"}>
                   <img
                     src={images.FacebookIcon}
                     alt=""
                     className={styles.footerPageLink}
                     style={{ marginRight: "50px", height: "20px" }}
                   />
+                  </NavHashLink>
+
+                  <NavHashLink to={"/"}>
                   <img
                     src={images.InstagramIcon}
                     alt=""
                     className={styles.footerPageLink}
                     style={{ marginRight: "50px", height: "20px" }}
                   />
+                  </NavHashLink>
+                  <NavHashLink to={"/"}>
                   <img src={images.TwitterIcon} alt="" className={styles.footerPageLink} style={{ height: "20px" }} />
+                  </NavHashLink>
                 </div>
               </Col>
             </Row>
           </div>
           <div className={styles.footerSocialMediaIconsMobile}>
+          <NavHashLink to={"https://m.me/796424467060102"}>
             <img
               src={images.FacebookIcon}
               alt=""
               className={styles.footerPageLink}
               style={{ marginRight: "50px", height: "20px" }}
             />
+            </NavHashLink>
+
+            <NavHashLink to={"/"}>
             <img
               src={images.InstagramIcon}
               alt=""
               className={styles.footerPageLink}
               style={{ marginRight: "50px", height: "20px" }}
             />
+            </NavHashLink>
+
+            <NavHashLink to={"/"}>
             <img src={images.TwitterIcon} alt="" className={styles.footerPageLink} style={{ height: "20px" }} />
+            </NavHashLink>
+
           </div>
         </div>
       )}
