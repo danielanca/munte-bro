@@ -4,7 +4,7 @@ import { Link, useLocation } from "react-router-dom";
 import PageTitle from "../components/common/PageTitle";
 import PopModal from "../../PopModal";
 // ⬇️ switch to Firestore services
-import { listProducts, deleteProductByID } from "../../../../services/products";
+import handleMerchant, { listProducts, deleteProductByID } from "../../../../services/products";
 import EditProduct from "../../AddProductNew";
 // render edit on same route when query present
 
@@ -64,26 +64,21 @@ const ProductsPage: React.FC = () => {
 
   const downloadMerchant = async () => {
     try {
-      setLoading(true); 
-
-      const response = await fetch("/setMerchant"); // your endpoint
-      if (!response.ok) throw new Error("Failed to fetch feed");
+      if (!products.length) {
+        alert("No products available to generate feed");
+        return;
+      }
   
-      // Convert response to Blob (file)
-      const blob = await response.blob();
+      const xml =  await handleMerchant();
   
-      // Create a temporary link element
+      const blob = new Blob([xml], { type: "application/xml" });
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = url;
-      a.download = "google-merchant-feed.xml"; // Suggested filename
-  
-      // Trigger download
+      a.download = "google-merchant-feed.xml";
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
-  
-      // Release memory
       window.URL.revokeObjectURL(url);
     } catch (err) {
       console.error(err);
@@ -121,7 +116,7 @@ const ProductsPage: React.FC = () => {
       <Col>
         <Button  size="sm" variant="success" onClick={downloadMerchant} style={{ opacity: loading ? 0.6 : 1, cursor: loading ? "not-allowed" : "pointer" }}
         >Download Merchant</Button>
-        {loading ? "Downloading..." : "Download Merchant Feed"}
+        {loading ? " Downloading..." : " Download Merchant Feed"}
         {loading && (
         <div style={{ marginTop: "10px" }}>
           <span>⏳ Please wait, feed is being generated...</span>

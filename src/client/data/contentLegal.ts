@@ -34,7 +34,7 @@ export const staticContent:any = {
     jsonContent: `
       <div class="spacerPadder50"> </div>
         <div class="textSpaceMargins d-flex flex-column ">
-        <p class='justTextAlignCenter'>Puteti cumpara produsele de pe site-ul DinIubire.Ro folosind urmatoarele </p>
+        <p class='justTextAlignCenter'>Puteti cumpara produsele de pe site-ul Montanair.Ro folosind urmatoarele </p>
         <h4 class="middleSubtext"> Instrumente de plata </h4>
 
         <p class='justTextAlignCenter'> Ramburs (cash) la livrarea coletului </p>
@@ -78,9 +78,12 @@ Te rugam sa ne informezi cu privire la optiunile de retur, si anume daca doresti
     <h6>Pasul 3. Ridicarea coletului</h6>
     <h6>Dupa ce ai luat solicitat curierului ridicarea coletului, vei fi contactat in aceeasi zi sau in ziua imediat urmatoare pentru expedierea coletului. Va trebui sa achiti contravaloarea expedierii, si sa trimiti coletul la urmatoarea adresa:</h6>
     <h6>
-    DIN MUNTE S.R.L. s.r.l <br>
-    Judet Cluj-Napoca,Localitatea Turda Strada Fragariste Nr 28 cod postal 401169 <br>
-    Numar contact: 0759791474
+    <b>DIN MUNTE S.R.L. s.r.l </b><br>
+    <b>j2025042564004 </b> <br>
+    <b>51976722 </b><br>
+    <b>str. Fragariste nr.28 </b> <br>
+    <b>Turda, Cluj</b> <br>
+    Numar: +40752328965
     </h6>
 
     <h6>Pasul 4. Receptia cantitativa si calitativa a produselor returnate</h6>
@@ -106,9 +109,11 @@ Te rugam sa ne informezi cu privire la optiunile de retur, si anume daca doresti
 
 
 
-    <h6>Confidentialitatea datelor dumneavoastra cu caracter personal reprezinta una dintre preocuparile principale ale ANCA DANIEL-EMANUEL PERSOANA FIZICA AUTORIZATA , cu sediul in localitatea Turda, strada Liviu Rebreanu, nr.21 Judet. Cluj. in calitate de operator de date.
+    <h6>Confidentialitatea datelor dumneavoastra cu caracter personal reprezinta una dintre preocuparile principale ale DIN MUNTE s.r.l
+Judet Cluj-Napoca,Localitatea Turda Strada Fragariste Nr 28 cod postal 401169 in calitate de operator de date.
 
-    Acest document are rolul de a va informa cu privire la prelucrarea datelor dumneavoastra cu caracter personal, in contextul utilizarii paginii de internet https://www.diniubire.ro, la care ne vom referi in continuare cu denumirea "site-ul". </h6>
+  Acest document are rolul de a va informa cu privire la prelucrarea datelor dumneavoastra cu caracter personal, in contextul utilizarii paginii de internet https://www.montanair.ro, la care ne vom referi in continuare cu denumirea "site-ul".
+
     <h4 class="lefter"> Cuprins </h4>
     <ul class="termsUl">
     <li>Categoriile de date cu caracter personal prelucrate </li>
@@ -144,13 +149,13 @@ Te rugam sa ne informezi cu privire la optiunile de retur, si anume daca doresti
     <h4 class="middleSubtext">2. Scopurile si temeiurile de prelucrarii </h4>
     A. Daca sunteti client al site-ului, prelucreaza datele dumneavoastra cu caracter personal astfel:
     <h6> Pentru desfasurarea relatiei contractuale dintre dumneavoastra si , respectiv pentru preluarea, validarea, expedierea si facturarea comenzii plasate pe site, informarea dumneavoastra asupra starii comenzii, organizarea returului de produse comandate etc.  </h6>
-    <h6> <b>Temei:</b> Prelucrarea datelor dumneavoastra in acest scop are la baza contractul incheiat intre dumneavoastra si , definit in cuprinsul Termenelor si Conditiilor http://diniubire.ro/termeni-si-conditii. Furnizarea datelor dumneavoastra cu caracter personal este necesara pentru executarea acestui contract. Refuzul furnizarii datelor poate avea drept consecinta imposibilitatea derularii raporturilor contractuale dintre dumneavoastra si . </h6>
+    <h6> <b>Temei:</b> Prelucrarea datelor dumneavoastra in acest scop are la baza contractul incheiat intre dumneavoastra si , definit in cuprinsul Termenelor si Conditiilor http://montanair.ro/termeni-si-conditii. Furnizarea datelor dumneavoastra cu caracter personal este necesara pentru executarea acestui contract. Refuzul furnizarii datelor poate avea drept consecinta imposibilitatea derularii raporturilor contractuale dintre dumneavoastra si . </h6>
     <h6> Pentru activitati de marketing, respectiv pentru transmiterea, prin intermediul mijloacelor de comunicare la distanta (e-mail, sms) de comunicari comerciale privind produsele si serviciile oferite de , prin intermediul site-ului. </h6>
     
     
 
     <h4 class="middleSubtext">3. Durata pentru care va prelucram datele </h4>
-    <h6> <b>www.diniubire.ro</b> va prelucra datele dumneavoastra cu caracter personal atat cat este necesar pentru realizarea scopurilor de prelucrare mentionate mai sus.
+    <h6> <b>www.montanair.ro</b> va prelucra datele dumneavoastra cu caracter personal atat cat este necesar pentru realizarea scopurilor de prelucrare mentionate mai sus.
 
     In cazul in care sunteti client, vom prelucra datele dumneavoastra pe intreaga durata a raporturilor contractuale si ulterior conform obligatiilor legale care revin in sarcina (de ex, in cazul documentelor justificative financiar-contabile pentru care termenul de pastrare prevazut de lege este de 10 ani de la data incheierii exercitiului financiar in cursul caruia au fost intocmite).
     
@@ -190,7 +195,7 @@ Te rugam sa ne informezi cu privire la optiunile de retur, si anume daca doresti
    <h4 class="middleSubtext">5. Modificari in politica de confidentialitate </h4>
    <h6>Ne rezervam dreptul de a modifica aceasta politica de confidentialitate. In cazul unor modificari majore pe viitor vei fi instiintat pe email (daca este posibil) sau prin afisarea unui mesaj specific pe site. </h6>
 
-    <h6>Aceasta pagina de internet foloseste fisiere de tip cookie. Pentru mai multe informatii cu privire la modul in care se folosesc aceste fisiere, va rugam sa accesati urmatorul link: <a href="/politica-de-cookies"> <h6>http://diniubire.ro/politica-de-cookies </h6></a>
+    <h6>Aceasta pagina de internet foloseste fisiere de tip cookie. Pentru mai multe informatii cu privire la modul in care se folosesc aceste fisiere, va rugam sa accesati urmatorul link: <a href="/politica-de-cookies"> <h6>http://montanair.ro/politica-de-cookies </h6></a>
 
 
    
@@ -264,7 +269,8 @@ Te rugam sa ne informezi cu privire la optiunile de retur, si anume daca doresti
     <h2 class="middleSubtext">IA LEGATURA CU NOI !</h2>
 
     <p class="text-center">Daca ai intrebari despre noi, produsele noastre, sau pur si simplu vrei sa ne saluti, o poti face 
-    trimitand un email la adresa <a href="mailto:diniubire.ro@gmail.com">diniubire.ro@gmail.com </a> sau la numarul de telefon +40 745 469 907 
+    trimitand un email la adresa <a href="mailto:montanair.ro@gmail.com">montanair.ro@gmail.com </a> sau la numarul de
+     telefon +40752328965
     </p>
 
     <div class="spacerPadder50"></div>
