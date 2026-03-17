@@ -555,7 +555,7 @@ ${xmlOrders}
       </Row>
 
       {/* Date range + clear */}
-      <Row className="mb-3 align-items-center g-2">
+      <Row className="mb-3 mx-4 align-items-center g-2">
         <Col md={6} sm={12}>
           <RangeDatePicker onValues={handleDateInputs} />
         </Col>
@@ -651,9 +651,6 @@ ${xmlOrders}
   <div
     className="bg-light border-top p-3 d-flex align-items-center gap-3 flex-wrap"
     style={{
-      position: "sticky",
-      bottom: 0,
-      zIndex: 10,
       background: "rgba(255,255,255,0.95)",
       backdropFilter: "blur(6px)",
     }}
@@ -689,9 +686,7 @@ ${xmlOrders}
   <div
     className="bg-light border-top p-3 d-flex align-items-center gap-3 flex-wrap"
     style={{
-      position: "sticky",
-      bottom: 0,
-      zIndex: 10,
+     
       background: "rgba(255,255,255,0.95)",
       backdropFilter: "blur(6px)",
     }}
