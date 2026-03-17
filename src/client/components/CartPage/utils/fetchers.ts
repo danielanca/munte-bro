@@ -58,7 +58,7 @@ export const handleSend = async (
     
     orderData.mailOrderID = orderID;
    
-    await fetch("http://localhost:5858/sendEmail", {
+    await fetch("/sendEmail", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(orderData),
