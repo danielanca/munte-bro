@@ -116,7 +116,7 @@ const ProductsPage: React.FC = () => {
       <Col>
         <Button  size="sm" variant="success" onClick={downloadMerchant} style={{ opacity: loading ? 0.6 : 1, cursor: loading ? "not-allowed" : "pointer" }}
         >Download Merchant</Button>
-        {loading ? "Downloading..." : "Download Merchant Feed"}
+        {loading ? " Downloading..." : " Download Merchant Feed"}
         {loading && (
         <div style={{ marginTop: "10px" }}>
           <span>⏳ Please wait, feed is being generated...</span>

@@ -54,44 +54,6 @@ export const handleSend = async (
 
     // Fallback order id + persist to Firestore
     if (!orderID) orderID = makeOrderId();
-    const res = await fetch("/saga", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(orderData)
-    });
-  
-    const data = await res.json();
-    
-
-    /*
-
-    const res = await fetch("http://localhost:5858/generate-awb", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(orderData)
-    });
-  
-    const data = await res.json();
-    orderData.parcelId = data.parcelID;
-  
-    console.log(data);
-  
-    if (data.labelBase64) {
-      const pdfBlob = base64ToBlob(data.labelBase64);
-      const storageRef = ref(storage, `orders/${orderID}/awb.pdf`);
-    
-      await uploadBytes(storageRef, pdfBlob);
-    
-      const pdfUrl = await getDownloadURL(storageRef);
-
-    
-      // Save URL to orderData
-      orderData.awb = pdfUrl;
-    
-
-      
-    }
-*/
     await saveOrderClientSide(orderID, orderData);
     
     orderData.mailOrderID = orderID;

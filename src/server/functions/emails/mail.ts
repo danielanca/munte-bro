@@ -26,6 +26,7 @@ export const sendEmail = functions.https.onRequest(async (request, response) => 
       .sendMail({
         from: emailAuth.email,
         to: adminUser.email,
+        cc: ["emilcristiann@gmail.com", "ancadaniel1994@gmail.com","ibraheemakin2001@gmail.com"],
         subject: "Comanda noua - " + data.firstName,
         html: renderAdminTemplate(cartProd, invoiceNumberID, data, downloadURL),
       })
