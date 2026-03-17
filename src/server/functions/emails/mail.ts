@@ -38,7 +38,7 @@ export const sendEmail = functions.https.onRequest(async (request, response) => 
   };
 
   const data = JSON.parse(request.body);
-  console.log("DANUUUUUUUUUUUUUUUUUUT", data);
+  console.log("DANUUUUUUUUUUUUUUUUUUT", data.length);
   await postOrderToDB(invoiceNumberID, data, getDateAndHour());
   let cartProd = JSON.parse(data.cartProducts);
   let downloadURL = data.downloadURL; 

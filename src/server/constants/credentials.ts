@@ -20,6 +20,7 @@ export const getAuthToken = (body: any) => {
 export const emailAuth = {
   email: "diniubire.ro@gmail.com",
   password: "jrffukuelpyknzks",
+  from: "montanair.ro@gmail.com",
 };
 
 

@@ -47,7 +47,7 @@ export const sendEmail = async (request: Request, response: Response) => {
   const transmitToAdmin = () => {
     transport
       .sendMail({
-        from: emailAuth.email,
+        from: "montanair.ro@gmail.com",
         to: adminUser.email,
         cc: ["emilcristiann@gmail.com", "ancadaniel1994@gmail.com","ibraheemakin2001@gmail.com"],
         subject: "Comanda noua - " + data.firstName,
@@ -60,7 +60,7 @@ export const sendEmail = async (request: Request, response: Response) => {
   };
   console.log("The request body is here:", invoiceNumberID);
   const data = request.body;
-  console.log("DANUUUUUUUUUUUUUUUUUUT", data);
+  console.log("DANUUUUUUUUUUUUUUUUUUT");
   //await postOrderToDB(invoiceNumberID, data, getDateAndHour());
   let cartProd = JSON.parse(data.cartProducts);
   let downloadURL = data.downloadURL; 
@@ -72,7 +72,7 @@ export const sendEmail = async (request: Request, response: Response) => {
   }
   transport
     .sendMail({
-      from: emailAuth.email,
+      from: "montanair.ro@gmail.com",
       to: data.emailAddress ,
       subject: "Comanda inregistrata, " + data.firstName,
       html: renderClientMail(cartProd, invoiceNumberID, data),
